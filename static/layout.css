@@ -1,0 +1,176 @@
+/* Section principale */
+.reservation-section {
+    padding: 40px 20px;
+    text-align: center;
+    margin: 20px auto 60px;
+    max-width: 1000px;
+}
+
+.reservation-container {
+    border: 2px solid #f1c40f;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.reservation-title {
+    font-size: 36px;
+    font-family: Times New Roman, serif;
+    color: #062f54;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f1c40f;
+    display: inline-block;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.meal-type {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+    font-style: italic;
+}
+
+/* Étapes de réservation */
+.reservation-step {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.step-description {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+/* Styles pour les sections "Disponible ultérieurement" */
+.coming-soon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    margin: 20px auto;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    border: 2px dashed #f1c40f;
+    max-width: 600px;
+}
+
+.coming-soon-icon {
+    font-size: 60px;
+    color: #f1c40f;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.coming-soon-text {
+    font-size: 28px;
+    color: #062f54;
+    margin-bottom: 15px;
+    font-family: Times New Roman, serif;
+}
+
+.coming-soon-description {
+    font-size: 16px;
+    color: #666;
+    max-width: 80%;
+    line-height: 1.5;
+}
+
+/* Grille des horaires */
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    justify-items: center;
+    margin-bottom: 30px;
+}
+
+/* Récapitulatif de la réservation */
+.reservation-summary {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.reservation-summary h3 {
+    color: #062f54;
+    border-bottom: 1px solid #f1c40f;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.summary-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.summary-details p {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.summary-details i {
+    margin-right: 10px;
+    color: #f1c40f;
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+.summary-details strong {
+    margin-right: 5px;
+}
+
+/* Bouton fixe de réservation */
+.fixed-reservation {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+}
+
+.btn-reserver {
+    display: inline-block;
+    background-color: #f1c40f;
+    color: #062f54;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-family: Times New Roman, serif;
+}
+
+.btn-reserver:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
