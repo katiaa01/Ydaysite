@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Étoile d'Or - Réservation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="reservation-page">
+    <!-- Header -->
+    <header class="header reservation-header">
+        <div class="logo">
+            <img src="https://etoiledor.com/wp-content/uploads/2019/12/logo-or-etoile-dor-fond-blanc-plus-dure-e1575493887261.jpg" alt="Logo L'Étoile d'Or">
+        </div>
+        <nav class="reservation-menu">
+            <div class="menu-item" data-step="guests">
+                <i class="fas fa-utensils"></i>
+                <p>Combien de couverts</p>
+            </div>
+            <div class="menu-item" data-step="date">
+                <i class="fas fa-calendar-alt"></i>
+                <p>Date</p>
+            </div>
+            <div class="menu-item" data-step="placement">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Placement</p>
+            </div>
+            <div class="menu-item active" data-step="time">
+                <i class="fas fa-clock"></i>
+                <p>Horaire</p>
+            </div>
+            <div class="menu-item" data-step="menu">
+                <i class="fas fa-clipboard-list"></i>
+                <p>Menu</p>
+            </div>
+            <div class="menu-item" data-step="summary">
+                <i class="fas fa-check-circle"></i>
+                <p>Récapitulatif</p>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Section principale -->
+    <section class="reservation-section">
+        <div class="container reservation-container">
+            <!-- Étape 1: Nombre de couverts (caché par défaut) -->
+            <!-- Étape 1: Nombre de couverts -->
+<div class="reservation-step" id="guests-step" style="display: none;">
+    <h2 class="reservation-title"><i class="fas fa-utensils"></i> Combien de couverts</h2>
+    <p class="step-description">Veuillez indiquer le nombre de personnes pour votre réservation.</p>
+    
+    <div class="guests-counter">
+        <button class="counter-btn minus-btn" id="decrease-guests">
+            <i class="fas fa-minus"></i>
+        </button>
+        <div class="guests-count-container">
+            <div class="guests-count" id="guests-count">1</div>
+        </div>
+        <button class="counter-btn plus-btn" id="increase-guests">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    
+    <!-- ... reste inchangé ... -->
+</div>
+
+            
+            <!-- Étape 2: Sélection de date (caché par défaut) -->
+            <div class="reservation-step" id="date-step" style="display: none;">
+                <h2 class="reservation-title">Date</h2>
+                <p class="step-description">Choisissez la date de votre réservation</p>
+                
+                <div class="date-picker-container">
+                    <div class="calendar-header">
+                        <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                        <h3 id="current-month">Mars 2025</h3>
+                        <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div class="weekdays">
+                        <span>Lun</span>
+                        <span>Mar</span>
+                        <span>Mer</span>
+                        <span>Jeu</span>
+                        <span>Ven</span>
+                        <span>Sam</span>
+                        <span>Dim</span>
+                    </div>
+                    
+                    <div class="calendar-days" id="calendar-days">
+                        <!-- Les jours seront générés dynamiquement par JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="selected-date-display">
+                    <p>Date sélectionnée: <span id="selected-date">Aucune</span></p>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="back-btn" data-back="guests">Retour</button>
+                    <button class="next-btn" data-next="placement">Suivant</button>
+                </div>
+            </div>
+            
+            <!-- Étape 3: Placement (caché par défaut) -->
+            <div class="reservation-step" id="placement-step" style="display: none;">
+                <h2 class="reservation-title">Placement</h2>
+                
+                <div class="coming-soon-container">
+                    <i class="fas fa-tools coming-soon-icon"></i>
+                    <h3 class="coming-soon-text">Disponible ultérieurement</h3>
+                    <p class="coming-soon-description">Notre service de réservation avec plan de salle sera bientôt disponible.</p>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="back-btn" data-back="date">Retour</button>
+                    <button class="next-btn" data-next="time">Suivant</button>
+                </div>
+            </div>
+            
+            <!-- Étape 4: Sélection d'horaire -->
+            <div class="reservation-step" id="time-step">
+                <h2 class="reservation-title">Horaire</h2>
+                
+                <div class="meal-type-selector">
+                    <button class="meal-type-btn" data-meal="dinner">Dîner</button>
+                    <button class="meal-type-btn active" data-meal="lunch">Déjeuner</button>
+                </div>
+
+                <h3 class="meal-type" id="current-meal-type">Déjeuner</h3>
+
+                <!-- Horaires Déjeuner -->
+                <div class="time-grid" id="lunch-times">
+                    <button class="time-slot" data-time="12:00">12:00</button>
+                    <button class="time-slot" data-time="12:15">12:15</button>
+                    <button class="time-slot" data-time="12:30">12:30</button>
+                    <button class="time-slot" data-time="12:45">12:45</button>
+                    <button class="time-slot" data-time="13:00">13:00</button>
+                    <button class="time-slot" data-time="13:15">13:15</button>
+                    <button class="time-slot" data-time="13:30">13:30</button>
+                    <button class="time-slot" data-time="13:45">13:45</button>
+                    <button class="time-slot" data-time="14:00">14:00</button>
+                    <button class="time-slot" data-time="14:15">14:15</button>
+                </div>
+
+                <!-- Horaires Dîner -->
+                <div class="time-grid" id="dinner-times" style="display: none;">
+                    <button class="time-slot" data-time="19:00">19:00</button>
+                    <button class="time-slot" data-time="19:15">19:15</button>
+                    <button class="time-slot" data-time="19:30">19:30</button>
+                    <button class="time-slot" data-time="19:45">19:45</button>
+                    <button class="time-slot" data-time="20:00">20:00</button>
+                    <button class="time-slot" data-time="20:15">20:15</button>
+                    <button class="time-slot" data-time="20:30">20:30</button>
+                    <button class="time-slot" data-time="20:45">20:45</button>
+                    <button class="time-slot" data-time="21:00">21:00</button>
+                    <button class="time-slot" data-time="21:15">21:15</button>
+                    <button class="time-slot" data-time="21:30">21:30</button>
+                    <button class="time-slot" data-time="21:45">21:45</button>
+                    <button class="time-slot" data-time="22:00">22:00</button>
+                    <button class="time-slot" data-time="22:15">22:15</button>
+                    <button class="time-slot" data-time="22:30">22:30</button>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="back-btn" data-back="placement">Retour</button>
+                    <button class="next-btn" data-next="menu">Suivant</button>
+                </div>
+            </div>
+            
+            <!-- Étape 5: Menu -->
+            <div class="reservation-step" id="menu-step" style="display: none;">
+                <h2 class="reservation-title">Menu</h2>
+                
+                <div class="coming-soon-container">
+                    <i class="fas fa-utensils coming-soon-icon"></i>
+                    <h3 class="coming-soon-text">Disponible ultérieurement</h3>
+                    <p class="coming-soon-description">La pré-sélection de menu sera bientôt disponible pour vous offrir une expérience gastronomique personnalisée.</p>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="back-btn" data-back="time">Retour</button>
+                    <button class="next-btn" data-next="summary">Suivant</button>
+                </div>
+            </div>
+
+            <!-- Étape 6: Récapitulatif -->
+            <div class="reservation-step" id="summary-step" style="display: none;">
+                <h2 class="reservation-title">Récapitulatif</h2>
+                
+                <div class="reservation-summary">
+                    <h3>Détails de votre réservation</h3>
+                    <div class="summary-details">
+                        <p><i class="fas fa-users"></i> <strong>Personnes :</strong> <span id="summary-guests">-</span></p>
+                        <p><i class="fas fa-calendar-alt"></i> <strong>Date :</strong> <span id="summary-date">-</span></p>
+                        <p><i class="fas fa-clock"></i> <strong>Heure :</strong> <span id="summary-time">-</span></p>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Vos coordonnées</h3>
+                    <form id="contact-details-form">
+                        <div class="form-group">
+                            <label for="name">Nom et prénom</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="special-requests">Demandes particulières (optionnel)</label>
+                            <textarea id="special-requests" name="special-requests" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            <label for="privacy">J'accepte la politique de confidentialité</label>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button class="back-btn" data-back="menu">Retour</button>
+                    <button class="submit-btn" id="complete-reservation">Confirmer la réservation</button>
+                </div>
+            </div>
+
+            <!-- Modal de confirmation -->
+            <div class="modal" id="confirmation-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <i class="fas fa-check-circle success-icon"></i>
+                    <h2>Réservation confirmée !</h2>
+                    <p>Votre réservation a été enregistrée avec succès.</p>
+                    <p>Un email de confirmation a été envoyé à : <span id="confirmation-email"></span></p>
+                    <p>Numéro de confirmation : <strong id="confirmation-number"></strong></p>
+                    <p>Nous nous réjouissons de vous accueillir à L'Étoile d'Or !</p>
+                    <button class="ok-btn">OK</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>L'Étoile d'Or</h3>
+                <p>1, bld Jean Moulin<br>93190 Livry-Gargan</p>
+                <p>Tel: 01.43.81.11.04</p>
+                <p>Email: contact@etoiledor.com</p>
+            </div>
+
+            <div class="footer-hours">
+                <h3>Horaires d'ouverture</h3>
+                <p>Mardi au vendredi: 11h30 - 15h00 / 18h30 - 23h45</p>
+                <p>Samedi: 11h30 - 16h30 / 18h30 - 1h00</p>
+                <p>Dimanche: 11h30 - 17h00 / 18h30 - 23h45</p>
+            </div>
+
+            <div class="footer-social">
+                <h3>Suivez-nous</h3>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; L'Étoile d'Or - 2016 | Mentions légales | Politique de confidentialité
+        </div>
+
+        <div class="fixed-reservation">
+            <a href="#" class="btn-reserver">Réserver maintenant</a>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
