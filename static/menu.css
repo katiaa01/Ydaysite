@@ -27,7 +27,7 @@ header {
   text-align: center;
   position: sticky;
   top: 0;
-  z-index: 1000; /* Mis plus haut pour être au-dessus du panier fixe */
+  z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -59,16 +59,16 @@ header {
 
 .menu-navigation li:hover {
   background-color: #f1c40f;
-  transform: translateY(-2px) translateX(-1px); /* Harmonisé avec les autres boutons */
-  box-shadow: 5px 5px 0px 0px #001a35; /* Ombre harmonisée */
+  transform: translateY(-2px) translateX(-1px);
+  box-shadow: 5px 5px 0px 0px #001a35;
 }
 
 .menu-navigation li.active {
   background-color: #f1c40f;
   color: #062f54;
-  border-color: #062f54; /* Assurer la bordure pour l'état actif */
-  transform: translateY(-2px) translateX(-1px); /* Effet similaire au survol */
-  box-shadow: 5px 5px 0px 0px #001a35; /* Effet similaire au survol */
+  border-color: #062f54;
+  transform: translateY(-2px) translateX(-1px);
+  box-shadow: 5px 5px 0px 0px #001a35;
 }
 .menu-navigation li.active a {
   color: #062f54;
@@ -87,7 +87,7 @@ header {
 main {
   padding: 20px;
   max-width: 1000px;
-  margin: 20px auto; /* Ajouter un peu de marge en haut */
+  margin: 20px auto;
 }
 
 .menu-section {
@@ -108,23 +108,23 @@ main {
 .menu-category h2 {
   font-size: 32px;
   color: #062f54;
-  margin-bottom: 25px; /* Augmenter la marge */
+  margin-bottom: 25px;
   text-align: center;
   border-bottom: 2px solid #f1c40f;
   display: inline-block;
-  padding-bottom: 8px; /* Augmenter le padding */
+  padding-bottom: 8px;
 }
 
 .menu-category h3 {
   font-size: 24px;
   color: #062f54;
   margin-top: 30px;
-  margin-bottom: 15px; /* Augmenter la marge */
+  margin-bottom: 15px;
   text-transform: uppercase;
-  letter-spacing: 0.5px; /* Léger espacement */
-  border-bottom: 1px solid #ddd; /* Bordure plus visible */
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #ddd;
   display: inline-block;
-  padding-bottom: 5px; /* Augmenter le padding */
+  padding-bottom: 5px;
 }
 
 /* --------------------
@@ -134,20 +134,21 @@ main {
   list-style: none;
   padding: 0;
   margin: 0 auto;
-  max-width: 750px; /* Légèrement plus large */
+  max-width: 750px;
 }
 
 .dish-item {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+  align-items: center; /* Centre verticalement les éléments sur la ligne principale */
   justify-content: space-between;
-  padding: 15px 10px; /* Augmenter le padding vertical */
+  padding: 15px 10px;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.2s;
-  gap: 10px; /* Espace entre les éléments enfants */
+  gap: 10px; /* Espace entre les éléments principaux (nom, prix, contrôles) */
 }
 .dish-item:hover {
-    background-color: #f8f9fa; /* Fond plus subtil au survol */
+    background-color: #f8f9fa;
 }
 
 .dish-item:last-child {
@@ -156,75 +157,70 @@ main {
 
 .dish-name {
   font-size: 18px;
-  flex-grow: 1; /* Permet au nom de prendre plus de place */
-  font-weight: 500; /* Un peu plus de poids */
+  flex-grow: 1; /* Le nom du plat prend l'espace disponible */
+  font-weight: 500;
+  /* order: 1; /* Ordre d'affichage */
 }
 
 .dish-name small {
     display: block;
-    font-size: 0.85em; /* Un peu plus grand */
+    font-size: 0.85em;
     color: #555;
-    margin-top: 4px; /* Plus d'espace */
-    line-height: 1.3; /* Meilleure lisibilité */
+    margin-top: 4px;
+    line-height: 1.3;
+    width: 100%; /* Pour que la description prenne toute la largeur sous le nom */
+    /* order: 2; /* Afficher la description sous le nom */
 }
 
 .dish-price {
-  font-size: 17px; /* Cohérence avec le nom */
+  font-size: 17px;
   font-weight: bold;
-  margin-left: 15px;
-  color: #062f54; /* Prix en bleu foncé */
-  min-width: 90px; /* Plus d'espace pour le prix */
+  color: #062f54;
+  min-width: 80px; /* Ajusté pour être un peu moins large que 90px */
   text-align: right;
-  flex-shrink: 0; /* Empêcher le rétrécissement */
+  margin-left: auto; /* Pousse le prix et les contrôles à droite si l'espace le permet */
+  padding-left: 10px; /* Espace par rapport au nom du plat */
+  /* order: 3; */
+  flex-shrink: 0;
 }
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-left: 15px; /* Espace par rapport au prix */
+  /* order: 4; */
+  flex-shrink: 0;
+}
+/* Pour s'assurer que la description est en dessous sur une ligne dédiée */
+.dish-item .dish-description {
+    flex-basis: 100%; /* Occupe toute la largeur, forçant le retour à la ligne */
+    order: 2; /* Se place après le nom du plat principal mais avant prix/quantité si item-main-info n'est pas utilisé */
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0 0 0; /* Marge au-dessus, pas de marge en bas */
+    line-height: 1.4;
+    font-style: italic;
+}
+
 
 .special .dish-name strong {
   color: #d35400;
 }
 
-.dish-description {
-  font-size: 14px;
-  color: #555;
-  margin: -5px 0 15px 0; /* Ajuster pour se placer sous le nom */
-  padding-left: 0; /* Pas de retrait si le parent est flex */
-  line-height: 1.4;
-  font-style: italic;
-  width: 100%; /* S'assurer qu'il prend toute la largeur sous l'item */
-  text-align: left; /* S'assurer de l'alignement */
-  flex-basis: 100%; /* Pour qu'il occupe une nouvelle "ligne" dans le flex */
-  order: 2; /* S'assurer qu'il vient après le nom et le prix/quantité si nécessaire */
-}
-/* Pour que la description soit bien sous le nom et le prix */
-.dish-item {
-    flex-wrap: wrap; /* Permettre le retour à la ligne des enfants */
-}
-.dish-item > .dish-name, .dish-item > .dish-price, .dish-item > .quantity-controls {
-    flex-basis: auto; /* Réinitialiser la base pour ces éléments */
-    order: 1;
-}
-
-
 /* --------------------
-   QUANTITY CONTROLS
+   QUANTITY CONTROLS (Menu page)
 -------------------- */
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  margin-left: 15px;
-  flex-shrink: 0; /* Empêcher le rétrécissement */
-}
-
 .quantity-controls button {
   background-color: #f1c40f;
   border: 1px solid #062f54;
   color: #062f54;
-  padding: 5px 10px; /* Augmenter légèrement le padding */
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 18px; /* Boutons plus grands */
+  font-size: 18px;
   border-radius: 4px;
   transition: background-color 0.2s, transform 0.1s;
   line-height: 1;
-  min-width: 30px; /* Largeur minimale */
+  min-width: 30px;
 }
 
 .quantity-controls button:hover {
@@ -235,47 +231,51 @@ main {
 }
 
 .qty-value {
-  margin: 0 10px; /* Augmenter la marge */
-  min-width: 30px; /* Augmenter la largeur minimum */
+  margin: 0 10px;
+  min-width: 30px;
   text-align: center;
-  font-size: 17px; /* Taille de police cohérente */
+  font-size: 17px;
   font-weight: bold;
-  color: #062f54; /* Couleur du chiffre */
+  color: #062f54;
 }
 
 /* --------------------
-   CART (PANIER)
+   CART (PANIER) - AMÉLIORATIONS VISUELLES
 -------------------- */
 .cart {
   position: fixed;
-  top: 130px; /* Ajusté pour ne pas chevaucher un header de 120px env. */
+  top: 100px; /* Un peu plus bas pour ne pas être collé au header */
   right: 20px;
-  width: 320px; /* Augmenter la largeur */
-  background-color: #fff;
+  width: 340px; /* Légèrement plus large pour plus d'aisance */
+  background-color: #ffffff;
   border: 2px solid #062f54;
-  border-radius: 10px; /* Arrondis plus prononcés */
-  padding: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.25); /* Ombre plus forte */
+  border-radius: 10px;
+  padding: 20px 25px; /* Padding uniforme */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Ombre plus douce et diffuse */
   z-index: 999;
+  display: flex; /* Pour organiser le contenu verticalement */
+  flex-direction: column; /* Empiler les enfants verticalement */
 }
 
 .cart h2 {
-  font-size: 24px;
+  font-size: 26px; /* Titre "Panier" plus grand et visible */
   color: #062f54;
-  margin-top: 0; /* Pas de marge en haut si padding déjà là */
-  margin-bottom: 18px; /* Augmenter la marge */
+  margin-top: 0;
+  margin-bottom: 20px; /* Plus d'espace sous le titre */
   text-align: center;
-  border-bottom: 2px solid #f1c40f; /* Ligne plus épaisse */
-  padding-bottom: 12px; /* Augmenter le padding */
+  border-bottom: 2px solid #f1c40f;
+  padding-bottom: 12px;
+  width: 100%; /* S'assurer que la bordure prend toute la largeur */
 }
 
 .cart-list {
   list-style: none;
   padding: 0;
-  max-height: 300px;
+  flex-grow: 1; /* Permet à la liste de prendre l'espace disponible avant de scroller */
+  max-height: 320px; /* Hauteur max ajustée */
   overflow-y: auto;
-  margin-bottom: 18px; /* Augmenter la marge */
-  padding-right: 5px; /* Petit espace pour la scrollbar */
+  margin-bottom: 20px;
+  padding-right: 8px; /* Espace pour la scrollbar pour ne pas cacher le contenu */
 }
 
 .cart-list::-webkit-scrollbar {
@@ -286,21 +286,20 @@ main {
   border-radius: 10px;
 }
 .cart-list::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: #062f54; /* Scrollbar assortie au thème */
   border-radius: 10px;
 }
 .cart-list::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
+  background: #001a35; /* Plus foncé au survol */
 }
-
 
 .cart-item {
   display: flex;
-  align-items: center;
+  align-items: center; /* Centrer verticalement tous les éléments de l'item */
   justify-content: space-between;
-  padding: 10px 0; /* Augmenter le padding */
-  border-bottom: 1px solid #f0f0f0; /* Bordure encore plus douce */
-  gap: 8px; /* Augmenter l'espacement */
+  padding: 12px 0; /* Plus de padding vertical pour chaque item */
+  border-bottom: 1px solid #f0f0f0;
+  gap: 10px; /* Espace entre les éléments enfants (nom, contrôles, prix, poubelle) */
 }
 
 .cart-item:last-child {
@@ -308,94 +307,103 @@ main {
 }
 
 .cart-item-name {
-  font-size: 15px;
-  flex-grow: 1;
-  margin-right: 5px;
-  font-weight: 500; /* Nom un peu plus en évidence */
-}
-
-.cart-item-price {
-  font-size: 15px;
+  font-size: 16px; /* Taille de police pour le nom */
+  flex-grow: 1;    /* Le nom prend l'espace principal */
+  margin-right: 8px; /* Espace avant les contrôles de quantité */
   font-weight: 500;
-  margin: 0 5px;
-  min-width: 70px; /* Plus d'espace pour le prix total de l'item */
-  text-align: right;
-  color: #062f54; /* Prix en bleu */
+  line-height: 1.3; /* Pour les noms de plats longs */
 }
 
 .cart-quantity-controls {
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* Empêcher de rétrécir */
+  flex-shrink: 0; /* Empêche les contrôles de quantité de rétrécir */
+  margin: 0 8px; /* Marge des deux côtés */
 }
 
 .cart-quantity-controls button {
-  background-color: #f1c40f;
-  border: 1px solid #062f54;
+  background-color: #fdfdfd; /* Fond presque blanc pour les boutons +/- */
+  border: 1px solid #ccc;    /* Bordure discrète */
   color: #062f54;
-  padding: 3px 7px; /* Ajuster padding */
+  padding: 4px 8px;          /* Padding ajusté */
   cursor: pointer;
-  font-size: 15px; /* Taille de police */
+  font-size: 15px;
   border-radius: 4px;
-  transition: background-color 0.2s;
-  min-width: 25px; /* Largeur minimale */
+  transition: background-color 0.2s, border-color 0.2s;
+  min-width: 28px;
 }
 
 .cart-quantity-controls button:hover {
-  background-color: #e6b30d;
+  background-color: #f1c40f; /* Jaune au survol */
+  border-color: #062f54;
 }
 
 .cart-qty-value {
-  margin: 0 6px; /* Marge autour de la quantité */
-  min-width: 22px; /* Largeur pour la quantité */
+  margin: 0 8px;
+  min-width: 24px;
   text-align: center;
   font-size: 15px;
   font-weight: bold;
 }
 
+.cart-item-price {
+  font-size: 16px; /* Prix un peu plus grand */
+  font-weight: 500;
+  min-width: 75px; /* Espace pour le prix */
+  text-align: right;
+  color: #062f54;
+  flex-shrink: 0; /* Empêche le prix de rétrécir */
+  margin-left: 8px; /* Espace par rapport aux contrôles de quantité */
+}
+
 .remove-from-cart {
   background: none;
   border: none;
-  color: #e74c3c; /* Rouge plus vif */
+  color: #e74c3c; /* Rouge vif pour la poubelle */
   cursor: pointer;
-  font-size: 20px; /* Icône plus grande */
-  padding: 0 5px;
+  font-size: 20px; /* Taille de l'icône poubelle */
+  padding: 5px;    /* Augmenter la zone cliquable */
   transition: color 0.2s, transform 0.2s;
-  line-height: 1; /* Pour un meilleur alignement vertical */
+  line-height: 1;  /* Important pour l'alignement vertical de l'icône */
+  display: flex;   /* Pour centrer l'icône si elle ne remplit pas le padding */
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Empêche la poubelle de rétrécir */
 }
 .remove-from-cart:hover {
-    color: #c0392b; /* Plus foncé au survol */
-    transform: scale(1.1);
+    color: #c0392b; /* Rouge plus foncé au survol */
+    transform: scale(1.15); /* Léger agrandissement au survol */
 }
 
 /* --------------------
    CART TOTAL & VALIDATION BUTTON
 -------------------- */
 .cart-total {
-  font-size: 20px; /* Total plus grand */
+  font-size: 20px;
   font-weight: bold;
   text-align: right;
-  margin-top: 20px; /* Espacer du dernier item */
-  padding-top: 15px; /* Ajouter un padding au-dessus */
-  border-top: 2px solid #f1c40f; /* Ligne plus épaisse */
-  color: #062f54; /* Total en bleu */
+  margin-top: auto; /* Pousse le total et le bouton vers le bas si .cart est flex column */
+  padding-top: 15px;
+  border-top: 2px solid #f1c40f;
+  color: #062f54;
+  width: 100%; /* S'assurer que la bordure prend toute la largeur */
 }
 
 .button-validate-cart {
   display: block;
   width: 100%;
-  padding: 12px 15px;
-  margin-top: 20px; /* Espace au-dessus du bouton */
+  padding: 14px 15px; /* Padding augmenté pour un bouton plus proéminent */
+  margin-top: 15px; /* Espace au-dessus du bouton */
   background-color: #28a745;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 17px; /* Texte du bouton un peu plus grand */
+  font-size: 18px; /* Texte du bouton plus grand */
   font-weight: bold;
   font-family: 'Times New Roman', serif;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  box-shadow: 3px 3px 0px 0px #1e7e34; /* Ombre assortie au vert */
+  box-shadow: 3px 3px 0px 0px #1e7e34;
   text-align: center;
 }
 
@@ -425,8 +433,8 @@ footer {
   background-color: #062f54;
   color: #fff;
   text-align: center;
-  padding: 20px; /* Padding augmenté */
-  margin-top: 50px; /* Marge augmentée */
+  padding: 20px;
+  margin-top: 50px;
 }
 
 /* --------------------
@@ -434,12 +442,12 @@ footer {
 -------------------- */
 @media (max-width: 1024px) {
     .cart {
-        width: 280px;
+        width: 300px; /* Ajuster la largeur du panier */
         top: auto;
-        bottom: 15px; /* Ajuster position */
+        bottom: 15px;
         right: 15px;
-        max-height: 45vh; /* Hauteur max un peu plus grande */
-        padding: 15px; /* Réduire padding pour plus de place */
+        max-height: 40vh; /* Réduire un peu si trop grand */
+        padding: 15px 20px; /* Ajuster padding */
     }
     .menu-navigation ul {
         gap: 10px;
@@ -447,16 +455,17 @@ footer {
     .menu-navigation li {
         padding: 8px 12px;
     }
-    body { /* Ajouter du padding en bas pour éviter que le panier ne cache le contenu */
-        padding-bottom: 150px; /* Hauteur approximative du panier + marge */
+    body {
+        padding-bottom: 180px; /* Espace pour le panier fixe en bas + bouton */
     }
-    /* Si le header est trop haut, le panier pourrait être caché au scroll vers le haut */
-    /* On peut le rendre moins haut ou décoller un peu plus le panier */
     header {
         padding: 15px;
     }
     .logo img {
         height: 70px;
+    }
+    .cart h2 {
+        font-size: 22px; /* Titre du panier un peu plus petit */
     }
 }
 
@@ -471,27 +480,28 @@ footer {
   }
   .dish-item {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch; /* Les éléments s'étirent pour prendre la largeur */
     gap: 8px;
   }
-  .dish-item > .dish-name, .dish-item > .dish-price, .dish-item > .quantity-controls {
-      width: 100%; /* Pour qu'ils prennent toute la largeur en colonne */
+  .dish-item > .dish-name, 
+  .dish-item > .dish-price, 
+  .dish-item > .quantity-controls,
+  .dish-item > .dish-description {
+      width: 100%;
       margin-left: 0;
-      text-align: left;
+      text-align: left; /* Aligner tout à gauche pour la cohérence */
   }
   .dish-price {
       margin-top: 5px;
-      text-align: left; /* S'assurer que le prix est à gauche */
+      text-align: left;
   }
   .quantity-controls {
-      margin-top: 8px; /* Espace au-dessus des contrôles de quantité */
-      justify-content: flex-start; /* Aligner à gauche */
+      margin-top: 8px;
+      justify-content: flex-start;
   }
   .dish-description {
-    margin-left: 0;
-    padding-left: 0;
+    order: 4; /* Assurer que la description vient après les contrôles */
   }
-  
 
   .cart {
     width: calc(100% - 20px);
@@ -499,17 +509,35 @@ footer {
     right: 10px;
     bottom: 10px;
     top: auto;
-    max-height: 50vh; /* Un peu plus de place pour le panier */
-    z-index: 1001; /* Au dessus du header si le header a 1000 */
+    max-height: 45vh;
+    z-index: 1001;
   }
   .cart h2 {
       font-size: 20px;
   }
-  .cart-item-name, .cart-item-price {
-      font-size: 14px;
+  .cart-item {
+    flex-wrap: wrap; /* Permettre aux items du panier de passer à la ligne */
+  }
+  .cart-item-name {
+      font-size: 15px; /* Nom un peu plus grand sur mobile */
+      flex-basis: 100%; /* Le nom prend toute la largeur */
+      margin-bottom: 5px; /* Espace sous le nom avant les contrôles */
+  }
+  .cart-quantity-controls {
+      order: 2; /* Mettre les contrôles avant le prix et la poubelle */
+      margin: 0 0 0 auto; /* Pousser vers la droite, après le nom */
+  }
+  .cart-item-price {
+      font-size: 15px;
+      order: 3;
+      margin-left: 10px;
+  }
+  .remove-from-cart {
+      order: 4;
+      margin-left: 10px;
   }
    body {
-        padding-bottom: 200px; /* Plus d'espace pour le panier en mode "plein écran" */
+        padding-bottom: 220px; /* Encore plus d'espace pour le panier en mode "plein écran" */
     }
 }
 
@@ -519,10 +547,10 @@ footer {
     }
     .menu-navigation li {
         font-size: 0.9em;
-        padding: 8px 10px; /* Padding ajusté */
+        padding: 8px 10px;
     }
     .dish-name {
-        font-size: 16px; /* Taille de police réduite */
+        font-size: 16px;
     }
     .dish-name small {
         font-size: 0.8em;
@@ -538,13 +566,14 @@ footer {
         font-size: 16px;
     }
      .cart {
-        padding: 12px; /* Padding réduit pour le panier */
+        padding: 12px;
+        max-height: 50vh; /* Permettre au panier de prendre plus de hauteur */
     }
     .cart-item {
-        padding: 6px 0;
+        padding: 8px 0;
     }
     .button-validate-cart {
         font-size: 16px;
-        padding: 10px 12px;
+        padding: 12px 15px; /* Bouton de validation un peu plus grand */
     }
 }
