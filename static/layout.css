@@ -7,7 +7,7 @@
 }
 
 .reservation-container {
-    border: 2px solid #f1c40f;
+    border: 2px solid #f1c40f; /* modifié */
     padding: 30px;
     background-color: #ffffff;
     border-radius: 15px;
@@ -19,7 +19,7 @@
     font-family: Times New Roman, serif;
     color: #062f54;
     margin-bottom: 30px;
-    border-bottom: 2px solid #f1c40f;
+    border-bottom: 2px solid #f1c40f; /* modifié */
     display: inline-block;
     text-align: center;
     padding-bottom: 10px;
@@ -54,13 +54,13 @@
     margin: 20px auto;
     background-color: #f5f5f5;
     border-radius: 10px;
-    border: 2px dashed #f1c40f;
+    border: 2px dashed #f1c40f; /* modifié */
     max-width: 600px;
 }
 
 .coming-soon-icon {
     font-size: 60px;
-    color: #f1c40f;
+    color: #f1c40f; /* modifié */
     margin-bottom: 20px;
     animation: pulse 2s infinite;
 }
@@ -97,7 +97,7 @@
 /* Grille des horaires */
 .time-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Responsive grid */
     gap: 15px;
     justify-items: center;
     margin-bottom: 30px;
@@ -117,7 +117,7 @@
 
 .reservation-summary h3 {
     color: #062f54;
-    border-bottom: 1px solid #f1c40f;
+    border-bottom: 1px solid #f1c40f; /* modifié */
     padding-bottom: 10px;
     margin-top: 0;
 }
@@ -139,9 +139,9 @@
 
 .summary-details i {
     margin-right: 10px;
-    color: #f1c40f;
+    color: #f1c40f; /* modifié */
     font-size: 18px;
-    width: 20px;
+    width: 20px; /* Assure un alignement constant */
     text-align: center;
 }
 
@@ -159,7 +159,7 @@
 
 .btn-reserver {
     display: inline-block;
-    background-color: #f1c40f;
+    background-color: #f1c40f; /* modifié */
     color: #062f54;
     padding: 15px 25px;
     text-decoration: none;
@@ -171,6 +171,7 @@
 }
 
 .btn-reserver:hover {
+    background-color: #e6b30d; /* Version plus foncée pour survol */
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }

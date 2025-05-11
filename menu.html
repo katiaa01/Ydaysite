@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - L'Étoile d'Or</title>
+  <!-- Feuille de style pour le menu -->
+  <link rel="stylesheet" href="static/menu.css">
+  <!-- Font Awesome (icônes) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header avec logo et navigation de catégories -->
+  <header>
+    <div class="logo">
+      <img src="images/image-removebg-preview.png" alt="L'Étoile d'Or">
+    </div>
+    <nav class="menu-navigation">
+      <ul>
+        <li class="menu-link active" data-category="fruits"><a href="#">Fruits de mer &amp; Crustacés</a></li>
+        <li class="menu-link" data-category="entrees"><a href="#">Les Entrées</a></li>
+        <li class="menu-link" data-category="viandes-poissons"><a href="#">Viandes &amp; Poissons</a></li>
+        <li class="menu-link" data-category="couscous"><a href="#">Les Couscous</a></li>
+        <li class="menu-link" data-category="tajines"><a href="#">Les Tajines</a></li>
+        <li class="menu-link" data-category="desserts"><a href="#">Les Desserts</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Zone principale d'affichage du menu -->
+  <main>
+    <section class="menu-section" id="menu-content">
+      
+      <!-- 1) Fruits de mer & Crustacés -->
+      <div class="menu-category" data-category="fruits">
+        <h2>Fruits de mer &amp; Crustacés</h2>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="6 Huîtres Fine de Claire N°3" data-dish-price="14,00€">
+            <span class="dish-name">6 Huîtres Fine de Claire N°3</span>
+            <span class="dish-price">14,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Grosses Crevettes Roses (9 pièces)" data-dish-price="16,00€">
+            <span class="dish-name">Grosses Crevettes Roses (9 pièces)</span>
+            <span class="dish-price">16,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Bulots Mayonnaise" data-dish-price="12,00€">
+            <span class="dish-name">Bulots Mayonnaise</span>
+            <span class="dish-price">12,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Homard Mayonnaise" data-dish-price="Selon Arrivage">
+            <span class="dish-name">Homard Mayonnaise</span>
+            <span class="dish-price">Selon Arrivage</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Langouste Mayonnaise ou Armoricaine" data-dish-price="Selon Arrivage">
+            <span class="dish-name">Langouste Mayonnaise ou Armoricaine</span>
+            <span class="dish-price">Selon Arrivage</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Assiette de Fruits de Mer" data-dish-price="16,50€">
+            <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Assiette de Fruits de Mer</span>
+            <span class="dish-price">16,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">3 Huîtres Fine de Claire N°3, 4 Bulots, 4 Crevettes Roses</p>
+        </ul>
+      </div>
+
+      <!-- 2) Les Entrées -->
+      <div class="menu-category" data-category="entrees" style="display: none;">
+        <h2>Les Entrées</h2> <br>
+        <!-- Sous-section : Entrées froides -->
+        <h3>ENTRÉES FROIDES</h3>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="La Grande Salade Périgourdine" data-dish-price="23,00€">
+            <span class="dish-name">
+              La Grande Salade Périgourdine
+              <small>(Mesclun, Foie Gras, Magret de Canard Fumé, Gésiers de Canard)</small>
+            </span>
+            <span class="dish-price">23,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="La Grande Salade César" data-dish-price="17,00€">
+            <span class="dish-name">
+              La Grande Salade César
+              <small>(Salade Iceberg, Épinards, Poulet Grillé Minute, Bacon de Volaille)</small>
+            </span>
+            <span class="dish-price">17,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Terrine de Foie Gras, Confit de Fruits et Toasts Chauds" data-dish-price="18,00€">
+            <span class="dish-name">
+              <strong>SÉLECTION DU CHEF</strong> — Terrine de Foie Gras, Confit de Fruits et Toasts Chauds
+            </span>
+            <span class="dish-price">18,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Assiette de Saumon Fumé, Œufs de Lompe, Pousse d’Épinard au Citron, Crème d’Aneth" data-dish-price="16,00€">
+            <span class="dish-name">
+              Assiette de Saumon Fumé, Œufs de Lompe, Pousse d’Épinard au Citron, Crème d’Aneth
+            </span>
+            <span class="dish-price">16,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Burrata au Pesto, Salade Roquette et Tomates" data-dish-price="12,00€">
+            <span class="dish-name">Burrata au Pesto, Salade Roquette et Tomates</span>
+            <span class="dish-price">12,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Salade d'Avocats aux Crevettes" data-dish-price="9,50€">
+            <span class="dish-name">Salade d'Avocats aux Crevettes</span>
+            <span class="dish-price">9,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Sous-section : Entrées chaudes -->
+        <h3>ENTRÉES CHAUDES</h3>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="Crottin de Chèvre Chaud au Miel, Variété de Salade au Noix" data-dish-price="12,50€">
+            <span class="dish-name">Crottin de Chèvre Chaud au Miel, Variété de Salade au Noix</span>
+            <span class="dish-price">12,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Douzaine d’Escargots de Bourgogne, Dans Leurs Belles Grosseurs" data-dish-price="16,00€">
+            <span class="dish-name">Douzaine d’Escargots de Bourgogne, Dans Leurs Belles Grosseurs</span>
+            <span class="dish-price">16,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Coquilles Saint-Jacques à la Crème, Parsemées de Girolles" data-dish-price="21,00€">
+            <span class="dish-name">Coquilles Saint-Jacques à la Crème, Parsemées de Girolles</span>
+            <span class="dish-price">21,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Cuisses de Grenouilles Sautées à la Provençale" data-dish-price="19,00€">
+            <span class="dish-name">Cuisses de Grenouilles Sautées à la Provençale</span>
+            <span class="dish-price">19,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Crevettes Décortiquées Sauce Piquante" data-dish-price="16,00€">
+            <span class="dish-name">Crevettes Décortiquées Sauce Piquante</span>
+            <span class="dish-price">16,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Sous-section : Spécialités Orientales -->
+        <h3>SPÉCIALITÉS ORIENTALES</h3>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="Brick au Thon et Miel" data-dish-price="8,00€">
+            <span class="dish-name">Brick au Thon et Miel</span>
+            <span class="dish-price">8,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Brick aux Crevettes" data-dish-price="8,00€">
+            <span class="dish-name">Brick aux Crevettes</span>
+            <span class="dish-price">8,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Pastilla au Poulet" data-dish-price="9,00€">
+            <span class="dish-name">Pastilla au Poulet</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Salade Méchouia" data-dish-price="7,00€">
+            <span class="dish-name">Salade Méchouia</span>
+            <span class="dish-price">7,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 3) Viandes & Poissons -->
+      <div class="menu-category" data-category="viandes-poissons" style="display: none;">
+        <h2>Viandes &amp; Poissons</h2> <br>
+        <!-- Sous-section : Sur terre -->
+        <h3>SUR TERRE</h3>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="Cœur de Filet de Bœuf Façon Rossini" data-dish-price="34,50€">
+            <span class="dish-name">
+              Cœur de Filet de Bœuf Façon Rossini
+              <small>(Jus Corsé et Poêlée Champêtre)</small>
+            </span>
+            <span class="dish-price">34,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Escalope de Veau Sauce Normande" data-dish-price="16,00€">
+            <span class="dish-name">
+              Escalope de Veau Sauce Normande
+              <small>(Pâtes)</small>
+            </span>
+            <span class="dish-price">16,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Magret de Canard au Balsamique" data-dish-price="21,00€">
+            <span class="dish-name">
+              Magret de Canard au Balsamique
+              <small>(Pommes Sautées)</small>
+            </span>
+            <span class="dish-price">21,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Suprême de Volaille à la Crème Normande" data-dish-price="15,00€">
+            <span class="dish-name">
+              Suprême de Volaille à la Crème Normande
+              <small>(Riz Basmati)</small>
+            </span>
+            <span class="dish-price">15,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Notre Fameux Méchoui d’Agneau" data-dish-price="29,00€">
+            <span class="dish-name">
+              <strong>SÉLECTION DU CHEF</strong> — Notre Fameux Méchoui d’Agneau
+              <small>(Pommes Sautées et Salade)</small>
+            </span>
+            <span class="dish-price">29,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+
+        <!-- Sous-section : En mer -->
+        <h3>EN MER</h3>
+        <ul class="dish-list">
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Belle Sole Meunière 600g" data-dish-price="39,00€">
+            <span class="dish-name">
+              <strong>SÉLECTION DU CHEF</strong> — Belle Sole Meunière 600g
+              <small>(Pommes Façon Vapeurs et Câpres)</small>
+            </span>
+            <span class="dish-price">39,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Saint-Jacques à la Crème de Crustacés Parsemés de Girolles" data-dish-price="27,00€">
+            <span class="dish-name">
+              Saint-Jacques à la Crème de Crustacés Parsemés de Girolles
+              <small>(Riz au Safran et Petits Pois)</small>
+            </span>
+            <span class="dish-price">27,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Filet de Dorade Sauce Pesto" data-dish-price="24,00€">
+            <span class="dish-name">
+              Filet de Dorade Sauce Pesto
+              <small>(Farandole de Légumes du Potager)</small>
+            </span>
+            <span class="dish-price">24,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Dos de Saumon Rôti, Crème au Citron" data-dish-price="21,00€">
+            <span class="dish-name">
+              Dos de Saumon Rôti, Crème au Citron
+              <small>(Riz Basmati)</small>
+            </span>
+            <span class="dish-price">21,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Grosse Gambas Royale Sauce Aigre Douce" data-dish-price="33,00€">
+            <span class="dish-name">
+              Grosse Gambas Royale Sauce Aigre Douce
+              <small>(Riz Basmati)</small>
+            </span>
+            <span class="dish-price">33,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Dos de Cabillaud, Sauce Vierge" data-dish-price="24,00€">
+            <span class="dish-name">
+              Dos de Cabillaud, Sauce Vierge
+              <small>(Légumes du Potager)</small>
+            </span>
+            <span class="dish-price">24,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 4) Les Couscous -->
+      <div class="menu-category" data-category="couscous" style="display: none;">
+        <h2>Les Couscous</h2>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="Couscous L'Étoile d'Or (Brochette, Boeuf, Agneau, Poulet, Merguez)" data-dish-price="26,50€">
+            <span class="dish-name">Couscous L'Étoile d'Or (Brochette, Boeuf, Agneau, Poulet, Merguez)</span>
+            <span class="dish-price">26,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Azwaw (Brochette, Agneau, Merguez)" data-dish-price="21,50€">
+            <span class="dish-name">Couscous Azwaw (Brochette, Agneau, Merguez)</span>
+            <span class="dish-price">21,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Azwaw (Brochette, Agneau, Merguez)" data-dish-price="21,50€">
+            <span class="dish-name">Couscous Azwaw (Brochette, Agneau, Merguez)</span>
+            <span class="dish-price">21,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Tamgout (Brochette, Boeuf, Merguez)" data-dish-price="21,50€">
+            <span class="dish-name">Couscous Tamgout (Brochette, Boeuf, Merguez)</span>
+            <span class="dish-price">21,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Brochettes de Noix de Veau (1 brochette)" data-dish-price="21,50€">
+            <span class="dish-name">Couscous Brochettes de Noix de Veau (1 brochette)</span>
+            <span class="dish-price">21,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Brochettes de Filet de Bœuf (1 brochette)" data-dish-price="32,50€">
+            <span class="dish-name">Couscous Brochettes de Filet de Bœuf (1 brochette)</span>
+            <span class="dish-price">32,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Côtes d'Agneau (3 Pièces)" data-dish-price="23,00€">
+            <span class="dish-name">Couscous Côtes d'Agneau (3 Pièces)</span>
+            <span class="dish-price">23,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Couscous Méchoui d'Agneau" data-dish-price="33,00€">
+            <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Couscous Méchoui d'Agneau</span>
+            <span class="dish-price">33,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Sauté d'Agneau" data-dish-price="20,50€">
+            <span class="dish-name">Couscous Sauté d'Agneau</span>
+            <span class="dish-price">20,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Boeuf" data-dish-price="18,50€">
+            <span class="dish-name">Couscous Boeuf</span>
+            <span class="dish-price">18,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Poulet" data-dish-price="17,00€">
+            <span class="dish-name">Couscous Poulet</span>
+            <span class="dish-price">17,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous Merguez" data-dish-price="17,00€">
+            <span class="dish-name">Couscous Merguez</span>
+            <span class="dish-price">17,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Couscous aux Légumes" data-dish-price="14,00€">
+            <span class="dish-name">Couscous aux Légumes</span>
+            <span class="dish-price">14,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Couscous Brochettes de Poissons" data-dish-price="22,50€">
+            <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Couscous Brochettes de Poissons</span>
+            <span class="dish-price">22,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Brochette Nature" data-dish-price="9,00€">
+            <span class="dish-name">Brochette Nature</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Merguez Maison Natures" data-dish-price="la paire">
+            <span class="dish-name">Merguez Maison Natures</span>
+            <span class="dish-price">la paire</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 5) Les Tajines -->
+      <div class="menu-category" data-category="tajines" style="display: none;">
+        <h2>Les Tajines</h2> <br>
+        <!-- Sous-section : Les Sucrés -->
+        <h3>LES SUCRÉS</h3>
+        <ul class="dish-list">
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tajine Étoile d'Or" data-dish-price="24,50€">
+            <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Tajine Étoile d'Or</span>
+            <span class="dish-price">24,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Agneau, poulet, figues, abricots, pruneaux, dattes, graines de sésame</p>
+          <li class="dish-item" data-dish-name="Tajine d'Agneau aux Figues Sèches, Raisins Secs" data-dish-price="21,50€">
+            <span class="dish-name">Tajine d'Agneau aux Figues Sèches, Raisins Secs</span>
+            <span class="dish-price">21,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Oignons, amandes, graines de sésame</p>
+          <li class="dish-item" data-dish-name="Tajine d'Agneau aux Pruneaux, Raisins Secs" data-dish-price="19,00€">
+            <span class="dish-name">Tajine d'Agneau aux Pruneaux, Raisins Secs</span>
+            <span class="dish-price">19,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
+          <li class="dish-item" data-dish-name="Tajine de Poulet aux Pruneaux, Raisins Secs" data-dish-price="17,00€">
+            <span class="dish-name">Tajine de Poulet aux Pruneaux, Raisins Secs</span>
+            <span class="dish-price">17,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
+        </ul>
+
+        <!-- Sous-section : Les Salés -->
+        <h3>LES SALÉS</h3>
+        <ul class="dish-list">
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tajine aux Poissons" data-dish-price="24,50€">
+            <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Tajine aux Poissons</span>
+            <span class="dish-price">24,50€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Poissons, pommes vapeur, carottes, citron confit, olives</p>
+          <li class="dish-item" data-dish-name="Tajine d'Agneau aux Légumes" data-dish-price="18,00€">
+            <span class="dish-name">Tajine d'Agneau aux Légumes</span>
+            <span class="dish-price">18,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Oignons, olives, citron confit, légumes</p>
+          <li class="dish-item" data-dish-name="Tajine de Poulet aux Légumes" data-dish-price="16,00€">
+            <span class="dish-name">Tajine de Poulet aux Légumes</span>
+            <span class="dish-price">16,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <p class="dish-description">Oignons, olives, citron confit, légumes</p>
+        </ul>
+      </div>
+
+      <!-- 6) Les Desserts -->
+      <div class="menu-category" data-category="desserts" style="display: none;">
+        <h2>Les Desserts</h2>
+        <ul class="dish-list">
+          <li class="dish-item" data-dish-name="Crème Brûlée au Miel" data-dish-price="9,00€">
+            <span class="dish-name">Crème Brûlée au Miel</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Tiramisu Maison, L’Original" data-dish-price="7,00€">
+            <span class="dish-name">Tiramisu Maison, L’Original</span>
+            <span class="dish-price">7,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Poire Williams au Chocolat Chaud" data-dish-price="9,00€">
+            <span class="dish-name">Poire Williams au Chocolat Chaud</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tarte Tatin Chaude, Glace Vanille et Chantilly" data-dish-price="9,00€">
+            <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Tarte Tatin Chaude, Glace Vanille et Chantilly</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Coupe de Glace (3 boules)" data-dish-price="6,00€">
+            <span class="dish-name">Coupe de Glace (3 boules)</span>
+            <span class="dish-price">6,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Coupe de Sorbet (3 boules)" data-dish-price="6,00€">
+            <span class="dish-name">Coupe de Sorbet (3 boules)</span>
+            <span class="dish-price">6,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Colonel Citron Vodka" data-dish-price="9,00€">
+            <span class="dish-name">Colonel Citron Vodka</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Pâtisserie Orientale (La pièce)" data-dish-price="3,00€">
+            <span class="dish-name">Pâtisserie Orientale (La pièce)</span>
+            <span class="dish-price">3,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+          <li class="dish-item" data-dish-name="Irish Coffee" data-dish-price="9,00€">
+            <span class="dish-name">Irish Coffee</span>
+            <span class="dish-price">9,00€</span>
+            <div class="quantity-controls">
+              <button class="qty-minus">–</button>
+              <span class="qty-value">0</span>
+              <button class="qty-plus">+</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Panier -->
+  <aside class="cart">
+    <h2>Panier</h2>
+    <ul class="cart-list">
+      <!-- Les éléments sélectionnés apparaîtront ici -->
+    </ul>
+    <p class="cart-total">Total: <span id="cart-total">0,00€</span></p>
+  </aside>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 L'Étoile d'Or. Tous droits réservés.</p>
+  </footer>
+
+  <!-- Script pour la navigation, la gestion des quantités et du panier -->
+  <script src="static/menu.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
-/* Fichier principal qui importe tous les fichiers CSS */
+/* static/main.css */
 @import 'base.css';
 @import 'layout.css';
 @import 'components.css';
-@import 'forms.css';
-@import 'responsive.css';
+@import 'forms.css'; /* Styles des formulaires et boutons */
+@import 'menu.css';
+@import 'responsive.css'; /* Responsive en dernier pour pouvoir surcharger */

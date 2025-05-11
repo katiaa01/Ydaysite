@@ -27,7 +27,7 @@
 }
 
 .guest-btn.active {
-    background-color: #f1c40f;
+    background-color: #f1c40f; /* modifié */
     border-color: #062f54;
     color: #062f54;
     transform: scale(1.1);
@@ -46,7 +46,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: #f1c40f;
+    background-color: #f1c40f; /* modifié */
     border: 2px solid #062f54;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -62,8 +62,8 @@
 
 .counter-btn:hover {
     transform: scale(1.1);
-    background-color: #062f54;
-    background-color: #f39c12;
+    /* background-color: #062f54; */ /* Ligne originale commentée pour garder la couleur or au survol */
+    background-color: #f1c40f; /* modifié (ou #e6b30d pour un survol plus foncé si désiré) */
 }
 
 .guests-count-container {
@@ -89,7 +89,7 @@
 .large-group {
     margin: 20px 0 30px;
     padding: 15px;
-    border: 1px dashed #f1c40f;
+    border: 1px dashed #f1c40f; /* modifié */
     border-radius: 8px;
     max-width: 500px;
     margin: 0 auto 30px;
@@ -101,7 +101,7 @@
     font-size: 18px;
     text-decoration: none;
     padding: 5px 10px;
-    background-color: #f1c40f;
+    background-color: #f1c40f; /* modifié */
     border-radius: 5px;
     display: inline-block;
     margin-top: 5px;
@@ -109,7 +109,7 @@
 }
 
 .phone-link:hover {
-    background-color: #f39c12;
+    background-color: #e6b30d; /* Version plus foncée de f1c40f pour le survol */
     transform: scale(1.05);
 }
 
@@ -142,15 +142,22 @@
 }
 
 .calendar-header button:hover {
-    color: #f1c40f;
+    color: #f1c40f; /* modifié */
     transform: scale(1.1);
 }
 
-.current-month {
+.current-month { /* Assurez-vous que cet ID/classe est utilisé dans votre HTML si ce n'est pas #current-month */
     font-size: 18px;
     color: #062f54;
     margin: 0;
 }
+/* Si l'ID #current-month est utilisé pour le texte du mois : */
+#current-month { 
+    font-size: 18px;
+    color: #062f54;
+    margin: 0;
+}
+
 
 .weekdays {
     display: grid;
@@ -191,8 +198,8 @@
 }
 
 .day.today {
-    border: 2px solid #f1c40f;
-    color: #f1c40f;
+    border: 2px solid #f1c40f; /* modifié */
+    color: #f1c40f; /* modifié */
     font-weight: bold;
 }
 
@@ -214,73 +221,13 @@
 .selected-date-display {
     margin: 20px 0;
     font-size: 18px;
-    color: #f1c40f;
+    color: #f1c40f; /* modifié */
     background-color: #062f54;
     padding: 10px;
     border-radius: 5px;
     display: inline-block;
 }
 
-.selected-date {
-    font-weight: bold;
-}
-
-/* Sélection du type de repas */
-.meal-type-selector {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.meal-type-btn {
-    background-color: #ffffff;
-    border: 2px solid #062f54;
-    color: #062f54;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: Times New Roman, serif;
-}
-
-.meal-type-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.meal-type-btn.active {
-    background-color: #f1c40f;
-    border-color: #062f54;
-    color: #062f54;
-}
-
-.time-slot {
-    background-color: #ffffff;
-    border: 2px solid #062f54;
-    color: #062f54;
-    font-size: 18px;
-    padding: 15px 0;
-    border-radius: 5px;
-    font-family: Times New Roman, serif;
-    cursor: pointer;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    width: 100%;
-    max-width: 120px;
-}
-
-.time-slot:hover {
-    transform: translateY(-3px);
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.time-slot.active {
-    background-color: #f1c40f;
-    color: #062f54;
-    border: 2px solid #062f54;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+#selected-date { /* S'assurer que la cible est correcte si la classe est .selected-date */
     font-weight: bold;
 }

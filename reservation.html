@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L'Étoile d'Or - Réservation</title>
     <link rel="stylesheet" href="static/main.css">
-    ">
+    <link rel="stylesheet" href="static/m.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="reservation-page">
-    <!-- Header -->
     <header class="header reservation-header">
         <div class="logo">
             <img src="./images/image-removebg-preview.png" alt="L'Étoile d'Or">
@@ -27,7 +26,7 @@
                 <i class="fas fa-map-marker-alt"></i>
                 <p>Placement</p>
             </div>
-            <div class="menu-item active" data-step="time">
+            <div class="menu-item" data-step="time">
                 <i class="fas fa-clock"></i>
                 <p>Horaire</p>
             </div>
@@ -42,41 +41,37 @@
         </nav>
     </header>
 
-    <!-- Section principale -->
     <section class="reservation-section">
         <div class="container reservation-container">
-            <!-- Étape 1: Nombre de couverts (caché par défaut) -->
-            <!-- Étape 1: Nombre de couverts -->
-<div class="reservation-step" id="guests-step" style="display: none;">
-    <h2 class="reservation-title"><i class="fas fa-utensils"></i> Combien de couverts</h2>
-    <p class="step-description">Veuillez indiquer le nombre de personnes pour votre réservation.</p>
-    
-    <div class="guests-counter">
-        <button class="counter-btn minus-btn" id="decrease-guests">
-            <i class="fas fa-minus"></i>
-        </button>
-        <div class="guests-count-container">
-            <div class="guests-count" id="guests-count">1</div>
-        </div>
-        <button class="counter-btn plus-btn" id="increase-guests">
-            <i class="fas fa-plus"></i>
-        </button>
-    </div>
-    
-    <!-- ... reste inchangé ... -->
-</div>
+            <div class="reservation-step" id="guests-step" style="display: none;">
+                <h2 class="reservation-title"><i class="fas fa-utensils"></i> Combien de couverts</h2>
+                <p class="step-description">Veuillez indiquer le nombre de personnes pour votre réservation.</p>
+                <div class="guests-counter">
+                    <button class="counter-btn minus-btn" id="decrease-guests" aria-label="Diminuer le nombre de couverts">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <div class="guests-count-container">
+                        <div class="guests-count" id="guests-count">1</div>
+                    </div>
+                    <button class="counter-btn plus-btn" id="increase-guests" aria-label="Augmenter le nombre de couverts">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="navigation-buttons">
+                     <button class="next-btn" data-next="date">Suivant</button>
+                </div>
+            </div>
 
             
-            <!-- Étape 2: Sélection de date (caché par défaut) -->
             <div class="reservation-step" id="date-step" style="display: none;">
-                <h2 class="reservation-title">Date</h2>
+                <h2 class="reservation-title"><i class="fas fa-calendar-alt"></i> Date</h2>
                 <p class="step-description">Choisissez la date de votre réservation</p>
                 
                 <div class="date-picker-container">
                     <div class="calendar-header">
-                        <button id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                        <button id="prev-month" aria-label="Mois précédent"><i class="fas fa-chevron-left"></i></button>
                         <h3 id="current-month">Mars 2025</h3>
-                        <button id="next-month"><i class="fas fa-chevron-right"></i></button>
+                        <button id="next-month" aria-label="Mois suivant"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     
                     <div class="weekdays">
@@ -90,8 +85,7 @@
                     </div>
                     
                     <div class="calendar-days" id="calendar-days">
-                        <!-- Les jours seront générés dynamiquement par JavaScript -->
-                    </div>
+                        </div>
                 </div>
                 
                 <div class="selected-date-display">
@@ -104,9 +98,8 @@
                 </div>
             </div>
             
-            <!-- Étape 3: Placement (caché par défaut) -->
             <div class="reservation-step" id="placement-step" style="display: none;">
-                <h2 class="reservation-title">Placement</h2>
+                <h2 class="reservation-title"><i class="fas fa-map-marker-alt"></i> Placement</h2>
                 
                 <div class="coming-soon-container">
                     <i class="fas fa-tools coming-soon-icon"></i>
@@ -120,19 +113,18 @@
                 </div>
             </div>
             
-            <!-- Étape 4: Sélection d'horaire -->
-            <div class="reservation-step" id="time-step">
-                <h2 class="reservation-title">Horaire</h2>
+            <div class="reservation-step" id="time-step" style="display: none;">
+                 <h2 class="reservation-title"><i class="fas fa-clock"></i> Horaire</h2>
+                 <p class="step-description">Sélectionnez si vous réservez pour le déjeuner ou le dîner, puis choisissez un horaire.</p>
                 
                 <div class="meal-type-selector">
+                    <button class="meal-type-btn" data-meal="lunch">Déjeuner</button>
                     <button class="meal-type-btn" data-meal="dinner">Dîner</button>
-                    <button class="meal-type-btn active" data-meal="lunch">Déjeuner</button>
                 </div>
 
-                <h3 class="meal-type" id="current-meal-type">Déjeuner</h3>
+                <h3 class="meal-type" id="current-meal-type">Choisissez Déjeuner ou Dîner</h3>
 
-                <!-- Horaires Déjeuner -->
-                <div class="time-grid" id="lunch-times">
+                <div class="time-grid" id="lunch-times" style="display: none;">
                     <button class="time-slot" data-time="12:00">12:00</button>
                     <button class="time-slot" data-time="12:15">12:15</button>
                     <button class="time-slot" data-time="12:30">12:30</button>
@@ -145,7 +137,6 @@
                     <button class="time-slot" data-time="14:15">14:15</button>
                 </div>
 
-                <!-- Horaires Dîner -->
                 <div class="time-grid" id="dinner-times" style="display: none;">
                     <button class="time-slot" data-time="19:00">19:00</button>
                     <button class="time-slot" data-time="19:15">19:15</button>
@@ -170,25 +161,29 @@
                 </div>
             </div>
             
-            <!-- Étape 5: Menu -->
             <div class="reservation-step" id="menu-step" style="display: none;">
-                <h2 class="reservation-title">Menu</h2>
-                
-                <div class="coming-soon-container">
-                    <i class="fas fa-utensils coming-soon-icon"></i>
-                    <h3 class="coming-soon-text">Disponible ultérieurement</h3>
-                    <p class="coming-soon-description">La pré-sélection de menu sera bientôt disponible pour vous offrir une expérience gastronomique personnalisée.</p>
+                <h2 class="reservation-title"><i class="fas fa-clipboard-list"></i> Consulter notre Menu</h2>
+                <p class="step-description">
+                    Envie de découvrir nos spécialités ? Vous pouvez consulter notre menu complet en cliquant sur le lien ci-dessous.
+                    La page du menu s'ouvrira dans un nouvel onglet.
+                </p>
+                <div class="menu-link-container" style="margin: 30px auto; text-align: center;">
+                    <a href="menu.html" target="_blank" rel="noopener noreferrer" class="next-btn" style="text-decoration: none; display: inline-block; padding: 15px 30px;">
+                        <i class="fas fa-utensils"></i> Voir le Menu Complet
+                    </a>
                 </div>
-                
+                <p class="step-description" style="margin-top: 20px; font-size: 0.9em;">
+                    Note : Pour l'instant, la sélection de plats pour une pré-commande se fait directement sur la page du menu.
+                    Le panier que vous y constituerez est indépendant de cette interface de réservation.
+                </p>
                 <div class="navigation-buttons">
                     <button class="back-btn" data-back="time">Retour</button>
-                    <button class="next-btn" data-next="summary">Suivant</button>
+                    <button class="next-btn" data-next="summary">Suivant (Passer au récapitulatif)</button>
                 </div>
             </div>
 
-            <!-- Étape 6: Récapitulatif -->
             <div class="reservation-step" id="summary-step" style="display: none;">
-                <h2 class="reservation-title">Récapitulatif</h2>
+                <h2 class="reservation-title"><i class="fas fa-check-circle"></i> Récapitulatif</h2>
                 
                 <div class="reservation-summary">
                     <h3>Détails de votre réservation</h3>
@@ -235,10 +230,9 @@
                 </div>
             </div>
 
-            <!-- Modal de confirmation -->
             <div class="modal" id="confirmation-modal">
                 <div class="modal-content">
-                    <span class="close-modal">&times;</span>
+                    <span class="close-modal" aria-label="Fermer">&times;</span>
                     <i class="fas fa-check-circle success-icon"></i>
                     <h2>Réservation confirmée !</h2>
                     <p>Votre réservation a été enregistrée avec succès.</p>
@@ -251,7 +245,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container footer-content">
             <div class="footer-info">
@@ -270,9 +263,9 @@
 
             <div class="footer-social">
                 <h3>Suivez-nous</h3>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
 
@@ -281,10 +274,9 @@
         </div>
 
         <div class="fixed-reservation">
-            <a href="#" class="btn-reserver">Réserver maintenant</a>
-        </div>
+            <a href="reservation.html" class="btn-reserver">Réserver maintenant</a> </div>
     </footer>
 
-    <script src="static/script.js"></script>
-</body>
+    <script src="static/script.js" defer></script>
+    </body>
 </html>

@@ -1,0 +1,440 @@
+/* --------------------
+   RESET DE BASE
+-------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --------------------
+   BODY & GLOBAL
+-------------------- */
+body {
+  font-family: 'Times New Roman', serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* --------------------
+   HEADER
+-------------------- */
+header {
+  background-color: #062f54;
+  padding: 20px;
+  text-align: center;
+  position: sticky; /* Rendre le header collant */
+  top: 0;           /* Coller en haut de la page */
+  z-index: 100;     /* S'assurer qu'il est au-dessus des autres contenus */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optionnel: ajouter une ombre */
+}
+
+.logo img {
+  height: 80px;
+}
+
+/* --------------------
+   NAVIGATION
+-------------------- */
+.menu-navigation ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap; /* Permettre le retour à la ligne sur petits écrans */
+}
+
+.menu-navigation li {
+  background-color: #ffffff;
+  border: 2px solid #062f54;
+  border-radius: 8px;
+  padding: 10px 15px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px 0px #062f54;
+}
+
+.menu-navigation li:hover {
+  background-color: #f1c40f; /* modifié */
+  transform: translateY(-3px);
+  box-shadow: 5px 5px 0px 0px #062f54;
+}
+
+.menu-navigation li.active {
+  background-color: #f1c40f; /* modifié */
+  color: #062f54; /* Assurer la lisibilité du texte */
+  transform: translateY(-3px); /* Effet similaire au survol */
+  box-shadow: 5px 5px 0px 0px #062f54; /* Effet similaire au survol */
+}
+.menu-navigation li.active a {
+  color: #062f54; /* Assurer la lisibilité du lien actif */
+}
+
+
+.menu-navigation li a {
+  text-decoration: none;
+  color: #062f54;
+  font-weight: bold;
+}
+
+/* --------------------
+   MAIN & SECTION
+-------------------- */
+main {
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.menu-section {
+  margin-top: 30px;
+}
+
+.menu-category {
+  display: block; /* Par défaut, sera géré par JS */
+  margin-bottom: 40px;
+  animation: fadeInCategory 0.5s ease-in-out; /* Animation pour l'apparition */
+}
+
+@keyframes fadeInCategory {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-category h2 {
+  font-size: 32px;
+  color: #062f54;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 2px solid #f1c40f; /* modifié */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.menu-category h3 {
+  font-size: 24px;
+  color: #062f54;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ccc;
+  display: inline-block;
+  padding-bottom: 3px;
+}
+
+/* --------------------
+   DISH LIST & QUANTITY CONTROLS
+-------------------- */
+.dish-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.dish-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0; /* Augmenter le padding pour plus d'espace */
+  border-bottom: 1px solid #e0e0e0; /* Bordure plus douce */
+  transition: background-color 0.2s;
+}
+.dish-item:hover {
+    background-color: #f5f5f5; /* Léger fond au survol pour interactivité */
+}
+
+.dish-item:last-child {
+  border-bottom: none;
+}
+
+.dish-name {
+  font-size: 18px;
+  flex: 1; /* Permettre au nom de prendre plus de place */
+}
+
+.dish-name small { /* Style pour les descriptions courtes */
+    display: block;
+    font-size: 0.8em;
+    color: #555;
+    margin-top: 3px;
+}
+
+.dish-price {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 15px; /* Augmenter la marge */
+  color: #333;
+  min-width: 80px; /* Assurer un espace minimum pour le prix */
+  text-align: right;
+}
+
+/* Styles pour les éléments spéciaux */
+.special .dish-name strong { /* Cibler le strong pour la couleur */
+  color: #d35400; /* Conserver la couleur spéciale pour "SÉLECTION DU CHEF" */
+}
+
+.dish-description { /* Description plus détaillée sous l'item */
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0 15px 0; /* Ajuster la marge */
+  padding-left: 10px; /* Léger retrait si nécessaire */
+  line-height: 1.4;
+  font-style: italic;
+  clear: both; /* S'assurer qu'il est sous les flottants si existants */
+}
+
+/* --------------------
+   QUANTITY CONTROLS
+-------------------- */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.quantity-controls button {
+  background-color: #f1c40f; /* modifié */
+  border: 1px solid #062f54;
+  color: #062f54;
+  padding: 4px 8px; /* Ajuster le padding */
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.1s;
+  line-height: 1; /* S'assurer que le texte est bien centré verticalement */
+}
+
+.quantity-controls button:hover {
+  background-color: #e6b30d; /* Version plus foncée */
+}
+.quantity-controls button:active {
+    transform: scale(0.95); /* Petit effet au clic */
+}
+
+.qty-value {
+  margin: 0 8px; /* Augmenter la marge */
+  min-width: 25px; /* Augmenter la largeur minimum */
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* --------------------
+   CART (PANIER)
+-------------------- */
+.cart {
+  position: fixed;
+  top: 150px; /* Ajuster pour être sous le header collant */
+  right: 20px;
+  width: 300px; /* Augmenter légèrement la largeur */
+  background-color: #fff;
+  border: 2px solid #062f54;
+  border-radius: 8px;
+  padding: 20px; /* Augmenter le padding */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2); /* Ombre plus prononcée */
+  z-index: 999; /* Sous le header mais au-dessus du reste */
+}
+
+.cart h2 {
+  font-size: 24px;
+  color: #062f54;
+  margin-bottom: 15px; /* Augmenter la marge */
+  text-align: center;
+  border-bottom: 1px solid #f1c40f; /* Ligne de séparation */
+  padding-bottom: 10px;
+}
+
+.cart-list {
+  list-style: none;
+  padding: 0;
+  max-height: 300px; /* Hauteur max avant scroll */
+  overflow-y: auto;  /* Activer le scroll si nécessaire */
+  margin-bottom: 15px;
+}
+/* Style pour la barre de défilement */
+.cart-list::-webkit-scrollbar {
+  width: 8px;
+}
+.cart-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+.cart-list::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+.cart-list::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0; /* Augmenter le padding */
+  border-bottom: 1px solid #eee; /* Bordure plus douce */
+  gap: 5px; /* Espacer les éléments */
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-name {
+  font-size: 15px; /* Légère réduction pour plus de place */
+  flex-grow: 1; /* Permettre au nom de grandir */
+  margin-right: 5px;
+}
+
+.cart-item-price {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 5px;
+  min-width: 60px;
+  text-align: right;
+}
+
+.cart-quantity-controls {
+  display: flex;
+  align-items: center;
+}
+
+.cart-quantity-controls button {
+  background-color: #f1c40f; /* modifié */
+  border: 1px solid #062f54;
+  color: #062f54;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.cart-quantity-controls button:hover {
+  background-color: #e6b30d; /* Version plus foncée */
+}
+
+.cart-qty-value {
+  margin: 0 5px;
+  min-width: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.remove-from-cart {
+  background: none;
+  border: none;
+  color: #c0392b;
+  cursor: pointer;
+  font-size: 18px; /* Augmenter la taille de l'icône */
+  padding: 0 5px; /* Ajouter un peu de padding pour faciliter le clic */
+  transition: color 0.2s;
+}
+.remove-from-cart:hover {
+    color: #a03020; /* Plus foncé au survol */
+}
+
+/* --------------------
+   CART TOTAL
+-------------------- */
+.cart-total {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 15px; /* Espacer du dernier item */
+  padding-top: 10px; /* Ajouter un padding au-dessus */
+  border-top: 1px solid #f1c40f; /* Ligne de séparation */
+}
+
+footer {
+  background-color: #062f54;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
+}
+
+@media (max-width: 1024px) { /* Ajustements pour tablettes et petits écrans */
+    .cart {
+        width: 280px;
+        top: auto; /* Décoller du haut */
+        bottom: 10px; /* Coller en bas */
+        right: 10px;
+        max-height: 40vh; /* Limiter la hauteur en % de la vue */
+    }
+    .menu-navigation ul {
+        gap: 10px;
+    }
+    .menu-navigation li {
+        padding: 8px 12px;
+    }
+}
+
+
+@media (max-width: 768px) {
+  .menu-navigation ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .menu-category h2 {
+    font-size: 28px; /* Réduire la taille pour mobile */
+  }
+  .dish-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px; /* Ajouter un espacement pour les éléments empilés */
+  }
+  .dish-price {
+    margin-top: 5px;
+    margin-left: 0; /* Pas de marge à gauche en mode colonne */
+    text-align: left;
+  }
+  .dish-description {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .quantity-controls {
+      margin-left: 0; /* Pas de marge à gauche en mode colonne */
+      margin-top: 5px;
+  }
+
+  .cart {
+    width: calc(100% - 20px); /* Pleine largeur moins un peu de marge */
+    left: 10px; /* Centrer avec la marge */
+    right: 10px;
+    bottom: 10px;
+    top: auto; /* S'assurer qu'il n'est pas fixé en haut */
+    max-height: 45vh; /* Augmenter un peu la hauteur max pour mobile */
+  }
+  .cart h2 {
+      font-size: 20px;
+  }
+  .cart-item-name, .cart-item-price {
+      font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) { /* Ajustements fins pour très petits écrans */
+    .menu-category h2 {
+        font-size: 24px;
+    }
+    .menu-navigation li {
+        font-size: 0.9em; /* Réduire la taille de la police des onglets */
+    }
+    .dish-name {
+        font-size: 17px;
+    }
+    .dish-price {
+        font-size: 17px;
+    }
+     .cart {
+        padding: 15px;
+    }
+    .cart-item {
+        padding: 6px 0;
+    }
+}
+

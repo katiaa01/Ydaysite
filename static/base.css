@@ -20,7 +20,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 2px solid #f1c40f;
+    border-bottom: 2px solid #f1c40f; /* modifié */
     position: sticky;
     top: 0;
     z-index: 100;
@@ -76,7 +76,7 @@ body {
 }
 
 .menu-item.active {
-    background-color: #f1c40f;
+    background-color: #f1c40f; /* modifié */
     color: #062f54;
     border: 2px solid #062f54;
     transform: translateY(-5px);
@@ -118,10 +118,10 @@ body {
 }
 
 .footer h3 {
-    color: #f1c40f;
+    color: #f1c40f; /* modifié */
     font-size: 18px;
     margin-bottom: 15px;
-    border-bottom: 1px solid rgba(241, 196, 15, 0.3);
+    border-bottom: 1px solid rgba(241, 196, 15, 0.3); /* modifié */
     padding-bottom: 5px;
 }
 
@@ -134,7 +134,7 @@ body {
     display: inline-block;
     margin: 5px 10px;
     font-size: 22px;
-    color: #f1c40f;
+    color: #f1c40f; /* modifié */
     transition: all 0.3s ease;
 }
 

@@ -1,73 +1,22 @@
-/* Compteur de couverts */
-.guests-counter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin: 30px 0;
-}
+/* Compteur de couverts (styles de base sont dans components.css) */
+/* Cette section semble être une duplication ou des styles spécifiques au responsive
+   qui pourraient être fusionnés ou raffinés dans components.css si désiré.
+   Je vais conserver la structure mais m'assurer que les couleurs sont correctes. */
 
-.counter-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #f1c40f;
-    border: 2px solid #062f54;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.counter-btn i {
-    font-size: 24px;
-    color: #062f54;
-}
-
-.counter-btn:hover {
-    transform: scale(1.1);
-    background-color: #f39c12;
-}
-
-.guests-count-container {
-    position: relative;
-    width: 100px;
-    height: 60px;
-    overflow: hidden;
-}
-
-.guests-count {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    font-size: 36px;
-    font-weight: bold;
-    color: #062f54;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.guests-count.active {
-    opacity: 1;
-}
-
-/* Correction du calendrier */
+/* Correction du calendrier (styles de base sont dans components.css) */
 .date-picker-container {
-    background-color: #ffffff !important;
+    /* Pas besoin de !important si la spécificité est correcte ailleurs */
+    background-color: #ffffff; 
     border: 2px solid #062f54;
 }
 
 .day {
-    color: #062f54 !important;
+    color: #062f54; 
     background-color: #ffffff;
 }
 
 .day.disabled {
-    color: #b3b3b3 !important;
+    color: #b3b3b3 !important; /* !important peut être nécessaire ici pour surcharger d'autres styles */
 }
 
 .day.selected {
@@ -76,60 +25,95 @@
 }
 
 .day.today {
-    color: #f1c40f !important;
-    border-color: #f1c40f !important;
+    color: #f1c40f !important; /* modifié */
+    border-color: #f1c40f !important; /* modifié */
 }
 
-.current-month {
+/* Assurez-vous que l'élément pour afficher le mois courant a cet ID ou classe */
+#current-month, .current-month { 
     color: #062f54 !important;
 }
 
 .calendar-header button {
     color: #062f54 !important;
 }
+.calendar-header button:hover {
+    color: #f1c40f !important; /* Pour s'assurer que le survol fonctionne */
+}
 
 .selected-date-display {
     background-color: #062f54 !important;
-    color: #f1c40f !important;
+    color: #f1c40f !important; /* modifié */
 }
 
-/* Media Queries */
+/* Media Queries (styles de base dans les fichiers respectifs, ici pour les surcharges responsives) */
 @media (max-width: 992px) {
     .reservation-menu {
         gap: 10px;
+        justify-content: center; /* S'assurer du centrage si les éléments passent à la ligne */
     }
 
     .menu-item {
-        padding: 8px;
+        padding: 8px 10px; /* Ajuster le padding */
         font-size: 12px;
     }
 
     .menu-item i {
         font-size: 18px;
     }
+
+    .header .logo img { /* Ajuster la taille du logo sur écrans moyens */
+        height: 80px;
+    }
 }
 
 @media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Empiler logo et menu sur mobile */
+        padding: 15px;
+    }
+    .header .logo {
+        margin-bottom: 10px;
+    }
+    .header .logo img {
+        height: 70px; /* Réduire encore le logo */
+    }
+
     .reservation-menu {
         flex-direction: column;
         align-items: center;
         gap: 10px;
+        width: 100%; /* Prendre toute la largeur */
     }
 
     .menu-item {
-        width: 80%;
-        max-width: 200px;
+        width: 90%; /* Augmenter la largeur pour meilleure lisibilité */
+        max-width: 280px; /* Limiter la largeur max */
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: flex-start; /* Aligner le contenu à gauche */
         gap: 10px;
+        padding: 10px 15px; /* Augmenter le padding pour une meilleure zone de clic */
     }
+     .menu-item p {
+        font-size: 13px; /* Ajuster la taille du texte */
+    }
+
 
     .reservation-section {
         padding: 20px 10px;
     }
 
+    .reservation-title {
+        font-size: 28px; /* Réduire la taille du titre */
+    }
+
     .time-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Plus flexible */
+        gap: 10px;
+    }
+    .time-slot {
+        font-size: 16px;
+        padding: 12px 0;
     }
 
     .navigation-buttons {
@@ -138,6 +122,96 @@
     }
 
     .back-btn, .next-btn, .submit-btn {
+        width: 100%; /* Pleine largeur pour les boutons */
+        padding: 14px 20px; /* Augmenter le padding pour mobile */
+        font-size: 16px;
+    }
+
+    /* Ajustements pour le formulaire de contact sur mobile */
+    .contact-form {
+        padding: 0 10px; /* Ajouter un peu de padding horizontal */
+    }
+    .form-group input, .form-group textarea {
+        font-size: 15px;
+    }
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .footer-info, .footer-hours, .footer-social {
+        min-width: auto; /* Permettre de rétrécir */
         width: 100%;
+        margin-bottom: 20px;
+    }
+    .footer-social a {
+        font-size: 24px; /* Augmenter la taille des icônes sociales */
+        margin: 5px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .reservation-title {
+        font-size: 24px;
+    }
+    .step-description {
+        font-size: 15px;
+    }
+    .menu-item {
+        max-width: none; /* Permettre de prendre plus de largeur si besoin */
+        padding: 8px 12px;
+    }
+     .menu-item p {
+        font-size: 12px;
+    }
+    .counter-btn {
+        width: 50px;
+        height: 50px;
+    }
+    .counter-btn i {
+        font-size: 20px;
+    }
+    .guests-count {
+        font-size: 30px;
+    }
+    .guests-count-container {
+        width: 80px;
+    }
+    .date-picker-container {
+        padding: 15px;
+    }
+    .day {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+    .selected-date-display {
+        font-size: 15px;
+        padding: 8px;
+    }
+    .meal-type-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    .time-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Encore plus flexible */
+    }
+    .time-slot {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+    .fixed-reservation .btn-reserver { /* Bouton Réserver maintenant en bas */
+        font-size: 14px;
+        padding: 12px 20px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+    .modal h2 {
+        font-size: 20px;
+    }
+    .success-icon {
+        font-size: 50px;
     }
 }

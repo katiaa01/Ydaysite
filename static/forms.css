@@ -26,16 +26,17 @@
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-family: Times New Roman, serif;
+    border-radius: 5px; /* Maintenu à 5px comme dans votre exemple pour les champs */
+    font-family: 'Times New Roman', serif;
     font-size: 16px;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Ajout de transition pour box-shadow */
+    box-sizing: border-box;
 }
 
 .form-group input:focus, .form-group textarea:focus {
     outline: none;
     border-color: #f1c40f;
-    box-shadow: 0 0 5px rgba(241, 196, 15, 0.5);
+    box-shadow: 0 0 8px rgba(241, 196, 15, 0.5); /* Ombre plus diffuse au focus */
 }
 
 .checkbox-group {
@@ -46,60 +47,272 @@
 .checkbox-group input {
     width: auto;
     margin-right: 10px;
+    flex-shrink: 0; /* Empêcher le rétrécissement de la checkbox */
 }
 
 .checkbox-group label {
     display: inline;
     margin: 0;
+    font-weight: normal;
+    cursor: pointer; /* Rendre le label cliquable pour la checkbox */
 }
 
-/* Boutons de navigation */
+/* Boutons de navigation et d'action */
 .navigation-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    gap: 15px; /* Ajouter un espace si les boutons sont côte à côte */
 }
 
-.back-btn, .next-btn, .submit-btn {
-    padding: 12px 25px;
-    border-radius: 5px;
+/* --- DÉBUT DES AJOUTS POUR LA SECTION HORAIRE --- */
+
+/* Titre au-dessus des boutons Déjeuner/Dîner (si présent dans la structure HTML concernée) */
+/* S'il est stylé ailleurs (ex: .reservation-title ou .meal-type comme dans le HTML complet), ces styles peuvent être ajustés ou supprimés. */
+.meal-type { /* Titre "Déjeuner" ou "Dîner" affiché au-dessus des créneaux */
+    font-size: 24px; /* Taille de police indicative */
+    margin-bottom: 20px; /* Espace avant les boutons */
+    color: #062f54; /* Couleur du titre */
+    font-style: italic;
+    font-weight: bold;
+    text-align: center; /* Centrer ce titre */
+}
+
+/* Sélection du type de repas (Déjeuner/Dîner) */
+.meal-type-selector {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espace entre les boutons Déjeuner/Dîner */
+    margin-bottom: 25px; /* Espace après ces boutons, avant la grille des horaires */
+}
+
+.meal-type-btn {
+    /* Utilise le style de base commun .back-btn, .next-btn etc. pour la structure */
+    padding: 10px 25px;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: Times New Roman, serif;
+    transition: all 0.2s ease-out;
+    font-family: 'Times New Roman', serif;
     font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px; /* Largeur minimale pour ces boutons */
+
+    /* Style par défaut (non actif) - Similaire à .back-btn */
+    background-color: #ffffff;
+    color: #062f54;
+    border: 2px solid #062f54;
+    box-shadow: 3px 3px 0px 0px #062f54;
 }
 
-.back-btn {
-    background-color: #e0e0e0;
-    color: #333;
-    border: 1px solid #ccc;
+/* Survol pour .meal-type-btn non actif */
+.meal-type-btn:not(.active):hover {
+    background-color: #062f54; /* Fond bleu au survol (comme .back-btn:hover) */
+    color: #f1c40f;             /* Texte jaune au survol */
+    border-color: #062f54;
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 5px 5px 0px 0px #001a35;
+}
+/* État :active pour .meal-type-btn non actif (lors du clic) */
+.meal-type-btn:not(.active):active {
+    background-color: #001a35; /* Bleu encore plus foncé (comme .back-btn:active) */
+    color: #f1c40f;
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 1px 1px 0px 0px #001a35;
 }
 
-.back-btn:hover {
-    background-color: #d0d0d0;
-    transform: translateY(-2px);
+
+/* Style pour .meal-type-btn actif (Déjeuner ou Dîner sélectionné) - Similaire à .next-btn */
+.meal-type-btn.active {
+    background-color: #f1c40f;
+    color: #062f54;
+    border: 2px solid #062f54;
+    box-shadow: 3px 3px 0px 0px #062f54;
+    /* Pas de transform ici, l'état actif est "stable" */
 }
 
-.next-btn, .submit-btn {
+/* Survol pour .meal-type-btn actif */
+.meal-type-btn.active:hover {
+    background-color: #e6b30d; /* Jaune plus foncé (comme .next-btn:hover) */
+    color: #062f54;
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 5px 5px 0px 0px #001a35;
+}
+/* État :active pour .meal-type-btn actif (lors du clic) */
+.meal-type-btn.active:active {
+    transform: translateY(1px) translateX(1px); /* Effet d'enfoncement (comme .next-btn:active) */
+    box-shadow: 1px 1px 0px 0px #001a35;
+    background-color: #daa520; /* Jaune encore plus foncé pour le clic sur l'actif */
+}
+
+
+/* Grille des horaires */
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Colonnes flexibles */
+    gap: 12px; /* Espace réduit entre les créneaux pour un look plus compact */
+    justify-items: center;
+    margin: 0 auto 30px; /* Centrer la grille et marge en bas */
+    max-width: 560px; /* Limiter la largeur de la grille */
+}
+
+.time-slot {
+    /* Utilise le style de base commun .back-btn, .next-btn etc. pour la structure */
+    padding: 10px 5px; /* Padding vertical, horizontal minime car le texte est court */
+    border-radius: 8px;
+    font-size: 15px; /* Un peu plus petit pour les horaires */
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Prend toute la largeur de sa colonne de grille */
+    min-height: 45px; /* Hauteur minimale pour une bonne cliquabilité */
+
+    /* Style par défaut (non actif) - Similaire à .back-btn */
+    background-color: #ffffff;
+    color: #062f54;
+    border: 2px solid #062f54;
+    box-shadow: 3px 3px 0px 0px #062f54;
+}
+
+/* Survol pour .time-slot non actif */
+.time-slot:not(.active):hover {
+    background-color: #062f54;
+    color: #f1c40f;
+    border-color: #062f54;
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 5px 5px 0px 0px #001a35;
+}
+/* État :active pour .time-slot non actif (lors du clic) */
+.time-slot:not(.active):active {
+    background-color: #001a35;
+    color: #f1c40f;
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 1px 1px 0px 0px #001a35;
+}
+
+
+/* Style pour .time-slot actif (créneau horaire sélectionné) - Similaire à .next-btn */
+.time-slot.active {
+    background-color: #f1c40f;
+    color: #062f54;
+    border: 2px solid #062f54;
+    box-shadow: 3px 3px 0px 0px #062f54;
+    transform: scale(1.03); /* Léger agrandissement pour indiquer la sélection active */
+}
+
+/* Survol pour .time-slot actif */
+.time-slot.active:hover {
+    background-color: #e6b30d;
+    color: #062f54;
+    /* Applique le transform du hover général + le scale de l'actif */
+    transform: translateY(-2px) translateX(-1px) scale(1.03);
+    box-shadow: 5px 5px 0px 0px #001a35;
+}
+/* État :active pour .time-slot actif (lors du clic) */
+.time-slot.active:active {
+    transform: translateY(1px) translateX(1px) scale(1); /* Effet d'enfoncement et annule le scale initial */
+    box-shadow: 1px 1px 0px 0px #001a35;
+    background-color: #daa520;
+}
+
+/* --- FIN DES AJOUTS POUR LA SECTION HORAIRE --- */
+
+.back-btn,
+.next-btn,
+.submit-btn,
+.ok-btn { /* Style de base commun */
+    padding: 12px 25px;
+    border-radius: 8px; /* Bordures légèrement plus arrondies */
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-out; /* Transition plus douce */
+    font-family: 'Times New Roman', serif; /* Assurer la cohérence de la police */
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none; /* Pour les liens stylés en boutons */
+    display: inline-flex; /* Permet un meilleur alignement du contenu interne (icônes + texte) */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espace entre icône et texte si présents */
+}
+
+/* Style pour les boutons primaires (Suivant, Confirmer, OK) */
+.next-btn,
+.submit-btn,
+.ok-btn {
     background-color: #f1c40f;
     color: #062f54;
     border: 2px solid #062f54;
     box-shadow: 3px 3px 0px 0px #062f54;
 }
 
-.next-btn:hover, .submit-btn:hover {
-    background-color: #f39c12;
-    transform: translateY(-3px);
-    box-shadow: 5px 5px 0px 0px #062f54;
+.next-btn:hover,
+.submit-btn:hover,
+.ok-btn:hover {
+    background-color: #e6b30d; /* Jaune plus foncé */
+    color: #062f54;
+    transform: translateY(-2px) translateX(-1px); /* Léger décalage pour l'effet d'ombre */
+    box-shadow: 5px 5px 0px 0px #001a35; /* Ombre un peu plus foncée */
 }
 
-.submit-btn {
-    padding: 12px 35px;
-    font-size: 18px;
+.next-btn:active,
+.submit-btn:active,
+.ok-btn:active {
+    transform: translateY(1px) translateX(1px); /* Effet d'enfoncement */
+    box-shadow: 1px 1px 0px 0px #001a35;
+    background-color: #daa520; /* Ajout pour être cohérent avec les nouveaux boutons */
 }
 
-/* Modal de confirmation */
+
+/* Style pour les boutons secondaires (Retour) */
+.back-btn {
+    background-color: #ffffff;
+    color: #062f54;
+    border: 2px solid #062f54;
+    box-shadow: 3px 3px 0px 0px #062f54; /* Ombre cohérente */
+}
+
+.back-btn:hover {
+    background-color: #062f54; /* Fond bleu au survol */
+    color: #f1c40f;             /* Texte jaune au survol */
+    border-color: #062f54;      /* Bordure reste la même ou peut être ajustée */
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 5px 5px 0px 0px #001a35;
+}
+
+.back-btn:active {
+    background-color: #001a35; /* Bleu encore plus foncé */
+    color: #f1c40f;
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 1px 1px 0px 0px #001a35;
+}
+
+
+/* Styles spécifiques pour certains boutons si nécessaire */
+.submit-btn,
+#complete-reservation { /* Assurer que le bouton de confirmation principal est bien stylé */
+    padding: 12px 35px; /* Peut-être un padding plus grand pour le bouton final */
+    font-size: 17px;    /* Légèrement plus grand */
+}
+
+.ok-btn { /* Bouton OK dans la modale */
+    /* Les styles communs et primaires s'appliquent déjà */
+    margin-top: 20px; /* Conserver la marge spécifique */
+}
+
+
+/* Modal de confirmation (styles existants, juste pour contexte) */
 .modal {
     display: none;
     position: fixed;
@@ -179,26 +392,7 @@
     margin-bottom: 10px;
 }
 
-.ok-btn {
-    background-color: #f1c40f;
-    color: #062f54;
-    border: 2px solid #062f54;
-    border-radius: 5px;
-    padding: 10px 30px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: Times New Roman, serif;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
-.ok-btn:hover {
-    background-color: #f39c12;
-    transform: translateY(-3px);
-}
-
-/* Message de confirmation dans le récapitulatif */
+/* Message de confirmation dans le récapitulatif (styles existants) */
 .confirmation-message {
     display: flex;
     align-items: flex-start;
