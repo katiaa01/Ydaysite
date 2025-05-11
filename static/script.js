@@ -1,217 +1,199 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Variables pour stocker les informations de réservation
     let reservationData = {
-        guests: 0,
+        guests: 1, // Initialisé à 1
         date: null,
         time: null,
-        meal: 'dinner'
+        meal: 'dinner', // Valeur par défaut, peut être ajustée si le premier bouton actif est différent
+        selectedMenu: [] // Pour stocker le menu choisi
     };
 
+    // Clés localStorage
+    const CART_STORAGE_KEY = 'restaurantEtoileDorCart';
+    const MENU_VALIDATED_KEY = 'restaurantEtoileDorMenuValidated';
+
     // Éléments DOM
-    const menuItems = document.querySelectorAll('.menu-item');
+    const menuItemsNav = document.querySelectorAll('.reservation-menu .menu-item'); // Renommé pour clarté
     const reservationSteps = document.querySelectorAll('.reservation-step');
     const nextButtons = document.querySelectorAll('.next-btn');
     const backButtons = document.querySelectorAll('.back-btn');
-    const guestButtons = document.querySelectorAll('.guest-btn');
-    const timeSlots = document.querySelectorAll('.time-slot');
+    
+    // Étape Couverts
+    const guestsCountDisplay = document.getElementById('guests-count'); // Renommé pour clarté
+    const decreaseBtn = document.getElementById('decrease-guests');
+    const increaseBtn = document.getElementById('increase-guests');
+    const summaryGuests = document.getElementById('summary-guests');
+
+    // Étape Date
+    const prevMonthBtn = document.getElementById('prev-month');
+    const nextMonthBtn = document.getElementById('next-month');
+    const currentMonthDisplay = document.getElementById('current-month'); // Renommé pour clarté
+    const calendarDaysContainer = document.getElementById('calendar-days'); // Renommé pour clarté
+    const selectedDateDisplay = document.getElementById('selected-date');
+    const summaryDate = document.getElementById('summary-date');
+
+    // Étape Horaire
     const mealTypeButtons = document.querySelectorAll('.meal-type-btn');
+    const currentMealTypeDisplay = document.getElementById('current-meal-type'); // Renommé pour clarté
+    const lunchTimesGrid = document.getElementById('lunch-times'); // Renommé pour clarté
+    const dinnerTimesGrid = document.getElementById('dinner-times'); // Renommé pour clarté
+    // const timeSlots = document.querySelectorAll('.time-slot'); // On les récupère dynamiquement car ils sont dans des grilles cachées
+    const summaryTime = document.getElementById('summary-time');
+
+    // Étape Menu
+    const selectedMenuDisplayContainer = document.getElementById('selected-menu-display'); // Renommé pour clarté
+    const viewMenuLink = document.getElementById('view-menu-link');
+    const viewMenuLinkText = document.getElementById('view-menu-link-text');
+    const menuNote = document.getElementById('menu-note');
+
+    // Étape Récapitulatif
+    const summaryMenuContent = document.getElementById('summary-menu-content');
+    const summaryMenuTotal = document.getElementById('summary-menu-total');
+
+    // Formulaire et Modal
+    const contactForm = document.getElementById('contact-details-form'); // Cibler le formulaire
     const completeReservationBtn = document.getElementById('complete-reservation');
     const confirmationModal = document.getElementById('confirmation-modal');
-    const closeModalBtn = document.querySelector('.close-modal');
-    const okBtn = document.querySelector('.ok-btn');
+    const closeModalBtn = confirmationModal.querySelector('.close-modal');
+    const okBtn = confirmationModal.querySelector('.ok-btn');
+    const confirmationEmailSpan = document.getElementById('confirmation-email');
+    const confirmationNumberSpan = document.getElementById('confirmation-number');
+
 
     // ====== 1. Navigation entre les étapes ======
-    
-    // Fonction pour afficher une étape spécifique
-    function showStep(stepId) {
-        // Cacher toutes les étapes
+    function showStep(stepIdToShow) {
         reservationSteps.forEach(step => {
             step.style.display = 'none';
+            step.style.opacity = 0; // Pour l'animation
         });
         
-        // Afficher l'étape demandée
-        const targetStep = document.getElementById(`${stepId}-step`);
+        const targetStep = document.getElementById(`${stepIdToShow}-step`);
         if (targetStep) {
             targetStep.style.display = 'block';
-            
-            // Animation de fade-in
-            targetStep.style.opacity = 0;
-            setTimeout(() => {
+            setTimeout(() => { // Délai pour l'animation d'opacité
                 targetStep.style.opacity = 1;
             }, 50);
+
+            if (stepIdToShow === 'menu' || stepIdToShow === 'summary') {
+                displaySelectedMenuInReservation();
+            }
+            if (stepIdToShow === 'summary') {
+                // Assurer que les autres infos du récap sont à jour
+                if (summaryGuests) summaryGuests.textContent = reservationData.guests > 0 ? `${reservationData.guests} ${reservationData.guests > 1 ? 'personnes' : 'personne'}` : '-';
+                if (summaryDate && reservationData.date) {
+                     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                     summaryDate.textContent = reservationData.date.toLocaleDateString('fr-FR', options);
+                } else if (summaryDate) {
+                    summaryDate.textContent = "-";
+                }
+                if (summaryTime) summaryTime.textContent = reservationData.time || '-';
+            }
         }
-        
-        // Mettre à jour le menu de navigation
-        updateNavigationMenu(stepId);
+        updateNavigationMenu(stepIdToShow);
     }
     
-    // Mettre à jour les indicateurs visuels du menu de navigation
-    function updateNavigationMenu(currentStep) {
-        menuItems.forEach(item => {
+    function updateNavigationMenu(currentStepId) {
+        const stepOrder = ['guests', 'date', 'placement', 'time', 'menu', 'summary'];
+        const currentIndex = stepOrder.indexOf(currentStepId);
+
+        menuItemsNav.forEach(item => {
             const itemStep = item.getAttribute('data-step');
-            
-            // Réinitialiser toutes les classes
             item.classList.remove('active', 'done');
             
-            // Si c'est l'étape courante
-            if (itemStep === currentStep) {
+            const itemIndex = stepOrder.indexOf(itemStep);
+
+            if (itemStep === currentStepId) {
                 item.classList.add('active');
-            } 
-            // Si c'est une étape précédente complétée
-            else if (
-                (currentStep === 'date' && itemStep === 'guests') ||
-                (currentStep === 'placement' && (itemStep === 'guests' || itemStep === 'date')) ||
-                (currentStep === 'time' && (itemStep === 'guests' || itemStep === 'date' || itemStep === 'placement')) ||
-                (currentStep === 'menu' && (itemStep === 'guests' || itemStep === 'date' || itemStep === 'placement' || itemStep === 'time')) ||
-                (currentStep === 'summary' && (itemStep === 'guests' || itemStep === 'date' || itemStep === 'placement' || itemStep === 'time' || itemStep === 'menu'))
-            ) {
-                item.classList.add('done');
+            } else if (itemIndex < currentIndex) {
+                // Vérifier si l'étape précédente est réellement complétée
+                let previousStepCompleted = true;
+                if (itemStep === 'guests' && reservationData.guests < 1) previousStepCompleted = false;
+                if (itemStep === 'date' && !reservationData.date) previousStepCompleted = false;
+                // Placement est optionnel/pas de validation de donnée
+                if (itemStep === 'time' && !reservationData.time) previousStepCompleted = false;
+                // Menu est optionnel
+                
+                if(previousStepCompleted) item.classList.add('done');
             }
         });
     }
     
-    // Écouteurs pour les items du menu de navigation
-    menuItems.forEach(item => {
+    menuItemsNav.forEach(item => {
         item.addEventListener('click', function() {
-            const step = this.getAttribute('data-step');
-            
-            // Vérifier si les étapes précédentes sont complétées
-            if (step === 'date' && reservationData.guests === 0) {
-                alert('Veuillez d\'abord sélectionner le nombre de couverts.');
-                return;
-            }
-            if (step === 'placement' && !reservationData.date) {
-                alert('Veuillez d\'abord sélectionner une date.');
-                return;
-            }
-            if (step === 'time' && !reservationData.date) {
-                alert('Veuillez d\'abord sélectionner une date.');
-                return;
-            }
-            if (step === 'menu' && !reservationData.time) {
-                alert('Veuillez d\'abord sélectionner un horaire.');
-                return;
-            }
-            if (step === 'summary' && !reservationData.time) {
-                alert('Veuillez d\'abord sélectionner un horaire.');
-                return;
-            }
-            
-            showStep(step);
+            const stepToNavigate = this.getAttribute('data-step');
+            // Ajouter ici des vérifications si on veut empêcher la navigation directe
+            // sans que les étapes précédentes soient remplies.
+            // Pour l'instant, on permet la navigation directe.
+            showStep(stepToNavigate);
         });
     });
     
-    // Écouteurs pour les boutons Suivant/Retour
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const nextStep = this.getAttribute('data-next');
+            const currentStepId = this.closest('.reservation-step').id.replace('-step', '');
+            const nextStepId = this.getAttribute('data-next');
             
-            // Vérifier si l'étape actuelle est complétée
-            if (nextStep === 'date' && reservationData.guests === 0) {
+            let canProceed = true;
+            if (currentStepId === 'guests' && reservationData.guests < 1) {
                 alert('Veuillez sélectionner le nombre de couverts.');
-                return;
+                canProceed = false;
             }
-            if (nextStep === 'placement' && !reservationData.date) {
+            if (currentStepId === 'date' && !reservationData.date) {
                 alert('Veuillez sélectionner une date.');
-                return;
+                canProceed = false;
             }
-            if (nextStep === 'time' && !reservationData.date) {
-                alert('Veuillez sélectionner une date.');
-                return;
-            }
-            if (nextStep === 'menu' && !reservationData.time) {
+            // Placement n'a pas de validation de donnée
+            if (currentStepId === 'time' && !reservationData.time) {
                 alert('Veuillez sélectionner un horaire.');
-                return;
+                canProceed = false;
             }
-            if (nextStep === 'summary' && !reservationData.time) {
-                alert('Veuillez sélectionner un horaire.');
-                return;
+            // Menu est optionnel, pas de blocage
+
+            if (canProceed) {
+                showStep(nextStepId);
             }
-            
-            showStep(nextStep);
         });
     });
     
     backButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const prevStep = this.getAttribute('data-back');
-            showStep(prevStep);
+            const prevStepId = this.getAttribute('data-back');
+            showStep(prevStepId);
         });
     });
 
     // ====== 2. Sélection du nombre de couverts ======
-    
-    // ====== 2. Sélection du nombre de couverts ======
-let currentGuests = 1; // Initialiser à 1 au lieu de 0
-const guestsCount = document.getElementById('guests-count');
-const decreaseBtn = document.getElementById('decrease-guests');
-const increaseBtn = document.getElementById('increase-guests');
-
-function updateGuestsDisplay() {
-    guestsCount.textContent = currentGuests;
-    reservationData.guests = currentGuests; // Mettre à jour les données de réservation
-    document.getElementById('summary-guests').textContent = 
-        `${currentGuests} ${currentGuests > 1 ? 'personnes' : 'personne'}`;
-    
-    // Activer/désactiver les boutons
-    decreaseBtn.disabled = currentGuests === 1;
-    increaseBtn.disabled = currentGuests === 6;
-    
-    // Activer automatiquement le bouton Suivant
-    const nextButton = document.querySelector('[data-next="date"]');
-    if (nextButton) {
-        nextButton.disabled = false;
+    function updateGuestsDisplay() {
+        if (guestsCountDisplay) guestsCountDisplay.textContent = reservationData.guests;
+        if (summaryGuests) summaryGuests.textContent = reservationData.guests > 0 ? `${reservationData.guests} ${reservationData.guests > 1 ? 'personnes' : 'personne'}` : '-';
+        
+        if (decreaseBtn) decreaseBtn.disabled = reservationData.guests <= 1;
+        // Mettre une limite max si besoin, ex: increaseBtn.disabled = reservationData.guests >= 10;
     }
-}
 
-// Initialisation
-updateGuestsDisplay(); // Ajouter cette ligne pour initialiser correctement
-
-decreaseBtn.addEventListener('click', () => {
-    if(currentGuests > 1) {
-        currentGuests--;
-        updateGuestsDisplay();
+    if (decreaseBtn && increaseBtn && guestsCountDisplay) {
+        decreaseBtn.addEventListener('click', () => {
+            if(reservationData.guests > 1) {
+                reservationData.guests--;
+                updateGuestsDisplay();
+            }
+        });
+        increaseBtn.addEventListener('click', () => {
+            // Ajouter une limite max si vous le souhaitez
+            // if(reservationData.guests < 10) { 
+            reservationData.guests++;
+            updateGuestsDisplay();
+            // }
+        });
     }
-});
-
-increaseBtn.addEventListener('click', () => {
-    if(currentGuests < 6) {
-        currentGuests++;
-        updateGuestsDisplay();
-    }
-});
-
-
+    
     // ====== 3. Sélection de la date (Calendrier) ======
-    
-    // Variables pour le calendrier
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
-    
-    // Initialiser le calendrier
-    initCalendar();
-    
-    // Boutons de navigation du calendrier
-    document.getElementById('prev-month').addEventListener('click', function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        updateCalendar();
-    });
-    
-    document.getElementById('next-month').addEventListener('click', function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        updateCalendar();
-    });
+    let calendarDate = new Date(); // Renommé pour éviter conflit avec reservationData.date
+    let calCurrentMonth = calendarDate.getMonth();
+    let calCurrentYear = calendarDate.getFullYear();
     
     function initCalendar() {
+        if (!currentMonthDisplay || !calendarDaysContainer || !prevMonthBtn || !nextMonthBtn) return;
         updateCalendarHeader();
         generateCalendarDays();
     }
@@ -223,220 +205,328 @@ increaseBtn.addEventListener('click', () => {
     
     function updateCalendarHeader() {
         const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-        document.getElementById('current-month').textContent = `${months[currentMonth]} ${currentYear}`;
+        if (currentMonthDisplay) currentMonthDisplay.textContent = `${months[calCurrentMonth]} ${calCurrentYear}`;
     }
     
     function generateCalendarDays() {
-        const calendarDays = document.getElementById('calendar-days');
-        calendarDays.innerHTML = '';
+        if (!calendarDaysContainer) return;
+        calendarDaysContainer.innerHTML = '';
         
-        // Premier jour du mois (0 = Dimanche, 1 = Lundi, etc.)
-        let firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        // Ajuster pour que la semaine commence le lundi (0 = Lundi)
-        firstDay = firstDay === 0 ? 6 : firstDay - 1;
+        let firstDayOfMonth = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
+        firstDayOfMonth = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
         
-        // Nombre de jours dans le mois
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        
-        // Date d'aujourd'hui
+        const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
         const today = new Date();
         const todayDay = today.getDate();
         const todayMonth = today.getMonth();
         const todayYear = today.getFullYear();
         
-        // Jours vides avant le premier jour du mois
-        for (let i = 0; i < firstDay; i++) {
+        for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyDay = document.createElement('div');
             emptyDay.classList.add('day', 'empty');
-            calendarDays.appendChild(emptyDay);
+            calendarDaysContainer.appendChild(emptyDay);
         }
         
-        // Jours du mois
         for (let day = 1; day <= daysInMonth; day++) {
             const dayElement = document.createElement('div');
             dayElement.classList.add('day');
             dayElement.textContent = day;
             
-            // Vérifier si c'est aujourd'hui
-            if (day === todayDay && currentMonth === todayMonth && currentYear === todayYear) {
+            const currentLoopDate = new Date(calCurrentYear, calCurrentMonth, day);
+            const isPastDate = currentLoopDate < new Date(todayYear, todayMonth, todayDay);
+
+            if (day === todayDay && calCurrentMonth === todayMonth && calCurrentYear === todayYear) {
                 dayElement.classList.add('today');
             }
             
-            // Désactiver les dates passées
-            const dayDate = new Date(currentYear, currentMonth, day);
-            if (dayDate < new Date(todayYear, todayMonth, todayDay)) {
+            if (isPastDate) {
                 dayElement.classList.add('disabled');
             } else {
-                // Ajouter un gestionnaire de clic pour les dates futures uniquement
                 dayElement.addEventListener('click', function() {
-                    // Retirer la classe selected de tous les jours
-                    document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
-                    
-                    // Ajouter la classe selected au jour cliqué
+                    document.querySelectorAll('#calendar-days .day').forEach(d => d.classList.remove('selected'));
                     this.classList.add('selected');
                     
-                    // Sauvegarder la date
-                    const selectedDate = new Date(currentYear, currentMonth, day);
-                    reservationData.date = selectedDate;
-                    
-                    // Formater et afficher la date sélectionnée
+                    reservationData.date = new Date(calCurrentYear, calCurrentMonth, day);
                     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-                    const formattedDate = selectedDate.toLocaleDateString('fr-FR', options);
-                    document.getElementById('selected-date').textContent = formattedDate;
-                    
-                    // Mettre à jour le récapitulatif
-                    document.getElementById('summary-date').textContent = formattedDate;
+                    const formattedDate = reservationData.date.toLocaleDateString('fr-FR', options);
+                    if (selectedDateDisplay) selectedDateDisplay.textContent = formattedDate;
+                    if (summaryDate) summaryDate.textContent = formattedDate;
                 });
             }
-            
-            calendarDays.appendChild(dayElement);
+            // Si une date a déjà été sélectionnée et correspond à ce jour, la marquer comme sélectionnée
+            if (reservationData.date && 
+                day === reservationData.date.getDate() &&
+                calCurrentMonth === reservationData.date.getMonth() &&
+                calCurrentYear === reservationData.date.getFullYear() &&
+                !isPastDate) {
+                dayElement.classList.add('selected');
+            }
+            calendarDaysContainer.appendChild(dayElement);
         }
     }
 
+    if (prevMonthBtn && nextMonthBtn) {
+        prevMonthBtn.addEventListener('click', function() {
+            calCurrentMonth--;
+            if (calCurrentMonth < 0) {
+                calCurrentMonth = 11;
+                calCurrentYear--;
+            }
+            updateCalendar();
+        });
+        nextMonthBtn.addEventListener('click', function() {
+            calCurrentMonth++;
+            if (calCurrentMonth > 11) {
+                calCurrentMonth = 0;
+                calCurrentYear++;
+            }
+            updateCalendar();
+        });
+    }
+
     // ====== 4. Sélection de l'horaire ======
-    
-    // Gestion des types de repas (déjeuner/dîner)
-    mealTypeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Retirer la classe active de tous les boutons
-            mealTypeButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Ajouter la classe active au bouton cliqué
-            this.classList.add('active');
-            
-            // Sauvegarder le type de repas
-            const mealType = this.getAttribute('data-meal');
-            reservationData.meal = mealType;
-            
-            // Mettre à jour l'affichage du type de repas
-            document.getElementById('current-meal-type').textContent = 
-                mealType === 'dinner' ? 'Dîner' : 'Déjeuner';
-            
-            // Afficher les horaires correspondants
-            document.getElementById('dinner-times').style.display = 
-                mealType === 'dinner' ? 'grid' : 'none';
-            document.getElementById('lunch-times').style.display = 
-                mealType === 'lunch' ? 'grid' : 'none';
-            
-            // Réinitialiser la sélection de l'heure
-            timeSlots.forEach(slot => slot.classList.remove('active'));
-            reservationData.time = null;
-            document.getElementById('summary-time').textContent = '-';
+    if (mealTypeButtons.length > 0) {
+        // Activer le premier bouton par défaut (ex: Dîner)
+        const defaultActiveMealBtn = Array.from(mealTypeButtons).find(btn => btn.getAttribute('data-meal') === reservationData.meal) || mealTypeButtons[0];
+        defaultActiveMealBtn.classList.add('active');
+        if (currentMealTypeDisplay) currentMealTypeDisplay.textContent = defaultActiveMealBtn.textContent;
+        if (reservationData.meal === 'lunch' && lunchTimesGrid) lunchTimesGrid.style.display = 'grid';
+        else if (dinnerTimesGrid) dinnerTimesGrid.style.display = 'grid';
+
+
+        mealTypeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                mealTypeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                const mealType = this.getAttribute('data-meal');
+                reservationData.meal = mealType;
+                
+                if (currentMealTypeDisplay) currentMealTypeDisplay.textContent = this.textContent;
+                
+                if (lunchTimesGrid) lunchTimesGrid.style.display = mealType === 'lunch' ? 'grid' : 'none';
+                if (dinnerTimesGrid) dinnerTimesGrid.style.display = mealType === 'dinner' ? 'grid' : 'none';
+                
+                document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('active'));
+                reservationData.time = null;
+                if (summaryTime) summaryTime.textContent = '-';
+            });
         });
-    });
+    }
     
-    // Sélection des créneaux horaires
-    timeSlots.forEach(slot => {
-        slot.addEventListener('click', function() {
-            // Retirer la classe active de tous les créneaux
-            timeSlots.forEach(s => s.classList.remove('active'));
-            
-            // Ajouter la classe active au créneau cliqué
-            this.classList.add('active');
-            
-            // Sauvegarder l'heure
-            reservationData.time = this.getAttribute('data-time');
-            
-            // Mettre à jour le récapitulatif
-            document.getElementById('summary-time').textContent = reservationData.time;
+    // Sélection des créneaux horaires (doit être délégué ou ré-attaché si les grilles sont cachées/affichées)
+    function attachTimeSlotListeners() {
+        const allTimeSlots = document.querySelectorAll('.time-slot');
+        allTimeSlots.forEach(slot => {
+            // Pour éviter d'ajouter plusieurs listeners, on peut enlever les anciens d'abord
+            // C'est plus simple de les attacher une fois si les éléments sont toujours dans le DOM
+            // ou d'utiliser la délégation d'événements sur .time-grid
+            slot.addEventListener('click', function() {
+                allTimeSlots.forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                reservationData.time = this.getAttribute('data-time');
+                if (summaryTime) summaryTime.textContent = reservationData.time;
+            });
         });
+    }
+    attachTimeSlotListeners(); // Appeler une fois au chargement
+
+    // ====== 5. Gestion de l'affichage du menu sélectionné ======
+    function displaySelectedMenuInReservation() {
+        const menuValidated = localStorage.getItem(MENU_VALIDATED_KEY);
+        const storedCart = localStorage.getItem(CART_STORAGE_KEY);
+
+        if (!selectedMenuDisplayContainer || !summaryMenuContent || !summaryMenuTotal) return;
+
+        if (menuValidated === 'true' && storedCart) {
+            try {
+                const cartItems = JSON.parse(storedCart);
+                reservationData.selectedMenu = cartItems;
+
+                if (cartItems.length > 0) {
+                    selectedMenuDisplayContainer.innerHTML = '<h4>Votre sélection :</h4><ul class="selected-menu-list"></ul>';
+                    const listElement = selectedMenuDisplayContainer.querySelector('.selected-menu-list');
+                    let menuTotal = 0;
+
+                    cartItems.forEach(item => {
+                        const listItem = document.createElement('li');
+                        let itemPriceText = '';
+                        let itemTotal = 0;
+
+                        // Utiliser priceDisplay pour l'affichage du prix unitaire, price pour le calcul
+                        if (item.priceDisplay && typeof item.priceDisplay === 'string') {
+                            const lowerPriceDisplay = item.priceDisplay.toLowerCase();
+                            if (lowerPriceDisplay === "selon arrivage" || lowerPriceDisplay === "la paire") {
+                                itemPriceText = `(${item.quantity} x ${item.priceDisplay})`;
+                                // Pas de calcul de total pour ces items
+                            } else { // C'est un prix numérique
+                                itemTotal = item.price * item.quantity;
+                                menuTotal += itemTotal;
+                                itemPriceText = `(${item.quantity} x ${item.priceDisplay}) = ${itemTotal.toFixed(2).replace('.',',')}€`;
+                            }
+                        }
+                        listItem.textContent = `${item.name} ${itemPriceText}`;
+                        listElement.appendChild(listItem);
+                    });
+
+                    const totalP = document.createElement('p');
+                    totalP.innerHTML = `<strong>Total Menu : ${menuTotal.toFixed(2).replace('.',',')}€</strong>`;
+                    selectedMenuDisplayContainer.appendChild(totalP);
+
+                    if (viewMenuLinkText) viewMenuLinkText.textContent = 'Modifier le Menu';
+                    if (menuNote) menuNote.textContent = 'Votre menu a été importé. Cliquez sur "Modifier le Menu" pour le changer.';
+                    
+                    updateSummaryMenuDOM(cartItems, menuTotal);
+                } else {
+                    resetMenuDisplayInReservation("Le panier validé est vide.");
+                }
+            } catch (e) {
+                console.error("Erreur de parsing du panier pour l'affichage dans la réservation:", e);
+                resetMenuDisplayInReservation("Erreur lors du chargement du menu.");
+            }
+        } else {
+            resetMenuDisplayInReservation("Vous n'avez pas encore validé de menu.");
+        }
+    }
+
+    function resetMenuDisplayInReservation(message) {
+        if (selectedMenuDisplayContainer) selectedMenuDisplayContainer.innerHTML = `<p class="step-description">${message}</p>`;
+        if (viewMenuLinkText) viewMenuLinkText.textContent = 'Voir le Menu Complet';
+        if (menuNote) menuNote.textContent = 'Note : La sélection de plats se fait sur la page du menu. Validez votre panier là-bas pour qu\'il apparaisse ici.';
+        reservationData.selectedMenu = [];
+        updateSummaryMenuDOM([], 0);
+    }
+
+    function updateSummaryMenuDOM(cartItems, menuTotal) {
+        if (summaryMenuContent) {
+            if (cartItems.length > 0) {
+                summaryMenuContent.innerHTML = '<ul class="summary-menu-items-list"></ul>';
+                const listElement = summaryMenuContent.querySelector('.summary-menu-items-list');
+                cartItems.forEach(item => {
+                    const listItem = document.createElement('li');
+                    let itemDetailsText = `(${item.quantity} x ${item.priceDisplay})`;
+                    listItem.innerHTML = `<span>${item.name}</span> <span style="font-style: italic; font-size: 0.9em;">${itemDetailsText}</span>`;
+                    listElement.appendChild(listItem);
+                });
+            } else {
+                summaryMenuContent.innerHTML = '<p>Aucun menu sélectionné.</p>';
+            }
+        }
+        if (summaryMenuTotal) summaryMenuTotal.textContent = `${menuTotal.toFixed(2).replace('.',',')}€`;
+    }
+    
+    window.addEventListener('focus', function() {
+        const currentVisibleStep = Array.from(reservationSteps).find(step => step.style.display === 'block');
+        if (currentVisibleStep) {
+            const currentStepId = currentVisibleStep.id.replace('-step', '');
+            if (currentStepId === 'menu' || currentStepId === 'summary') {
+                displaySelectedMenuInReservation();
+            }
+        }
     });
 
-    // ====== 5. Confirmation de la réservation ======
+    // ====== 6. Confirmation de la réservation ======
+    if (completeReservationBtn) {
+        completeReservationBtn.addEventListener('click', function() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const privacy = document.getElementById('privacy').checked;
+            
+            if (!name || !email || !phone) {
+                alert('Veuillez remplir tous les champs de coordonnées (Nom, Email, Téléphone).');
+                return;
+            }
+            if (!privacy) {
+                alert('Veuillez accepter la politique de confidentialité.');
+                return;
+            }
+            
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Veuillez entrer une adresse email valide.');
+                return;
+            }
+            
+            const phonePattern = /^((\+)33|0)[1-9](\d{2}){4}$/;
+            if (!phonePattern.test(phone.replace(/\s/g, ''))) { // Enlever les espaces pour la validation
+                alert('Veuillez entrer un numéro de téléphone français valide (ex: 0612345678 ou +33612345678).');
+                return;
+            }
+            
+            // Vérifier si les données de base de la réservation sont là
+            if (reservationData.guests < 1 || !reservationData.date || !reservationData.time) {
+                alert('Des informations de réservation (couverts, date ou horaire) sont manquantes. Veuillez vérifier les étapes précédentes.');
+                showStep('guests'); // Ramener à la première étape si quelque chose manque
+                return;
+            }
+
+            // Soumission du formulaire (simulation)
+            // Ici, vous pourriez envoyer `reservationData` (qui inclut `selectedMenu`)
+            // et les infos du formulaire (name, email, phone, special-requests) à un backend.
+            console.log("Données de réservation à envoyer:", reservationData);
+            console.log("Coordonnées:", { name, email, phone, specialRequests: document.getElementById('special-requests').value });
+
+
+            const confirmationNumber = generateConfirmationNumber();
+            if (confirmationEmailSpan) confirmationEmailSpan.textContent = email;
+            if (confirmationNumberSpan) confirmationNumberSpan.textContent = confirmationNumber;
+            
+            if (confirmationModal) confirmationModal.style.display = 'flex';
+
+            // Optionnel: Nettoyer le localStorage après une réservation réussie
+            // localStorage.removeItem(CART_STORAGE_KEY);
+            // localStorage.removeItem(MENU_VALIDATED_KEY);
+        });
+    }
     
-    completeReservationBtn.addEventListener('click', function() {
-        // Vérifier si tous les champs obligatoires sont remplis
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const privacy = document.getElementById('privacy').checked;
-        
-        if (!name || !email || !phone || !privacy) {
-            alert('Veuillez remplir tous les champs obligatoires.');
-            return;
-        }
-        
-        // Valider l'email
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            alert('Veuillez entrer une adresse email valide.');
-            return;
-        }
-        
-        // Valider le téléphone (format français)
-        const phonePattern = /^((\+)33|0)[1-9](\d{2}){4}$/;
-        if (!phonePattern.test(phone)) {
-            alert('Veuillez entrer un numéro de téléphone valide.');
-            return;
-        }
-        
-        // Générer un numéro de confirmation unique
-        const confirmationNumber = generateConfirmationNumber();
-        
-        // Ajouter les informations dans le modal de confirmation
-        document.getElementById('confirmation-email').textContent = email;
-        document.getElementById('confirmation-number').textContent = confirmationNumber;
-        
-        // Mettre à jour le récapitulatif avec un message de confirmation
-        const summaryDetails = document.querySelector('.summary-details');
-        
-        // Supprimer l'ancien message de confirmation s'il existe
-        const oldMessage = document.querySelector('.confirmation-message');
-        if (oldMessage) {
-            oldMessage.remove();
-        }
-        
-        // Créer un élément de message de confirmation
-        const confirmationMessage = document.createElement('div');
-        confirmationMessage.classList.add('confirmation-message');
-        confirmationMessage.innerHTML = `
-            <i class="fas fa-check-circle"></i>
-            <div class="confirmation-text">
-                <h3>Réservation confirmée !</h3>
-                <p>Numéro de confirmation : <strong>${confirmationNumber}</strong></p>
-                <p>Un email récapitulatif a été envoyé à ${email}</p>
-                <p>Nous nous réjouissons de vous accueillir !</p>
-            </div>
-        `;
-        
-        // Ajouter le message au récapitulatif
-        summaryDetails.appendChild(confirmationMessage);
-        
-        // Afficher le modal de confirmation
-        confirmationModal.style.display = 'flex';
-    });
-    
-    // Fonction pour générer un numéro de confirmation
     function generateConfirmationNumber() {
         const date = new Date();
         const year = date.getFullYear().toString().substr(-2);
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const day = date.getDate().toString().padStart(2, '0');
         const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        
         return `EDR-${year}${month}${day}-${random}`;
     }
     
-    // Fermer le modal
-    closeModalBtn.addEventListener('click', function() {
-        confirmationModal.style.display = 'none';
-    });
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            if (confirmationModal) confirmationModal.style.display = 'none';
+        });
+    }
+    if (okBtn) {
+        okBtn.addEventListener('click', function() {
+            if (confirmationModal) confirmationModal.style.display = 'none';
+            // Réinitialiser le formulaire et les données pour une nouvelle réservation
+            if(contactForm) contactForm.reset();
+            reservationData = { guests: 1, date: null, time: null, meal: 'dinner', selectedMenu: [] };
+            updateGuestsDisplay();
+            // Réinitialiser le calendrier (enlever la sélection)
+            document.querySelectorAll('#calendar-days .day').forEach(d => d.classList.remove('selected'));
+            if(selectedDateDisplay) selectedDateDisplay.textContent = "Aucune";
+            // Réinitialiser l'horaire
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
+            // Réinitialiser le menu (optionnel, car localStorage est nettoyé ou pas)
+            resetMenuDisplayInReservation("Vous n'avez pas encore validé de menu.");
+
+            localStorage.removeItem(CART_STORAGE_KEY); // Nettoyer pour la prochaine fois
+            localStorage.removeItem(MENU_VALIDATED_KEY);
+
+            showStep('guests'); 
+            // window.location.href = 'index.html'; // Ou rediriger
+        });
+    }
     
-    okBtn.addEventListener('click', function() {
-        confirmationModal.style.display = 'none';
-        // Rediriger vers la page d'accueil ou réinitialiser le formulaire
-        window.location.href = 'index.html';
-    });
-    
-    // Fermer le modal en cliquant à l'extérieur
     window.addEventListener('click', function(event) {
         if (event.target === confirmationModal) {
-            confirmationModal.style.display = 'none';
+            if (confirmationModal) confirmationModal.style.display = 'none';
         }
     });
 
     // ====== Initialisation ======
-    
-    // Commencer par l'étape des couverts
+    updateGuestsDisplay();
+    initCalendar();
+    attachTimeSlotListeners(); // S'assurer que les listeners sont attachés
     showStep('guests');
+    // displaySelectedMenuInReservation(); // Appelé dans showStep si c'est l'étape menu ou summary
 });

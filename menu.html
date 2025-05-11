@@ -4,14 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu - L'Étoile d'Or</title>
-  <!-- Feuille de style pour le menu -->
   <link rel="stylesheet" href="static/menu.css">
-  <!-- Font Awesome (icônes) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-  <!-- Header avec logo et navigation de catégories -->
   <header>
     <div class="logo">
       <img src="images/image-removebg-preview.png" alt="L'Étoile d'Or">
@@ -28,11 +25,9 @@
     </nav>
   </header>
 
-  <!-- Zone principale d'affichage du menu -->
   <main>
     <section class="menu-section" id="menu-content">
       
-      <!-- 1) Fruits de mer & Crustacés -->
       <div class="menu-category" data-category="fruits">
         <h2>Fruits de mer &amp; Crustacés</h2>
         <ul class="dish-list">
@@ -94,10 +89,8 @@
         </ul>
       </div>
 
-      <!-- 2) Les Entrées -->
       <div class="menu-category" data-category="entrees" style="display: none;">
         <h2>Les Entrées</h2> <br>
-        <!-- Sous-section : Entrées froides -->
         <h3>ENTRÉES FROIDES</h3>
         <ul class="dish-list">
           <li class="dish-item" data-dish-name="La Grande Salade Périgourdine" data-dish-price="23,00€">
@@ -166,7 +159,6 @@
           </li>
         </ul>
 
-        <!-- Sous-section : Entrées chaudes -->
         <h3>ENTRÉES CHAUDES</h3>
         <ul class="dish-list">
           <li class="dish-item" data-dish-name="Crottin de Chèvre Chaud au Miel, Variété de Salade au Noix" data-dish-price="12,50€">
@@ -216,7 +208,6 @@
           </li>
         </ul>
 
-        <!-- Sous-section : Spécialités Orientales -->
         <h3>SPÉCIALITÉS ORIENTALES</h3>
         <ul class="dish-list">
           <li class="dish-item" data-dish-name="Brick au Thon et Miel" data-dish-price="8,00€">
@@ -258,10 +249,8 @@
         </ul>
       </div>
 
-      <!-- 3) Viandes & Poissons -->
       <div class="menu-category" data-category="viandes-poissons" style="display: none;">
         <h2>Viandes &amp; Poissons</h2> <br>
-        <!-- Sous-section : Sur terre -->
         <h3>SUR TERRE</h3>
         <ul class="dish-list">
           <li class="dish-item" data-dish-name="Cœur de Filet de Bœuf Façon Rossini" data-dish-price="34,50€">
@@ -326,7 +315,6 @@
           </li>
         </ul>
 
-        <!-- Sous-section : En mer -->
         <h3>EN MER</h3>
         <ul class="dish-list">
           <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Belle Sole Meunière 600g" data-dish-price="39,00€">
@@ -404,7 +392,6 @@
         </ul>
       </div>
 
-      <!-- 4) Les Couscous -->
       <div class="menu-category" data-category="couscous" style="display: none;">
         <h2>Les Couscous</h2>
         <ul class="dish-list">
@@ -426,15 +413,7 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <li class="dish-item" data-dish-name="Couscous Azwaw (Brochette, Agneau, Merguez)" data-dish-price="21,50€">
-            <span class="dish-name">Couscous Azwaw (Brochette, Agneau, Merguez)</span>
-            <span class="dish-price">21,50€</span>
-            <div class="quantity-controls">
-              <button class="qty-minus">–</button>
-              <span class="qty-value">0</span>
-              <button class="qty-plus">+</button>
-            </div>
-          </li>
+          
           <li class="dish-item" data-dish-name="Couscous Tamgout (Brochette, Boeuf, Merguez)" data-dish-price="21,50€">
             <span class="dish-name">Couscous Tamgout (Brochette, Boeuf, Merguez)</span>
             <span class="dish-price">21,50€</span>
@@ -555,10 +534,8 @@
         </ul>
       </div>
 
-      <!-- 5) Les Tajines -->
       <div class="menu-category" data-category="tajines" style="display: none;">
         <h2>Les Tajines</h2> <br>
-        <!-- Sous-section : Les Sucrés -->
         <h3>LES SUCRÉS</h3>
         <ul class="dish-list">
           <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tajine Étoile d'Or" data-dish-price="24,50€">
@@ -603,7 +580,6 @@
           <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
         </ul>
 
-        <!-- Sous-section : Les Salés -->
         <h3>LES SALÉS</h3>
         <ul class="dish-list">
           <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tajine aux Poissons" data-dish-price="24,50€">
@@ -639,7 +615,6 @@
         </ul>
       </div>
 
-      <!-- 6) Les Desserts -->
       <div class="menu-category" data-category="desserts" style="display: none;">
         <h2>Les Desserts</h2>
         <ul class="dish-list">
@@ -730,21 +705,17 @@
     </section>
   </main>
 
-  <!-- Panier -->
   <aside class="cart">
     <h2>Panier</h2>
     <ul class="cart-list">
-      <!-- Les éléments sélectionnés apparaîtront ici -->
-    </ul>
+      </ul>
     <p class="cart-total">Total: <span id="cart-total">0,00€</span></p>
-  </aside>
+    </aside>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 L'Étoile d'Or. Tous droits réservés.</p>
   </footer>
 
-  <!-- Script pour la navigation, la gestion des quantités et du panier -->
   <script src="static/menu.js"></script>
 </body>
 </html>

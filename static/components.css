@@ -231,3 +231,112 @@
 #selected-date { /* S'assurer que la cible est correcte si la classe est .selected-date */
     font-weight: bold;
 }
+
+/* Styles pour l'affichage du menu sélectionné dans reservation.html */
+/* À placer dans static/main.css ou un fichier CSS pertinent comme components.css ou layout.css */
+
+#selected-menu-display {
+    background-color: #f8f9fa; /* Fond clair pour la section */
+    border: 1px solid #dee2e6; /* Bordure discrète */
+    border-radius: 8px;        /* Bords arrondis cohérents */
+    padding: 20px;
+    margin: 25px auto;         /* Marge au-dessus/dessous et centrage */
+    max-width: 700px;          /* Largeur max pour la lisibilité */
+    text-align: left;          /* Aligner le texte à gauche */
+}
+
+#selected-menu-display h4 {
+    color: #062f54;            /* Couleur du titre (bleu foncé) */
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f1c40f; /* Ligne jaune sous le titre */
+    padding-bottom: 8px;
+    font-size: 1.2em;          /* Taille du titre */
+}
+
+ul.selected-menu-list {
+    list-style: none;          /* Pas de puces pour la liste */
+    padding-left: 0;
+    margin-bottom: 15px;
+}
+
+ul.selected-menu-list li {
+    padding: 8px 5px;          /* Padding pour chaque item */
+    border-bottom: 1px dotted #ced4da; /* Séparateur pointillé discret */
+    font-size: 15px;
+    color: #333;               /* Couleur du texte des items */
+    line-height: 1.5;          /* Hauteur de ligne pour lisibilité */
+}
+
+ul.selected-menu-list li:last-child {
+    border-bottom: none;       /* Pas de bordure pour le dernier item */
+}
+
+#selected-menu-display p strong { /* Pour le "Total Menu :" */
+    color: #062f54;
+    font-size: 1.1em;
+    margin-top: 10px;
+    display: block; /* Pour qu'il prenne sa propre ligne si besoin */
+}
+
+
+/* Styles pour l'affichage du menu dans le récapitulatif global */
+#summary-menu-details {
+    margin-top: 25px;          /* Espace au-dessus de la section menu dans le récap */
+    padding-top: 20px;         /* Espace intérieur en haut */
+    border-top: 1px dashed #b0bec5; /* Séparateur plus visible */
+}
+
+#summary-menu-details h4 {
+    font-size: 1.15em;         /* Taille du titre "Menu Sélectionné :" */
+    color: #062f54;
+    margin-bottom: 12px;
+}
+
+ul.summary-menu-items-list {
+    list-style: none;
+    padding-left: 10px;        /* Léger retrait pour les items */
+    margin-bottom: 10px;
+}
+
+ul.summary-menu-items-list li {
+    font-size: 0.95em;
+    color: #333;
+    margin-bottom: 6px;        /* Espace entre les items du menu */
+    display: flex;
+    justify-content: space-between; /* Aligner nom et détails (quantité x prix) */
+    padding: 4px 0;
+}
+ul.summary-menu-items-list li span:first-child { /* Nom du plat */
+    flex-grow: 1;              /* Le nom prend l'espace disponible */
+    margin-right: 10px;        /* Espace avant les détails de quantité/prix */
+}
+ul.summary-menu-items-list li span:last-child { /* Détails (quantité x prix) */
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;               /* Couleur plus discrète pour les détails */
+    white-space: nowrap;       /* Empêcher le retour à la ligne des détails */
+}
+
+
+#summary-menu-details p strong { /* Pour "Total Menu :" dans le récap */
+    color: #062f54;
+    font-weight: bold;
+}
+#summary-menu-total {
+    font-weight: bold;
+    color: #d35400;            /* Mettre le total du menu en évidence avec une couleur distincte */
+    font-size: 1.05em;
+}
+
+/* Style pour le lien/bouton Voir/Modifier le menu dans l'étape menu */
+#view-menu-link { /* Hérite de .next-btn mais peut avoir des surcharges */
+    text-decoration: none;
+    display: inline-flex; /* Assurer l'alignement de l'icône et du texte */
+    align-items: center;
+    gap: 8px; /* Espace entre icône et texte */
+    padding: 12px 25px !important; /* Forcer le padding s'il est surchargé */
+}
+#view-menu-link i {
+    font-size: 1.1em; /* Taille de l'icône */
+}
