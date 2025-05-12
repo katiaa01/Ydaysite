@@ -705,12 +705,19 @@
     </section>
   </main>
 
-  <aside class="cart">
+  <aside class="cart cart-modal" id="cart-detailed-view">
+    <button class="close-cart-btn" id="close-cart-detailed-view" aria-label="Fermer le panier">&times;</button>
     <h2>Panier</h2>
     <ul class="cart-list">
       </ul>
     <p class="cart-total">Total: <span id="cart-total">0,00€</span></p>
-    </aside>
+    <button id="validate-cart-btn" class="button-validate-cart" disabled>Valider et Retourner à la Réservation</button>
+  </aside>
+
+  <div class="cart-fab" id="cart-fab">
+    <i class="fas fa-shopping-basket"></i>
+    <span class="cart-fab-badge" id="cart-fab-badge">0</span>
+  </div>
 
   <footer>
     <p>&copy; <span id="current-year-footer-menu">2025</span> L'Étoile d'Or. Tous droits réservés.</p>

@@ -15,12 +15,10 @@ body {
   font-family: 'Times New Roman', serif;
   background-color: #f9f9f9;
   color: #333;
-  padding-bottom: 80px; /* Espace pour le panier fixe en bas sur mobile */
+  /* padding-bottom: 80px; Retiré car le FAB prendra sa place */
 }
 
-/* --------------------
-   HEADER
--------------------- */
+/* ... (Styles Header, Navigation, Main, Section, Dish List, Quantity Controls inchangés) ... */
 header {
   background-color: #062f54;
   padding: 20px;
@@ -35,9 +33,6 @@ header {
   height: 80px;
 }
 
-/* --------------------
-   NAVIGATION
--------------------- */
 .menu-navigation ul {
   list-style: none;
   display: flex;
@@ -81,13 +76,10 @@ header {
   font-weight: bold;
 }
 
-/* --------------------
-   MAIN & SECTION
--------------------- */
 main {
   padding: 20px;
   max-width: 1000px;
-  margin: 20px auto;
+  margin: 20px auto 100px; /* Augmenter la marge en bas pour le FAB */
 }
 
 .menu-section {
@@ -127,9 +119,6 @@ main {
   padding-bottom: 5px;
 }
 
-/* --------------------
-   DISH LIST & QUANTITY CONTROLS
--------------------- */
 .dish-list {
   list-style: none;
   padding: 0;
@@ -139,13 +128,13 @@ main {
 
 .dish-item {
   display: flex;
-  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
-  align-items: center; /* Centre verticalement les éléments sur la ligne principale */
+  flex-wrap: wrap; 
+  align-items: center; 
   justify-content: space-between;
   padding: 15px 10px;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.2s;
-  gap: 10px; /* Espace entre les éléments principaux (nom, prix, contrôles) */
+  gap: 10px; 
 }
 .dish-item:hover {
     background-color: #f8f9fa;
@@ -157,59 +146,51 @@ main {
 
 .dish-name {
   font-size: 18px;
-  flex-grow: 1; /* Le nom du plat prend l'espace disponible */
+  flex-grow: 1; 
   font-weight: 500;
-  /* order: 1; /* Ordre d'affichage */
 }
 
 .dish-name small {
     display: block;
-    font-size: 0.85em;
+    font-size: 0.85em; 
     color: #555;
     margin-top: 4px;
-    line-height: 1.3;
-    width: 100%; /* Pour que la description prenne toute la largeur sous le nom */
-    /* order: 2; /* Afficher la description sous le nom */
+    line-height: 1.3; 
+    width: 100%;
 }
 
 .dish-price {
-  font-size: 17px;
+  font-size: 17px; 
   font-weight: bold;
-  color: #062f54;
-  min-width: 80px; /* Ajusté pour être un peu moins large que 90px */
+  color: #062f54; 
+  min-width: 80px;
   text-align: right;
-  margin-left: auto; /* Pousse le prix et les contrôles à droite si l'espace le permet */
-  padding-left: 10px; /* Espace par rapport au nom du plat */
-  /* order: 3; */
+  margin-left: auto; 
+  padding-left: 10px; 
   flex-shrink: 0;
 }
 
 .quantity-controls {
   display: flex;
   align-items: center;
-  margin-left: 15px; /* Espace par rapport au prix */
-  /* order: 4; */
+  margin-left: 15px;
   flex-shrink: 0;
 }
-/* Pour s'assurer que la description est en dessous sur une ligne dédiée */
+
 .dish-item .dish-description {
-    flex-basis: 100%; /* Occupe toute la largeur, forçant le retour à la ligne */
-    order: 2; /* Se place après le nom du plat principal mais avant prix/quantité si item-main-info n'est pas utilisé */
+    flex-basis: 100%; 
+    order: 2; 
     font-size: 14px;
     color: #555;
-    margin: 5px 0 0 0; /* Marge au-dessus, pas de marge en bas */
+    margin: 5px 0 0 0; 
     line-height: 1.4;
     font-style: italic;
 }
-
 
 .special .dish-name strong {
   color: #d35400;
 }
 
-/* --------------------
-   QUANTITY CONTROLS (Menu page)
--------------------- */
 .quantity-controls button {
   background-color: #f1c40f;
   border: 1px solid #062f54;
@@ -239,166 +220,180 @@ main {
   color: #062f54;
 }
 
+
 /* --------------------
-   CART (PANIER) - AMÉLIORATIONS VISUELLES
+   NOUVEAU PANIER FLOTTANT / MODAL
 -------------------- */
-.cart {
-  position: fixed;
-  top: 100px; /* Un peu plus bas pour ne pas être collé au header */
-  right: 20px;
-  width: 340px; /* Légèrement plus large pour plus d'aisance */
-  background-color: #ffffff;
-  border: 2px solid #062f54;
-  border-radius: 10px;
-  padding: 20px 25px; /* Padding uniforme */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2); /* Ombre plus douce et diffuse */
-  z-index: 999;
-  display: flex; /* Pour organiser le contenu verticalement */
-  flex-direction: column; /* Empiler les enfants verticalement */
+
+/* Icône flottante du panier (FAB) */
+.cart-fab {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: #062f54; /* Bleu foncé du thème */
+    color: #f1c40f; /* Icône jaune */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Taille de l'icône panier */
+    cursor: pointer;
+    box-shadow: 3px 3px 0px 0px #001a35, 0 8px 15px rgba(0,0,0,0.2); /* Ombre style bouton + ombre diffuse */
+    z-index: 1005; /* Au-dessus du panier détaillé mais sous modales de confirmation si besoin */
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
 }
 
-.cart h2 {
-  font-size: 26px; /* Titre "Panier" plus grand et visible */
+.cart-fab:hover {
+    background-color: #f1c40f; /* Jaune au survol */
+    color: #062f54; /* Icône bleue au survol */
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 5px 5px 0px 0px #001a35, 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.cart-fab-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #e74c3c; /* Rouge pour la notification */
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #062f54; /* Bordure pour la pastille */
+    opacity: 0; /* Cachée par défaut, affichée par JS si > 0 */
+    transform: scale(0.5);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cart-fab-badge.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Panier détaillé (style modale/panneau) */
+.cart-modal {
+    position: fixed;
+    bottom: 95px; /* Au-dessus du FAB */
+    right: 25px;
+    width: 350px; /* Largeur du panier détaillé */
+    max-height: 70vh; /* Hauteur maximale */
+    background-color: #ffffff;
+    border: 2px solid #062f54;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    z-index: 1004; /* Sous le FAB s'il doit le chevaucher, mais au-dessus du reste */
+    display: flex;
+    flex-direction: column;
+    padding: 0; /* Le padding sera sur les enfants pour un meilleur contrôle du scroll */
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    visibility: hidden; /* Caché et non interactif par défaut */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.cart-modal.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+}
+
+.cart-modal .close-cart-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    z-index: 10; /* Au-dessus du contenu du panier */
+}
+.cart-modal .close-cart-btn:hover {
+    color: #062f54;
+}
+
+
+.cart-modal h2 {
+  font-size: 22px; /* Titre "Panier" */
   color: #062f54;
-  margin-top: 0;
-  margin-bottom: 20px; /* Plus d'espace sous le titre */
+  margin: 0;
+  padding: 20px 25px 15px; /* Padding pour le titre */
   text-align: center;
   border-bottom: 2px solid #f1c40f;
-  padding-bottom: 12px;
-  width: 100%; /* S'assurer que la bordure prend toute la largeur */
 }
 
-.cart-list {
+.cart-modal .cart-list {
   list-style: none;
-  padding: 0;
-  flex-grow: 1; /* Permet à la liste de prendre l'espace disponible avant de scroller */
-  max-height: 320px; /* Hauteur max ajustée */
+  padding: 0 25px; /* Padding horizontal pour la liste */
+  flex-grow: 1;
+  max-height: calc(70vh - 160px); /* Hauteur max pour la liste (70vh - hauteur titre - hauteur total - hauteur bouton validation) */
   overflow-y: auto;
-  margin-bottom: 20px;
-  padding-right: 8px; /* Espace pour la scrollbar pour ne pas cacher le contenu */
+  margin-bottom: 0; /* Pas de marge en bas, gérée par le padding du conteneur du total/bouton */
 }
+/* Styles scrollbar comme avant */
+.cart-modal .cart-list::-webkit-scrollbar { width: 8px; }
+.cart-modal .cart-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.cart-modal .cart-list::-webkit-scrollbar-thumb { background: #062f54; border-radius: 10px; }
+.cart-modal .cart-list::-webkit-scrollbar-thumb:hover { background: #001a35; }
 
-.cart-list::-webkit-scrollbar {
-  width: 8px;
-}
-.cart-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-.cart-list::-webkit-scrollbar-thumb {
-  background: #062f54; /* Scrollbar assortie au thème */
-  border-radius: 10px;
-}
-.cart-list::-webkit-scrollbar-thumb:hover {
-  background: #001a35; /* Plus foncé au survol */
-}
 
-.cart-item {
+.cart-modal .cart-item {
   display: flex;
-  align-items: center; /* Centrer verticalement tous les éléments de l'item */
+  align-items: center;
   justify-content: space-between;
-  padding: 12px 0; /* Plus de padding vertical pour chaque item */
+  padding: 12px 0;
   border-bottom: 1px solid #f0f0f0;
-  gap: 10px; /* Espace entre les éléments enfants (nom, contrôles, prix, poubelle) */
+  gap: 10px;
+}
+.cart-modal .cart-item:last-child { border-bottom: none; }
+
+.cart-modal .cart-item-name { font-size: 16px; flex-grow: 1; margin-right: 8px; font-weight: 500; line-height: 1.3; }
+.cart-modal .cart-quantity-controls { display: flex; align-items: center; flex-shrink: 0; margin: 0 8px; }
+.cart-modal .cart-quantity-controls button { background-color: #fdfdfd; border: 1px solid #ccc; color: #062f54; padding: 4px 8px; cursor: pointer; font-size: 15px; border-radius: 4px; transition: background-color 0.2s, border-color 0.2s; min-width: 28px; }
+.cart-modal .cart-quantity-controls button:hover { background-color: #f1c40f; border-color: #062f54; }
+.cart-modal .cart-qty-value { margin: 0 8px; min-width: 24px; text-align: center; font-size: 15px; font-weight: bold; }
+.cart-modal .cart-item-price { font-size: 16px; font-weight: 500; min-width: 75px; text-align: right; color: #062f54; flex-shrink: 0; margin-left: 8px; }
+.cart-modal .remove-from-cart { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 20px; padding: 5px; transition: color 0.2s, transform 0.2s; line-height: 1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cart-modal .remove-from-cart:hover { color: #c0392b; transform: scale(1.15); }
+
+.cart-modal-footer { /* Nouveau conteneur pour le total et le bouton valider */
+    padding: 15px 25px 20px; /* Padding pour cette section */
+    border-top: 2px solid #f1c40f;
+    background-color: #f9f9f9; /* Léger fond pour distinguer */
+    border-bottom-left-radius: 8px; /* Arrondir les coins inférieurs avec le parent */
+    border-bottom-right-radius: 8px;
 }
 
-.cart-item:last-child {
-  border-bottom: none;
-}
-
-.cart-item-name {
-  font-size: 16px; /* Taille de police pour le nom */
-  flex-grow: 1;    /* Le nom prend l'espace principal */
-  margin-right: 8px; /* Espace avant les contrôles de quantité */
-  font-weight: 500;
-  line-height: 1.3; /* Pour les noms de plats longs */
-}
-
-.cart-quantity-controls {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0; /* Empêche les contrôles de quantité de rétrécir */
-  margin: 0 8px; /* Marge des deux côtés */
-}
-
-.cart-quantity-controls button {
-  background-color: #fdfdfd; /* Fond presque blanc pour les boutons +/- */
-  border: 1px solid #ccc;    /* Bordure discrète */
-  color: #062f54;
-  padding: 4px 8px;          /* Padding ajusté */
-  cursor: pointer;
-  font-size: 15px;
-  border-radius: 4px;
-  transition: background-color 0.2s, border-color 0.2s;
-  min-width: 28px;
-}
-
-.cart-quantity-controls button:hover {
-  background-color: #f1c40f; /* Jaune au survol */
-  border-color: #062f54;
-}
-
-.cart-qty-value {
-  margin: 0 8px;
-  min-width: 24px;
-  text-align: center;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.cart-item-price {
-  font-size: 16px; /* Prix un peu plus grand */
-  font-weight: 500;
-  min-width: 75px; /* Espace pour le prix */
-  text-align: right;
-  color: #062f54;
-  flex-shrink: 0; /* Empêche le prix de rétrécir */
-  margin-left: 8px; /* Espace par rapport aux contrôles de quantité */
-}
-
-.remove-from-cart {
-  background: none;
-  border: none;
-  color: #e74c3c; /* Rouge vif pour la poubelle */
-  cursor: pointer;
-  font-size: 20px; /* Taille de l'icône poubelle */
-  padding: 5px;    /* Augmenter la zone cliquable */
-  transition: color 0.2s, transform 0.2s;
-  line-height: 1;  /* Important pour l'alignement vertical de l'icône */
-  display: flex;   /* Pour centrer l'icône si elle ne remplit pas le padding */
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0; /* Empêche la poubelle de rétrécir */
-}
-.remove-from-cart:hover {
-    color: #c0392b; /* Rouge plus foncé au survol */
-    transform: scale(1.15); /* Léger agrandissement au survol */
-}
-
-/* --------------------
-   CART TOTAL & VALIDATION BUTTON
--------------------- */
-.cart-total {
-  font-size: 20px;
+.cart-modal .cart-total {
+  font-size: 18px; /* Total un peu plus petit dans la modale */
   font-weight: bold;
   text-align: right;
-  margin-top: auto; /* Pousse le total et le bouton vers le bas si .cart est flex column */
-  padding-top: 15px;
-  border-top: 2px solid #f1c40f;
   color: #062f54;
-  width: 100%; /* S'assurer que la bordure prend toute la largeur */
+  margin-top: 0; /* Pas de marge en haut car dans .cart-modal-footer */
+  padding-top: 0; /* Pas de padding en haut */
+  border-top: none; /* La bordure est sur .cart-modal-footer */
+  margin-bottom: 15px; /* Espace avant le bouton de validation */
 }
 
-.button-validate-cart {
+.cart-modal .button-validate-cart {
   display: block;
   width: 100%;
-  padding: 14px 15px; /* Padding augmenté pour un bouton plus proéminent */
-  margin-top: 15px; /* Espace au-dessus du bouton */
+  padding: 12px 15px;
+  margin-top: 0; /* Pas de marge en haut */
   background-color: #28a745;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 18px; /* Texte du bouton plus grand */
+  font-size: 17px;
   font-weight: bold;
   font-family: 'Times New Roman', serif;
   cursor: pointer;
@@ -406,25 +401,8 @@ main {
   box-shadow: 3px 3px 0px 0px #1e7e34;
   text-align: center;
 }
+/* Styles de survol et actif pour button-validate-cart sont déjà définis plus haut et s'appliqueront */
 
-.button-validate-cart:hover:not(:disabled) {
-  background-color: #218838;
-  transform: translateY(-2px) translateX(-1px);
-  box-shadow: 5px 5px 0px 0px #155724;
-}
-
-.button-validate-cart:active:not(:disabled) {
-  transform: translateY(1px) translateX(1px);
-  box-shadow: 1px 1px 0px 0px #155724;
-  background-color: #1e7e34;
-}
-
-.button-validate-cart:disabled {
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
-  box-shadow: 3px 3px 0px 0px #aaaaaa;
-}
 
 /* --------------------
    FOOTER
@@ -441,139 +419,84 @@ footer {
    RESPONSIVE
 -------------------- */
 @media (max-width: 1024px) {
-    .cart {
-        width: 300px; /* Ajuster la largeur du panier */
-        top: auto;
-        bottom: 15px;
-        right: 15px;
-        max-height: 40vh; /* Réduire un peu si trop grand */
-        padding: 15px 20px; /* Ajuster padding */
+    /* .cart (l'ancien aside fixe) n'existe plus, les styles pour .cart-modal gèrent le responsive */
+    .cart-modal {
+        width: 320px; /* Ajuster si besoin */
+        bottom: 90px;
+        right: 20px;
     }
-    .menu-navigation ul {
-        gap: 10px;
-    }
-    .menu-navigation li {
-        padding: 8px 12px;
-    }
-    body {
-        padding-bottom: 180px; /* Espace pour le panier fixe en bas + bouton */
-    }
-    header {
-        padding: 15px;
-    }
-    .logo img {
-        height: 70px;
-    }
-    .cart h2 {
-        font-size: 22px; /* Titre du panier un peu plus petit */
-    }
+    .menu-navigation ul { gap: 10px; }
+    .menu-navigation li { padding: 8px 12px; }
+    header { padding: 15px; }
+    .logo img { height: 70px; }
 }
 
-
 @media (max-width: 768px) {
-  .menu-navigation ul {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .menu-category h2 {
-    font-size: 28px;
-  }
-  .dish-item {
-    flex-direction: column;
-    align-items: stretch; /* Les éléments s'étirent pour prendre la largeur */
-    gap: 8px;
-  }
+  .menu-navigation ul { flex-direction: column; gap: 10px; }
+  .menu-category h2 { font-size: 28px; }
+  .dish-item { flex-direction: column; align-items: stretch; gap: 8px; }
   .dish-item > .dish-name, 
   .dish-item > .dish-price, 
   .dish-item > .quantity-controls,
-  .dish-item > .dish-description {
-      width: 100%;
-      margin-left: 0;
-      text-align: left; /* Aligner tout à gauche pour la cohérence */
+  .dish-item > .dish-description { width: 100%; margin-left: 0; text-align: left; }
+  .dish-price { margin-top: 5px; text-align: left; }
+  .quantity-controls { margin-top: 8px; justify-content: flex-start; }
+  .dish-description { order: 4; }
+
+  .cart-fab { /* Positionner le FAB un peu plus haut sur mobile pour ne pas gêner la navigation OS */
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
   }
-  .dish-price {
-      margin-top: 5px;
-      text-align: left;
-  }
-  .quantity-controls {
-      margin-top: 8px;
-      justify-content: flex-start;
-  }
-  .dish-description {
-    order: 4; /* Assurer que la description vient après les contrôles */
+  .cart-fab-badge {
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      top: -4px;
+      right: -4px;
   }
 
-  .cart {
-    width: calc(100% - 20px);
+  .cart-modal { /* Le panier détaillé prend plus de place sur mobile */
+    width: calc(100% - 20px); /* Presque pleine largeur */
     left: 10px;
     right: 10px;
-    bottom: 10px;
-    top: auto;
-    max-height: 45vh;
-    z-index: 1001;
+    bottom: 10px; /* Près du bas de l'écran */
+    top: auto; /* S'assurer qu'il n'est pas fixé en haut */
+    max-height: 80vh; /* Peut prendre plus de hauteur */
+    transform: translateY(100%); /* Part du bas pour l'animation d'ouverture */
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), visibility 0s 0.3s;
   }
-  .cart h2 {
-      font-size: 20px;
+  .cart-modal.open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), visibility 0s 0s;
   }
-  .cart-item {
-    flex-wrap: wrap; /* Permettre aux items du panier de passer à la ligne */
-  }
-  .cart-item-name {
-      font-size: 15px; /* Nom un peu plus grand sur mobile */
-      flex-basis: 100%; /* Le nom prend toute la largeur */
-      margin-bottom: 5px; /* Espace sous le nom avant les contrôles */
-  }
-  .cart-quantity-controls {
-      order: 2; /* Mettre les contrôles avant le prix et la poubelle */
-      margin: 0 0 0 auto; /* Pousser vers la droite, après le nom */
-  }
-  .cart-item-price {
-      font-size: 15px;
-      order: 3;
-      margin-left: 10px;
-  }
-  .remove-from-cart {
-      order: 4;
-      margin-left: 10px;
-  }
-   body {
-        padding-bottom: 220px; /* Encore plus d'espace pour le panier en mode "plein écran" */
-    }
+
+  .cart-modal h2 { font-size: 20px; padding: 15px 20px 10px; }
+  .cart-modal .cart-list { padding: 0 20px; max-height: calc(80vh - 150px); } /* Ajuster la hauteur max de la liste */
+  .cart-modal .cart-item-name, .cart-modal .cart-item-price { font-size: 15px; }
+  .cart-modal-footer { padding: 15px 20px; }
+  .cart-modal .button-validate-cart { font-size: 16px; padding: 12px; }
+
 }
 
 @media (max-width: 480px) {
-    .menu-category h2 {
-        font-size: 24px;
-    }
-    .menu-navigation li {
-        font-size: 0.9em;
-        padding: 8px 10px;
-    }
-    .dish-name {
-        font-size: 16px;
-    }
-    .dish-name small {
-        font-size: 0.8em;
-    }
-    .dish-price {
-        font-size: 16px;
-    }
-    .quantity-controls button {
-        font-size: 16px;
-        padding: 4px 8px;
-    }
-    .qty-value {
-        font-size: 16px;
-    }
-     .cart {
-        padding: 12px;
-        max-height: 50vh; /* Permettre au panier de prendre plus de hauteur */
-    }
-    .cart-item {
-        padding: 8px 0;
-    }
-    .button-validate-cart {
-        font-size: 16px;
-        padding: 12px 15px; /* Bouton de validation un peu plus grand */
-    }
+    .menu-category h2 { font-size: 24px; }
+    .menu-navigation li { font-size: 0.9em; padding: 8px 10px; }
+    .dish-name, .dish-price { font-size: 16px; }
+    .dish-name small { font-size: 0.8em; }
+    .quantity-controls button, .qty-value { font-size: 16px; }
+    
+    .cart-modal { padding: 0; } /* Le padding est géré par les enfants directs */
+    .cart-modal h2 { padding: 15px; font-size: 18px; }
+    .cart-modal .cart-list { padding: 0 15px; }
+    .cart-modal .cart-item { padding: 10px 0; gap: 5px;}
+    .cart-modal .cart-item-name, .cart-modal .cart-item-price, .cart-modal .cart-qty-value { font-size: 14px; }
+    .cart-modal .cart-quantity-controls button { font-size: 14px; padding: 3px 6px; min-width: 24px;}
+    .cart-modal .remove-from-cart { font-size: 18px; padding: 3px;}
+    .cart-modal-footer { padding: 10px 15px; }
+    .cart-modal .cart-total { font-size: 16px; margin-bottom: 10px; }
+    .cart-modal .button-validate-cart { font-size: 15px; padding: 10px; }
 }

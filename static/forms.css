@@ -436,3 +436,51 @@
     margin: 5px 0;
     color: #333;
 }
+
+/* Dans static/forms.css ou un fichier CSS pertinent */
+
+/* ... (styles existants pour .back-btn, .next-btn etc.) ... */
+
+.refresh-btn {
+    /* Hérite de certains styles de base des boutons si vous avez une classe commune,
+       sinon, définissez-les ici explicitement */
+    padding: 10px 20px;
+    border-radius: 8px; /* Cohérent avec les autres boutons */
+    font-size: 15px;    /* Taille de police */
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+    text-align: center;
+    display: inline-flex; /* Pour aligner icône et texte */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espace entre l'icône et le texte */
+    min-width: 240px; /* Largeur minimale pour le texte complet */
+
+    /* Style spécifique - similaire au bouton "Retour" */
+    background-color: #ffffff;
+    color: #062f54;
+    border: 2px solid #062f54;
+    box-shadow: 3px 3px 0px 0px #062f54; /* Ombre cohérente */
+}
+
+.refresh-btn:hover {
+    background-color: #062f54; /* Fond bleu au survol */
+    color: #f1c40f;             /* Texte jaune au survol */
+    border-color: #062f54;
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 5px 5px 0px 0px #001a35; /* Ombre plus foncée au survol */
+}
+
+.refresh-btn:active {
+    background-color: #001a35; /* Bleu encore plus foncé au clic */
+    color: #f1c40f;
+    transform: translateY(1px) translateX(1px);
+    box-shadow: 1px 1px 0px 0px #001a35; /* Ombre "enfoncée" */
+}
+
+.refresh-btn i {
+    /* L'icône est déjà dans le HTML, pas besoin de la gérer via ::before si elle est déjà là */
+    /* font-size: 1.1em; Si vous voulez ajuster la taille de l'icône FontAwesome */
+}
