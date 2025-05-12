@@ -1,10 +1,10 @@
-// static/script.js (Fichier complet avec bouton d'actualisation)
+// static/script.js
 document.addEventListener('DOMContentLoaded', function() {
     let reservationData = {
         guests: 1,
         date: null,
         time: null,
-        meal: 'dinner',
+        meal: 'dinner', // Assurez-vous que cela correspond au bouton actif par défaut dans le HTML
         selectedMenu: [],
         menuTotal: 0
     };
@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const CART_STORAGE_KEY = 'restaurantEtoileDorCart';
     const MENU_VALIDATED_KEY = 'restaurantEtoileDorMenuValidated';
 
+    // Sélections DOM (s'assurer que tous les IDs correspondent à votre HTML)
     const menuItemsNav = document.querySelectorAll('.reservation-menu .menu-item');
-    const reservationSteps = document.querySelectorAll('.reservation-step');
+    const reservationSteps = document.querySelectorAll('.reservation-step'); // Collection de toutes les étapes
     const nextButtons = document.querySelectorAll('.next-btn');
     const backButtons = document.querySelectorAll('.back-btn');
     
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewMenuLink = document.getElementById('view-menu-link');
     const viewMenuLinkText = document.getElementById('view-menu-link-text');
     const menuNote = document.getElementById('menu-note');
-    const refreshMenuButton = document.getElementById('refresh-menu-selection'); // Nouveau bouton
+    const refreshMenuButton = document.getElementById('refresh-menu-selection');
 
     const summaryMenuDetailsSection = document.getElementById('summary-menu-details');
     const summaryMenuContent = document.getElementById('summary-menu-content');
@@ -48,36 +49,62 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-details-form');
     const completeReservationBtn = document.getElementById('complete-reservation');
     const confirmationModal = document.getElementById('confirmation-modal');
-    const closeModalBtn = confirmationModal.querySelector('.close-modal');
-    const okBtn = confirmationModal.querySelector('.ok-btn');
+    const closeModalBtn = confirmationModal.querySelector('.close-modal'); // Assurez-vous que confirmationModal est trouvé avant
+    const okBtn = confirmationModal.querySelector('.ok-btn'); // Idem
     const confirmationEmailSpan = document.getElementById('confirmation-email');
     const confirmationNumberSpan = document.getElementById('confirmation-number');
 
     // ====== 1. Navigation entre les étapes ======
-    function showStep(stepIdToShow, fromReload = false) { // Ajout de fromReload
+    function showStep(stepIdToShow, fromReload = false) {
+        // Vérification robuste de stepIdToShow
+        if (!stepIdToShow || typeof stepIdToShow !== 'string' || stepIdToShow.trim() === '') {
+            console.error(`showStep a été appelée avec un stepIdToShow invalide: "${stepIdToShow}". Affichage de l'étape 'guests' par défaut.`);
+            stepIdToShow = 'guests'; // Default à 'guests' si l'ID est problématique
+        }
+
+        let stepWasDisplayed = false;
         reservationSteps.forEach(step => {
-            step.style.display = 'none';
-            step.style.opacity = 0;
+            if (step.id === `${stepIdToShow}-step`) {
+                step.style.display = 'block';
+                step.style.opacity = 0; // Pour animation
+                setTimeout(() => {
+                    step.style.opacity = 1;
+                }, 50);
+                stepWasDisplayed = true;
+            } else {
+                step.style.display = 'none';
+                step.style.opacity = 0;
+            }
         });
         
-        const targetStep = document.getElementById(`${stepIdToShow}-step`);
-        if (targetStep) {
-            targetStep.style.display = 'block';
-            setTimeout(() => {
-                targetStep.style.opacity = 1;
-            }, 50);
-
-            if (stepIdToShow === 'menu' || stepIdToShow === 'summary' || fromReload) {
-                loadAndDisplayMenuFromStorage(); 
-            }
-            if (stepIdToShow === 'summary') {
-                updateFullSummaryDisplay();
+        // Si, après la boucle, aucune étape n'a été affichée (l'ID était invalide et même le fallback n'a pas marché)
+        if (!stepWasDisplayed) {
+            console.error(`Étape cible "${stepIdToShow}-step" non trouvée dans le DOM.`);
+            const guestsStepFallback = document.getElementById('guests-step');
+            if (guestsStepFallback) {
+                console.warn("Affichage de l'étape 'guests' par défaut car l'étape demandée est introuvable ou invalide.");
+                guestsStepFallback.style.display = 'block';
+                setTimeout(() => { guestsStepFallback.style.opacity = 1; }, 50);
+                stepIdToShow = 'guests'; // Important pour updateNavigationMenu
+            } else {
+                console.error("L'étape 'guests-step' de secours est également introuvable. Le contenu de la page ne peut pas s'afficher.");
+                return; // Quitter si aucune étape ne peut être montrée
             }
         }
+
+        // Mettre à jour l'affichage du menu ou le récapitulatif si nécessaire
+        if (stepIdToShow === 'menu' || stepIdToShow === 'summary' || fromReload) {
+            loadAndDisplayMenuFromStorage(); 
+        }
+        if (stepIdToShow === 'summary') {
+            updateFullSummaryDisplay();
+        }
+        
         updateNavigationMenu(stepIdToShow);
     }
     
     function updateNavigationMenu(currentStepId) {
+        if (!currentStepId) return; // Ne rien faire si currentStepId est invalide
         const stepOrder = ['guests', 'date', 'placement', 'time', 'menu', 'summary'];
         const currentIndex = stepOrder.indexOf(currentStepId);
 
@@ -93,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 switch (itemStep) {
                     case 'guests':    stepIsDone = reservationData.guests >= 1; break;
                     case 'date':      stepIsDone = !!reservationData.date; break;
-                    case 'placement': stepIsDone = true; break;
+                    case 'placement': stepIsDone = true; break; 
                     case 'time':      stepIsDone = !!reservationData.time; break;
                     case 'menu':      stepIsDone = localStorage.getItem(MENU_VALIDATED_KEY) === 'true' && reservationData.selectedMenu.length > 0; break;
                 }
@@ -107,14 +134,18 @@ document.addEventListener('DOMContentLoaded', function() {
     menuItemsNav.forEach(item => {
         item.addEventListener('click', function() {
             const stepToNavigate = this.getAttribute('data-step');
-            showStep(stepToNavigate);
+            if (stepToNavigate) showStep(stepToNavigate);
         });
     });
     
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const currentStepId = this.closest('.reservation-step').id.replace('-step', '');
+            const currentStepElement = this.closest('.reservation-step');
+            if (!currentStepElement) return;
+            const currentStepId = currentStepElement.id.replace('-step', '');
             const nextStepId = this.getAttribute('data-next');
+            if (!nextStepId) return;
+
             let canProceed = true;
             if (currentStepId === 'guests' && reservationData.guests < 1) {
                 alert('Veuillez sélectionner le nombre de couverts.'); canProceed = false;
@@ -132,11 +163,10 @@ document.addEventListener('DOMContentLoaded', function() {
     backButtons.forEach(button => {
         button.addEventListener('click', function() {
             const prevStepId = this.getAttribute('data-back');
-            showStep(prevStepId);
+            if (prevStepId) showStep(prevStepId);
         });
     });
 
-    // ====== 2. Sélection du nombre de couverts ======
     function updateGuestsDisplay() {
         if (guestsCountDisplay) guestsCountDisplay.textContent = reservationData.guests;
         if (summaryGuests) summaryGuests.textContent = reservationData.guests > 0 ? `${reservationData.guests} ${reservationData.guests > 1 ? 'personnes' : 'personne'}` : '-';
@@ -148,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
         increaseBtn.addEventListener('click', () => { reservationData.guests++; updateGuestsDisplay(); });
     }
     
-    // ====== 3. Sélection de la date (Calendrier) ======
     let calendarDate = new Date();
     let calCurrentMonth = calendarDate.getMonth();
     let calCurrentYear = calendarDate.getFullYear();
@@ -202,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function() {
         nextMonthBtn.addEventListener('click', () => { calCurrentMonth++; if (calCurrentMonth > 11) { calCurrentMonth = 0; calCurrentYear++; } updateCalendar(); });
     }
 
-    // ====== 4. Sélection de l'horaire ======
     function initializeTimeStep() {
         const activeMealBtn = document.querySelector('.meal-type-btn.active');
         if (activeMealBtn) {
@@ -210,6 +238,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentMealTypeDisplay) currentMealTypeDisplay.textContent = activeMealBtn.textContent;
             if (lunchTimesGrid) lunchTimesGrid.style.display = reservationData.meal === 'lunch' ? 'grid' : 'none';
             if (dinnerTimesGrid) dinnerTimesGrid.style.display = reservationData.meal === 'dinner' ? 'grid' : 'none';
+        } else if (mealTypeButtons.length > 0) {
+            mealTypeButtons[0].classList.add('active'); 
+            initializeTimeStep(); 
         }
     }
     if (mealTypeButtons.length > 0) {
@@ -241,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ====== 5. Gestion de l'affichage du menu sélectionné ======
     function loadAndDisplayMenuFromStorage() {
         const menuValidated = localStorage.getItem(MENU_VALIDATED_KEY);
         const storedCart = localStorage.getItem(CART_STORAGE_KEY);
@@ -318,24 +348,27 @@ document.addEventListener('DOMContentLoaded', function() {
         if (summaryMenuTotalSpan) summaryMenuTotalSpan.textContent = `${menuTotalValue.toFixed(2).replace('.',',')}€`;
     }
     
-    // NOUVEAU: Listener pour le bouton d'actualisation du menu
     if (refreshMenuButton) {
         refreshMenuButton.addEventListener('click', function() {
-            // Recharger la page et s'assurer qu'on revient à l'étape menu
-            // On ajoute une ancre à l'URL pour indiquer où aller après le rechargement
-            window.location.hash = 'menu-step-anchor'; // L'ancre elle-même n'a pas besoin d'exister comme ID
+            window.location.hash = 'menu-step-anchor';
             window.location.reload();
         });
     }
 
-    // Gérer le retour à l'étape menu après rechargement si l'ancre est présente
     function handlePageReloadForMenuStep() {
         if (window.location.hash === '#menu-step-anchor') {
-            showStep('menu', true); // 'true' indique que c'est après un rechargement
-            // Optionnel: supprimer l'ancre pour nettoyer l'URL
-            history.pushState("", document.title, window.location.pathname + window.location.search);
+            showStep('menu', true); 
+            if (history.pushState) { // Vérifier si pushState est supporté
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            } else { // Fallback pour navigateurs plus anciens
+                window.location.hash = ''; 
+            }
         } else {
-            showStep('guests'); // Comportement par défaut
+            if (document.getElementById('guests-step')) {
+                 showStep('guests');
+            } else {
+                console.error("L'étape initiale 'guests-step' est introuvable ! La page risque de ne pas s'afficher correctement.");
+            }
         }
     }
     
@@ -358,12 +391,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (summaryTime) summaryTime.textContent = reservationData.time || '-';
     }
 
-    // ====== 6. Confirmation de la réservation ======
     if (completeReservationBtn) {
         completeReservationBtn.addEventListener('click', function(event) {
             event.preventDefault(); 
             const nameInput = document.getElementById('name'); const emailInput = document.getElementById('email');
             const phoneInput = document.getElementById('phone'); const privacyCheckbox = document.getElementById('privacy');
+            
+            if (!nameInput || !emailInput || !phoneInput || !privacyCheckbox) {
+                console.error("Un ou plusieurs champs du formulaire de contact sont manquants.");
+                alert("Erreur de configuration du formulaire.");
+                return;
+            }
+
             const name = nameInput.value.trim(); const email = emailInput.value.trim();
             const phone = phoneInput.value.trim(); const privacy = privacyCheckbox.checked;
             if (!name || !email || !phone) { alert('Veuillez remplir tous les champs de coordonnées.'); return; }
@@ -401,9 +440,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     window.addEventListener('click', (event) => { if (event.target === confirmationModal) { if (confirmationModal) confirmationModal.style.display = 'none'; } });
 
-    // ====== Initialisation au chargement de la page ======
-    updateGuestsDisplay();
-    initCalendar();
-    attachTimeSlotListeners();
-    handlePageReloadForMenuStep(); // Gérer le rechargement avec ancre
+    // --- Initialisation au chargement de la page ---
+    if (reservationSteps.length > 0 && menuItemsNav.length > 0 && confirmationModal) { // Vérifier aussi confirmationModal
+        updateGuestsDisplay();
+        initCalendar();
+        attachTimeSlotListeners();
+        initializeTimeStep(); 
+        handlePageReloadForMenuStep();
+    } else {
+        console.error("Impossible d'initialiser le script de réservation : des éléments DOM structurels sont manquants. Vérifiez les IDs et classes dans reservation.html.");
+    }
 });
