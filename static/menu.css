@@ -15,7 +15,6 @@ body {
   font-family: 'Times New Roman', serif;
   background-color: #f9f9f9;
   color: #333;
-  /* padding-bottom: 80px; Retiré car le FAB prendra sa place */
 }
 
 /* ... (Styles Header, Navigation, Main, Section, Dish List, Quantity Controls inchangés) ... */
@@ -79,7 +78,7 @@ header {
 main {
   padding: 20px;
   max-width: 1000px;
-  margin: 20px auto 100px; /* Augmenter la marge en bas pour le FAB */
+  margin: 20px auto 100px;
 }
 
 .menu-section {
@@ -148,6 +147,7 @@ main {
   font-size: 18px;
   flex-grow: 1; 
   font-weight: 500;
+  padding-right: 10px; /* Espace pour ne pas coller aux contrôles/prix */
 }
 
 .dish-name small {
@@ -166,14 +166,14 @@ main {
   min-width: 80px;
   text-align: right;
   margin-left: auto; 
-  padding-left: 10px; 
+  /* padding-left: 10px;  Retiré car le gap sur .dish-item gère l'espacement */
   flex-shrink: 0;
 }
 
 .quantity-controls {
   display: flex;
   align-items: center;
-  margin-left: 15px;
+  /* margin-left: 15px; Retiré car le gap sur .dish-item gère l'espacement */
   flex-shrink: 0;
 }
 
@@ -222,32 +222,31 @@ main {
 
 
 /* --------------------
-   NOUVEAU PANIER FLOTTANT / MODAL
+   PANIER FLOTTANT / MODAL - AMÉLIORATIONS VISUELLES
 -------------------- */
 
-/* Icône flottante du panier (FAB) */
 .cart-fab {
     position: fixed;
     bottom: 25px;
     right: 25px;
     width: 60px;
     height: 60px;
-    background-color: #062f54; /* Bleu foncé du thème */
-    color: #f1c40f; /* Icône jaune */
+    background-color: #062f54;
+    color: #f1c40f;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px; /* Taille de l'icône panier */
+    font-size: 24px;
     cursor: pointer;
-    box-shadow: 3px 3px 0px 0px #001a35, 0 8px 15px rgba(0,0,0,0.2); /* Ombre style bouton + ombre diffuse */
-    z-index: 1005; /* Au-dessus du panier détaillé mais sous modales de confirmation si besoin */
+    box-shadow: 3px 3px 0px 0px #001a35, 0 8px 15px rgba(0,0,0,0.2);
+    z-index: 1005;
     transition: transform 0.2s ease-out, background-color 0.2s ease-out;
 }
 
 .cart-fab:hover {
-    background-color: #f1c40f; /* Jaune au survol */
-    color: #062f54; /* Icône bleue au survol */
+    background-color: #f1c40f;
+    color: #062f54;
     transform: scale(1.1) translateY(-2px);
     box-shadow: 5px 5px 0px 0px #001a35, 0 10px 20px rgba(0,0,0,0.25);
 }
@@ -256,7 +255,7 @@ main {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: #e74c3c; /* Rouge pour la notification */
+    background-color: #e74c3c;
     color: white;
     border-radius: 50%;
     width: 22px;
@@ -266,8 +265,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #062f54; /* Bordure pour la pastille */
-    opacity: 0; /* Cachée par défaut, affichée par JS si > 0 */
+    border: 2px solid #062f54;
+    opacity: 0;
     transform: scale(0.5);
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -277,24 +276,23 @@ main {
     transform: scale(1);
 }
 
-/* Panier détaillé (style modale/panneau) */
 .cart-modal {
     position: fixed;
-    bottom: 95px; /* Au-dessus du FAB */
+    bottom: 95px;
     right: 25px;
-    width: 350px; /* Largeur du panier détaillé */
-    max-height: 70vh; /* Hauteur maximale */
+    width: 380px; /* AUGMENTÉ À 380px */
+    max-height: 70vh;
     background-color: #ffffff;
     border: 2px solid #062f54;
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    z-index: 1004; /* Sous le FAB s'il doit le chevaucher, mais au-dessus du reste */
+    z-index: 1004;
     display: flex;
     flex-direction: column;
-    padding: 0; /* Le padding sera sur les enfants pour un meilleur contrôle du scroll */
+    padding: 0;
     opacity: 0;
     transform: translateY(20px) scale(0.95);
-    visibility: hidden; /* Caché et non interactif par défaut */
+    visibility: hidden;
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
@@ -306,8 +304,8 @@ main {
 
 .cart-modal .close-cart-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px; /* Ajusté pour un meilleur alignement avec padding du h2 */
+    right: 15px; /* Ajusté */
     background: none;
     border: none;
     font-size: 28px;
@@ -315,80 +313,124 @@ main {
     cursor: pointer;
     padding: 5px;
     line-height: 1;
-    z-index: 10; /* Au-dessus du contenu du panier */
+    z-index: 10;
 }
 .cart-modal .close-cart-btn:hover {
     color: #062f54;
 }
 
-
 .cart-modal h2 {
-  font-size: 22px; /* Titre "Panier" */
+  font-size: 22px;
   color: #062f54;
   margin: 0;
-  padding: 20px 25px 15px; /* Padding pour le titre */
+  padding: 20px 25px 15px;
   text-align: center;
   border-bottom: 2px solid #f1c40f;
 }
 
 .cart-modal .cart-list {
   list-style: none;
-  padding: 0 25px; /* Padding horizontal pour la liste */
+  padding: 0 20px; /* Padding horizontal pour la liste */
   flex-grow: 1;
-  max-height: calc(70vh - 160px); /* Hauteur max pour la liste (70vh - hauteur titre - hauteur total - hauteur bouton validation) */
+  max-height: calc(70vh - 200px); /* Ajusté pour laisser place au footer du panier */
   overflow-y: auto;
-  margin-bottom: 0; /* Pas de marge en bas, gérée par le padding du conteneur du total/bouton */
+  margin-bottom: 0;
 }
-/* Styles scrollbar comme avant */
 .cart-modal .cart-list::-webkit-scrollbar { width: 8px; }
 .cart-modal .cart-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
 .cart-modal .cart-list::-webkit-scrollbar-thumb { background: #062f54; border-radius: 10px; }
 .cart-modal .cart-list::-webkit-scrollbar-thumb:hover { background: #001a35; }
 
-
 .cart-modal .cart-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 10px 5px; /* Padding interne à l'item réduit pour plus de place horizontale */
   border-bottom: 1px solid #f0f0f0;
-  gap: 10px;
+  gap: 5px; /* Espace réduit entre les éléments internes de l'item */
 }
 .cart-modal .cart-item:last-child { border-bottom: none; }
 
-.cart-modal .cart-item-name { font-size: 16px; flex-grow: 1; margin-right: 8px; font-weight: 500; line-height: 1.3; }
-.cart-modal .cart-quantity-controls { display: flex; align-items: center; flex-shrink: 0; margin: 0 8px; }
-.cart-modal .cart-quantity-controls button { background-color: #fdfdfd; border: 1px solid #ccc; color: #062f54; padding: 4px 8px; cursor: pointer; font-size: 15px; border-radius: 4px; transition: background-color 0.2s, border-color 0.2s; min-width: 28px; }
+.cart-modal .cart-item-name { font-size: 15px; flex-grow: 1; margin-right: 5px; font-weight: 500; line-height: 1.3; }
+.cart-modal .cart-quantity-controls { display: flex; align-items: center; flex-shrink: 0; margin: 0 5px; }
+.cart-modal .cart-quantity-controls button { background-color: #fdfdfd; border: 1px solid #ccc; color: #062f54; padding: 3px 7px; cursor: pointer; font-size: 14px; border-radius: 4px; min-width: 26px; }
 .cart-modal .cart-quantity-controls button:hover { background-color: #f1c40f; border-color: #062f54; }
-.cart-modal .cart-qty-value { margin: 0 8px; min-width: 24px; text-align: center; font-size: 15px; font-weight: bold; }
-.cart-modal .cart-item-price { font-size: 16px; font-weight: 500; min-width: 75px; text-align: right; color: #062f54; flex-shrink: 0; margin-left: 8px; }
-.cart-modal .remove-from-cart { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 20px; padding: 5px; transition: color 0.2s, transform 0.2s; line-height: 1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.cart-modal .remove-from-cart:hover { color: #c0392b; transform: scale(1.15); }
+.cart-modal .cart-qty-value { margin: 0 6px; min-width: 20px; text-align: center; font-size: 14px; font-weight: bold; }
+.cart-modal .cart-item-price { font-size: 15px; font-weight: 500; min-width: 65px; text-align: right; color: #062f54; flex-shrink: 0; margin-left: 5px; }
+.cart-modal .remove-from-cart { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 18px; padding: 5px; line-height: 1; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 8px; /* Plus d'espace pour la poubelle */ }
+.cart-modal .remove-from-cart:hover { color: #c0392b; transform: scale(1.1); }
 
-.cart-modal-footer { /* Nouveau conteneur pour le total et le bouton valider */
-    padding: 15px 25px 20px; /* Padding pour cette section */
+.cart-modal-footer {
+    padding: 15px 20px 20px; /* Padding ajusté */
     border-top: 2px solid #f1c40f;
-    background-color: #f9f9f9; /* Léger fond pour distinguer */
-    border-bottom-left-radius: 8px; /* Arrondir les coins inférieurs avec le parent */
+    background-color: #f8f9fa; /* Fond légèrement différent */
+    border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    margin-top: auto; /* Pousse ce pied de modale vers le bas */
+}
+
+.cart-summary-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
 .cart-modal .cart-total {
-  font-size: 18px; /* Total un peu plus petit dans la modale */
+  font-size: 18px;
   font-weight: bold;
-  text-align: right;
+  text-align: left;
   color: #062f54;
-  margin-top: 0; /* Pas de marge en haut car dans .cart-modal-footer */
-  padding-top: 0; /* Pas de padding en haut */
-  border-top: none; /* La bordure est sur .cart-modal-footer */
-  margin-bottom: 15px; /* Espace avant le bouton de validation */
+  margin-top: 0; padding-top: 0; border-top: none; margin-bottom: 0;
+  flex-grow: 1;
 }
+
+.button-empty-cart {
+    background-color: #f8f9fa; /* Fond clair */
+    color: #c82333; /* Rouge pour action destructive, mais plus doux que la poubelle */
+    border: 1px solid #c82333;
+    padding: 7px 12px; /* Padding ajusté */
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Times New Roman', serif;
+    font-weight: bold;
+    font-size: 13px;
+    transition: all 0.2s ease-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* Espace entre icône et texte */
+    flex-shrink: 0;
+}
+.button-empty-cart i {
+    font-size: 0.9em; /* Icône légèrement plus petite que le texte */
+}
+
+.button-empty-cart:hover:not(:disabled) {
+    background-color: #c82333;
+    color: #ffffff;
+    border-color: #bd2130;
+    box-shadow: 2px 2px 0px 0px #a03020; /* Ombre style bouton */
+    transform: translateY(-1px);
+}
+.button-empty-cart:active:not(:disabled) {
+    background-color: #bd2130;
+    transform: translateY(0px);
+    box-shadow: 1px 1px 0px 0px #a03020;
+}
+.button-empty-cart:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #ced4da;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 
 .cart-modal .button-validate-cart {
   display: block;
   width: 100%;
   padding: 12px 15px;
-  margin-top: 0; /* Pas de marge en haut */
+  margin-top: 0;
   background-color: #28a745;
   color: white;
   border: none;
@@ -401,8 +443,7 @@ main {
   box-shadow: 3px 3px 0px 0px #1e7e34;
   text-align: center;
 }
-/* Styles de survol et actif pour button-validate-cart sont déjà définis plus haut et s'appliqueront */
-
+/* ... (Styles hover/active pour button-validate-cart) ... */
 
 /* --------------------
    FOOTER
@@ -419,84 +460,61 @@ footer {
    RESPONSIVE
 -------------------- */
 @media (max-width: 1024px) {
-    /* .cart (l'ancien aside fixe) n'existe plus, les styles pour .cart-modal gèrent le responsive */
     .cart-modal {
-        width: 320px; /* Ajuster si besoin */
+        width: 340px; /* Ajuster si 380px est trop grand */
         bottom: 90px;
         right: 20px;
     }
-    .menu-navigation ul { gap: 10px; }
-    .menu-navigation li { padding: 8px 12px; }
+    body { padding-bottom: 180px; }
     header { padding: 15px; }
     .logo img { height: 70px; }
+    .cart-modal h2 { font-size: 20px; }
 }
 
 @media (max-width: 768px) {
-  .menu-navigation ul { flex-direction: column; gap: 10px; }
-  .menu-category h2 { font-size: 28px; }
-  .dish-item { flex-direction: column; align-items: stretch; gap: 8px; }
-  .dish-item > .dish-name, 
-  .dish-item > .dish-price, 
-  .dish-item > .quantity-controls,
-  .dish-item > .dish-description { width: 100%; margin-left: 0; text-align: left; }
-  .dish-price { margin-top: 5px; text-align: left; }
-  .quantity-controls { margin-top: 8px; justify-content: flex-start; }
-  .dish-description { order: 4; }
+  /* ... styles responsive existants ... */
+  .cart-fab { bottom: 20px; right: 20px; width: 55px; height: 55px; font-size: 22px; }
+  .cart-fab-badge { width: 20px; height: 20px; font-size: 11px; top: -4px; right: -4px; }
 
-  .cart-fab { /* Positionner le FAB un peu plus haut sur mobile pour ne pas gêner la navigation OS */
-    bottom: 20px;
-    right: 20px;
-    width: 55px;
-    height: 55px;
-    font-size: 22px;
-  }
-  .cart-fab-badge {
-      width: 20px;
-      height: 20px;
-      font-size: 11px;
-      top: -4px;
-      right: -4px;
-  }
-
-  .cart-modal { /* Le panier détaillé prend plus de place sur mobile */
-    width: calc(100% - 20px); /* Presque pleine largeur */
+  .cart-modal {
+    width: calc(100% - 20px);
     left: 10px;
     right: 10px;
-    bottom: 10px; /* Près du bas de l'écran */
-    top: auto; /* S'assurer qu'il n'est pas fixé en haut */
-    max-height: 80vh; /* Peut prendre plus de hauteur */
-    transform: translateY(100%); /* Part du bas pour l'animation d'ouverture */
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), visibility 0s 0.3s;
+    bottom: 10px;
+    max-height: 75vh;
+    transform: translateY(100%);
   }
-  .cart-modal.open {
-    transform: translateY(0);
-    visibility: visible;
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), visibility 0s 0s;
-  }
+  .cart-modal.open { transform: translateY(0); }
 
-  .cart-modal h2 { font-size: 20px; padding: 15px 20px 10px; }
-  .cart-modal .cart-list { padding: 0 20px; max-height: calc(80vh - 150px); } /* Ajuster la hauteur max de la liste */
-  .cart-modal .cart-item-name, .cart-modal .cart-item-price { font-size: 15px; }
-  .cart-modal-footer { padding: 15px 20px; }
-  .cart-modal .button-validate-cart { font-size: 16px; padding: 12px; }
+  .cart-modal h2 { font-size: 18px; padding: 15px 20px 10px; }
+  .cart-modal .cart-list { padding: 0 15px; max-height: calc(75vh - 180px); } /* Ajuster max-height */
+  .cart-modal .cart-item-name, .cart-modal .cart-item-price { font-size: 14px; }
+  
+  .cart-summary-actions { flex-direction: row; justify-content: space-between; align-items: center; }
+  .cart-modal .cart-total { text-align: left; font-size: 16px; margin-bottom: 0; }
+  .button-empty-cart { width: auto; padding: 6px 10px; font-size: 12px; } /* Bouton vider plus petit */
 
+  .cart-modal-footer { padding: 10px 15px 15px; } /* Réduire padding du footer */
+  .cart-modal .button-validate-cart { font-size: 15px; padding: 10px; }
+  body { padding-bottom: 80px; }
 }
 
 @media (max-width: 480px) {
-    .menu-category h2 { font-size: 24px; }
-    .menu-navigation li { font-size: 0.9em; padding: 8px 10px; }
-    .dish-name, .dish-price { font-size: 16px; }
-    .dish-name small { font-size: 0.8em; }
-    .quantity-controls button, .qty-value { font-size: 16px; }
-    
-    .cart-modal { padding: 0; } /* Le padding est géré par les enfants directs */
-    .cart-modal h2 { padding: 15px; font-size: 18px; }
-    .cart-modal .cart-list { padding: 0 15px; }
-    .cart-modal .cart-item { padding: 10px 0; gap: 5px;}
-    .cart-modal .cart-item-name, .cart-modal .cart-item-price, .cart-modal .cart-qty-value { font-size: 14px; }
-    .cart-modal .cart-quantity-controls button { font-size: 14px; padding: 3px 6px; min-width: 24px;}
-    .cart-modal .remove-from-cart { font-size: 18px; padding: 3px;}
+    /* ... styles responsive existants ... */
+    .cart-modal { padding: 0; max-height: 70vh; }
+    .cart-modal h2 { padding: 12px 15px; font-size: 17px; }
+    .cart-modal .cart-list { padding: 0 10px; max-height: calc(70vh - 170px); } /* Ajuster */
+    .cart-modal .cart-item { padding: 8px 0; gap: 5px;}
+    .cart-modal .cart-item-name { font-size: 13px; margin-right: 3px;}
+    .cart-modal .cart-item-price { font-size: 13px; min-width: 60px; margin-left: 3px;}
+    .cart-modal .cart-qty-value { font-size: 13px; margin: 0 4px; min-width: 18px;}
+    .cart-modal .cart-quantity-controls { margin: 0 3px;}
+    .cart-modal .cart-quantity-controls button { font-size: 13px; padding: 2px 5px; min-width: 22px;}
+    .cart-modal .remove-from-cart { font-size: 16px; padding: 3px; margin-left: 3px;}
+
     .cart-modal-footer { padding: 10px 15px; }
-    .cart-modal .cart-total { font-size: 16px; margin-bottom: 10px; }
-    .cart-modal .button-validate-cart { font-size: 15px; padding: 10px; }
+    .cart-summary-actions { flex-direction: column; gap: 8px; align-items: stretch; margin-bottom: 10px;}
+    .cart-modal .cart-total { font-size: 15px; text-align: center; } /* Total centré sur très petits écrans */
+    .button-empty-cart { font-size: 12px; padding: 6px 10px; width: 100%; justify-content: center;}
+    .cart-modal .button-validate-cart { font-size: 14px; padding: 10px; }
 }

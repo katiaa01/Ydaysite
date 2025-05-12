@@ -3,35 +3,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuCategories = document.querySelectorAll('.menu-category');
     const dishItems = document.querySelectorAll('.dish-item');
     
-    // Panier détaillé (la modale/panneau)
     const cartDetailedView = document.getElementById('cart-detailed-view');
-    const cartList = cartDetailedView.querySelector('.cart-list'); // Cibler DANS le panier détaillé
-    const cartTotalElem = cartDetailedView.querySelector('#cart-total'); // Cibler DANS le panier détaillé
+    const cartList = cartDetailedView.querySelector('.cart-list');
+    const cartTotalElem = cartDetailedView.querySelector('#cart-total');
     const closeCartBtn = document.getElementById('close-cart-detailed-view');
-    const validateCartBtnInModal = cartDetailedView.querySelector('#validate-cart-btn'); // Cibler DANS le panier détaillé
+    const validateCartBtnInModal = cartDetailedView.querySelector('#validate-cart-btn');
+    const emptyCartBtn = document.getElementById('empty-cart-btn'); // Récupération du bouton
 
-    // Icône flottante du panier (FAB)
     const cartFab = document.getElementById('cart-fab');
     const cartFabBadge = document.getElementById('cart-fab-badge');
 
     const CART_STORAGE_KEY = 'restaurantEtoileDorCart';
     const MENU_VALIDATED_KEY = 'restaurantEtoileDorMenuValidated';
 
-    // --- Basculer l'affichage du panier détaillé ---
     function toggleCartDetailedView() {
         if (cartDetailedView) {
             cartDetailedView.classList.toggle('open');
         }
     }
 
-    if (cartFab) {
-        cartFab.addEventListener('click', toggleCartDetailedView);
-    }
-    if (closeCartBtn) {
-        closeCartBtn.addEventListener('click', toggleCartDetailedView);
-    }
+    if (cartFab) cartFab.addEventListener('click', toggleCartDetailedView);
+    if (closeCartBtn) closeCartBtn.addEventListener('click', toggleCartDetailedView);
 
-    // --- Charger le panier depuis localStorage ---
     function loadCartFromStorage() {
         const storedCart = localStorage.getItem(CART_STORAGE_KEY);
         if (storedCart) {
@@ -50,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             } catch (error) {
-                console.error("Erreur lors du parsing du panier depuis localStorage:", error);
+                console.error("Erreur localStorage (panier):", error);
                 localStorage.removeItem(CART_STORAGE_KEY);
             }
         }
@@ -103,16 +96,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         cartList.innerHTML = '';
         let totalNumericValue = 0;
-        let totalItemsInCart = 0; // Compteur pour la pastille
+        let totalItemsInCart = 0;
         const currentCartItemsForStorage = [];
         let hasItems = false;
 
         dishItems.forEach(item => {
             const qtyDisplay = item.querySelector('.qty-value');
             if (!qtyDisplay) return;
-
             const qty = parseInt(qtyDisplay.textContent);
-            totalItemsInCart += qty; // Ajouter la quantité de cet item au total pour la pastille
+            totalItemsInCart += qty;
 
             if (qty > 0) {
                 hasItems = true;
@@ -129,45 +121,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         price = parseFloat(String(priceStr).replace('€', '').replace(',', '.').trim());
                     }
                 }
-                
                 if (isNaN(price)) price = 0; 
+                if (priceTypeIsNumeric) totalNumericValue += price * qty;
 
-                if (priceTypeIsNumeric) {
-                    totalNumericValue += price * qty;
-                }
-
-                currentCartItemsForStorage.push({
-                    name: dishName,
-                    quantity: qty,
-                    price: price,
-                    priceDisplay: priceStr
-                });
+                currentCartItemsForStorage.push({ name: dishName, quantity: qty, price: price, priceDisplay: priceStr });
 
                 const li = document.createElement('li');
                 li.className = 'cart-item';
                 li.setAttribute('data-dish-name', dishName);
-                
-                let displayItemTotal;
-                if (priceTypeIsNumeric) {
-                    displayItemTotal = `${(price * qty).toFixed(2).replace('.', ',')}€`;
-                } else {
-                    displayItemTotal = priceStr; 
-                }
+                let displayItemTotal = priceTypeIsNumeric ? `${(price * qty).toFixed(2).replace('.', ',')}€` : priceStr; 
 
                 li.innerHTML = `
                     <span class="cart-item-name">${dishName}</span>
                     <div class="cart-quantity-controls">
-                        <button class="cart-qty-minus" aria-label="Diminuer la quantité de ${dishName}">–</button>
+                        <button class="cart-qty-minus" aria-label="Diminuer ${dishName}">–</button>
                         <span class="cart-qty-value">${qty}</span>
-                        <button class="cart-qty-plus" aria-label="Augmenter la quantité de ${dishName}">+</button>
+                        <button class="cart-qty-plus" aria-label="Augmenter ${dishName}">+</button>
                     </div>
                     <span class="cart-item-price">${displayItemTotal}</span>
-                    <button class="remove-from-cart" aria-label="Supprimer ${dishName} du panier"><i class="fas fa-trash-alt"></i></button>
+                    <button class="remove-from-cart" aria-label="Supprimer ${dishName}"><i class="fas fa-trash-alt"></i></button>
                 `;
-
-                li.querySelector('.cart-qty-plus').addEventListener('click', function() { updateMenuQuantity(dishName, 1); });
-                li.querySelector('.cart-qty-minus').addEventListener('click', function() { updateMenuQuantity(dishName, -1); });
-                li.querySelector('.remove-from-cart').addEventListener('click', function() { setMenuQuantity(dishName, 0); });
+                li.querySelector('.cart-qty-plus').addEventListener('click', () => updateMenuQuantity(dishName, 1));
+                li.querySelector('.cart-qty-minus').addEventListener('click', () => updateMenuQuantity(dishName, -1));
+                li.querySelector('.remove-from-cart').addEventListener('click', () => setMenuQuantity(dishName, 0));
                 cartList.appendChild(li);
             }
         });
@@ -175,17 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
         cartTotalElem.textContent = totalNumericValue.toFixed(2).replace('.', ',') + '€';
         saveCartToStorage(currentCartItemsForStorage);
 
-        // Mettre à jour la pastille du FAB
         cartFabBadge.textContent = totalItemsInCart;
-        if (totalItemsInCart > 0) {
-            cartFabBadge.classList.add('visible');
-        } else {
-            cartFabBadge.classList.remove('visible');
-        }
+        cartFabBadge.classList.toggle('visible', totalItemsInCart > 0);
         
-        if (validateCartBtnInModal) {
-            validateCartBtnInModal.disabled = !hasItems;
-        }
+        if (validateCartBtnInModal) validateCartBtnInModal.disabled = !hasItems;
+        if (emptyCartBtn) emptyCartBtn.disabled = !hasItems;
     }
 
     function updateMenuQuantity(dishName, delta) {
@@ -212,6 +182,24 @@ document.addEventListener('DOMContentLoaded', function() {
             updateCartDisplay();
         }
     }
+
+    // Fonction pour vider le panier
+    function emptyCurrentCart() {
+        if (confirm("Êtes-vous sûr de vouloir vider l'intégralité de votre panier ?")) {
+            dishItems.forEach(item => {
+                const qtyDisplay = item.querySelector('.qty-value');
+                if (qtyDisplay) {
+                    qtyDisplay.textContent = '0';
+                }
+            });
+            localStorage.removeItem(MENU_VALIDATED_KEY); // Invalider également la validation du menu
+            updateCartDisplay(); // Ceci mettra à jour l'affichage et le localStorage (qui sera vide)
+        }
+    }
+    // Attacher l'événement au bouton "Vider le panier"
+    if (emptyCartBtn) {
+        emptyCartBtn.addEventListener('click', emptyCurrentCart);
+    }
     
     function validateCartAndReturn() {
         const cartData = localStorage.getItem(CART_STORAGE_KEY);
@@ -220,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (cartItems.length > 0) {
                 localStorage.setItem(MENU_VALIDATED_KEY, 'true'); 
                 alert('Menu validé ! Vous pouvez fermer cet onglet et retourner à la page de réservation.\nVotre sélection sera visible à l\'étape "Menu" et dans le récapitulatif.');
-                toggleCartDetailedView(); // Fermer le panier après validation
+                toggleCartDetailedView();
             } else {
                 alert('Votre panier est vide. Veuillez sélectionner des plats avant de valider.');
             }
@@ -250,7 +238,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (validateCartBtnInModal) {
         validateCartBtnInModal.addEventListener('click', validateCartAndReturn);
-    } else {
-        console.error("Le bouton de validation dans la modale du panier n'a pas été trouvé.");
     }
 });

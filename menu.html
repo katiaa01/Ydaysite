@@ -710,8 +710,14 @@
     <h2>Panier</h2>
     <ul class="cart-list">
       </ul>
-    <p class="cart-total">Total: <span id="cart-total">0,00€</span></p>
-    <button id="validate-cart-btn" class="button-validate-cart" disabled>Valider et Retourner à la Réservation</button>
+    <div class="cart-modal-footer"> <div class="cart-summary-actions">
+            <p class="cart-total">Total: <span id="cart-total">0,00€</span></p>
+            <button id="empty-cart-btn" class="button-empty-cart" title="Vider tout le panier">
+                <i class="fas fa-trash-alt"></i> Vider
+            </button>
+        </div>
+        <button id="validate-cart-btn" class="button-validate-cart" disabled>Valider et Retourner à la Réservation</button>
+    </div>
   </aside>
 
   <div class="cart-fab" id="cart-fab">
