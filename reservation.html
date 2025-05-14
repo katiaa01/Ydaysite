@@ -87,12 +87,27 @@
             </div>
             
             <div class="reservation-step" id="placement-step" style="display: none;">
-                <h2 class="reservation-title"><i class="fas fa-map-marker-alt"></i> Placement en salle</h2>
-                <div class="coming-soon-container">
-                    <i class="fas fa-tools coming-soon-icon"></i>
-                    <h3 class="coming-soon-text">Disponible ultérieurement</h3>
-                    <p class="coming-soon-description">Notre service de sélection de table sur plan de salle sera bientôt disponible pour une expérience encore plus personnalisée.</p>
+                <h2 class="reservation-title"><i class="fas fa-map-marker-alt"></i> Placement en salle (Prototype)</h2>
+                <p class="step-description">
+                    Consultez notre plan de salle interactif pour visualiser l'agencement. 
+                    Pour le moment, la sélection d'une table spécifique directement sur le plan n'est pas disponible. 
+                    Vous pourrez nous indiquer vos préférences dans la section "Demandes particulières" à l'étape du récapitulatif.
+                </p>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <a href="https://planner5d.com/fr/v?key=1e51260d345076aa0816910762499ff1&viewMode=3d" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="next-btn" 
+                       style="text-decoration: none; display: inline-block; padding: 12px 25px;">
+                        <i class="fas fa-external-link-alt"></i> Voir le plan de salle interactif
+                    </a>
                 </div>
+                
+                <p class="step-description" style="font-size: 0.9em; margin-top: 20px;">
+                    Après avoir consulté le plan, revenez sur cette page pour continuer votre réservation.
+                </p>
+
                 <div class="navigation-buttons">
                     <button class="back-btn" data-back="date">Retour</button>
                     <button class="next-btn" data-next="time">Suivant</button>
@@ -207,7 +222,7 @@
                         </div>
                         <div class="form-group">
                             <label for="special-requests">Demandes particulières (optionnel)</label>
-                            <textarea id="special-requests" name="special-requests" rows="3" placeholder="Allergies, occasion spéciale, etc."></textarea>
+                            <textarea id="special-requests" name="special-requests" rows="3" placeholder="Allergies, occasion spéciale, placement préféré, etc."></textarea>
                         </div>
                         <div class="form-group checkbox-group">
                             <input type="checkbox" id="privacy" name="privacy" required>
