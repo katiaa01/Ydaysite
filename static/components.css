@@ -340,3 +340,134 @@ ul.summary-menu-items-list li span:last-child { /* Détails (quantité x prix) *
 #view-menu-link i {
     font-size: 1.1em; /* Taille de l'icône */
 }
+
+/* static/components.css ou layout.css */
+/* ... autres styles ... */
+
+/* Style pour les détails du menu dans l'étape Menu de reservation.html */
+#selected-menu-display {
+    /* Styles existants pour #selected-menu-display */
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;       
+    padding: 20px;
+    margin: 25px auto;        
+    max-width: 700px;         
+    text-align: left;         
+}
+
+#selected-menu-display h4 {
+    color: #062f54;           
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f1c40f;
+    padding-bottom: 8px;
+    font-size: 1.2em;         
+}
+
+#selected-menu-display ul.selected-menu-list {
+    list-style: none;         
+    padding-left: 0;
+    margin-bottom: 15px;
+}
+
+#selected-menu-display ul.selected-menu-list li {
+    padding: 8px 5px;         
+    border-bottom: 1px dotted #ced4da;
+    font-size: 15px;
+    color: #333;              
+    line-height: 1.5;         
+}
+
+#selected-menu-display ul.selected-menu-list li:last-child {
+    border-bottom: none;      
+}
+
+#selected-menu-display .menu-step-subtotal-line,
+#selected-menu-display .menu-step-discount-line,
+#selected-menu-display .menu-step-total-final-line {
+    padding: 3px 5px; /* Un peu plus d'aération */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Mieux aligner verticalement */
+    margin-top: 5px; /* Espace entre les lignes de total */
+}
+#selected-menu-display .menu-step-discount-line { 
+    color: green; 
+    font-size: 0.9em; 
+}
+#selected-menu-display .menu-step-discount-line span:first-child { /* Nom de la réduction */
+    margin-right: auto; /* Pousser le montant à droite */
+}
+#selected-menu-display .menu-step-total-final-line strong {
+    font-size: 1.1em; /* Mettre le total en évidence */
+    color: #062f54;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Style pour les détails du menu dans le Récapitulatif de reservation.html */
+#summary-menu-details {
+    margin-top: 25px;         
+    padding-top: 20px;        
+    border-top: 1px dashed #b0bec5;
+}
+
+#summary-menu-details h4 {
+    font-size: 1.15em;        
+    color: #062f54;
+    margin-bottom: 12px;
+}
+
+#summary-menu-details ul.summary-menu-items-list { /* S'il y en a une */
+    list-style: none;
+    padding-left: 10px;       
+    margin-bottom: 10px;
+}
+/* ... autres styles pour summary-menu-items-list ... */
+
+
+#summary-menu-details .summary-menu-subtotal-line,
+#summary-menu-details .summary-menu-discount-line,
+#summary-menu-details > p /* Cible le <p><strong>Total Menu : ... */ {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0; /* Un peu plus d'aération */
+    align-items: center;
+    margin-top: 5px;
+}
+
+#summary-menu-details .summary-menu-discount-line {
+    color: green;
+    font-size: 0.9em;
+}
+#summary-menu-details .summary-menu-discount-line span:first-child { /* Nom de la réduction */
+    margin-right: auto;
+}
+
+#summary-menu-details > p strong { /* Pour "Total Menu :" */
+    color: #062f54;
+    font-weight: bold;
+    font-size: 1.1em; /* Mettre le total en évidence */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Assurer que les spans des valeurs de total prennent bien la valeur */
+#summary-menu-details p strong span#summary-menu-total-final-value,
+#selected-menu-display .menu-step-total-final-line strong span#menu-step-total-final-value {
+    margin-left: 5px; 
+    font-weight: bold; /* La valeur du total aussi en gras */
+}
+#summary-menu-details span#summary-menu-subtotal-value,
+#summary-menu-details span#summary-menu-discount-amount-value,
+#selected-menu-display span#menu-step-subtotal-value,
+#selected-menu-display span#menu-step-discount-amount-value {
+    font-weight: normal; /* Les montants de sous-total et réduction peuvent rester normaux */
+}
+
+
+/* ... reste des styles ... */

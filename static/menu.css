@@ -518,3 +518,137 @@ footer {
     .button-empty-cart { font-size: 12px; padding: 6px 10px; width: 100%; justify-content: center;}
     .cart-modal .button-validate-cart { font-size: 14px; padding: 10px; }
 }
+
+/* static/menu.css */
+/* ... autres styles ... */
+
+.cart-modal .cart-list {
+  list-style: none;
+  padding: 0 20px; /* Padding horizontal pour la liste */
+  flex-grow: 1;
+  max-height: calc(70vh - 220px); /* Ajusté pour laisser plus de place au footer du panier avec sous-total etc. */
+  overflow-y: auto;
+  margin-bottom: 0;
+}
+
+/* Styles pour le footer du panier modal */
+.cart-modal-footer {
+    padding: 15px 20px 20px;
+    border-top: 2px solid #f1c40f;
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-top: auto;
+    display: flex; /* Pour mieux organiser les sections à l'intérieur */
+    flex-direction: column; /* Empiler les détails du total et les boutons */
+    gap: 15px; /* Espace entre la section des totaux et les boutons */
+}
+
+.cart-modal-footer .cart-summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espace entre les lignes de sous-total, réduction, total */
+    width: 100%; /* Prendre toute la largeur */
+}
+
+.cart-modal-footer .cart-subtotal-line,
+.cart-modal-footer .cart-discount-line,
+.cart-modal-footer .cart-total-final-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em; /* Ajuster au besoin */
+    padding: 2px 0; /* Léger padding vertical */
+}
+.cart-modal-footer .cart-subtotal-line span:first-child,
+.cart-modal-footer .cart-discount-line span:first-child,
+.cart-modal-footer .cart-total-final-line strong span:first-child {
+    margin-right: auto; /* Pousse le montant à droite */
+}
+
+
+.cart-modal-footer .cart-discount-line {
+    font-size: 0.9em;
+    color: green; 
+}
+.cart-modal-footer .cart-discount-line span:first-child { /* Le nom de la réduction */
+   /* margin-right: auto; est déjà géré par le sélecteur plus général ci-dessus */
+}
+
+
+.cart-modal-footer .cart-total-final-line strong {
+    font-size: 1.1em;
+    color: #062f54;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Styles pour la section des actions (bouton vider) */
+.cart-summary-actions {
+    display: flex;
+    justify-content: flex-end; /* Aligner le bouton vider à droite */
+    align-items: center;
+    /* margin-bottom: 15px; Supprimé car géré par le gap du flex-column parent */
+}
+
+/* S'assurer que le bouton Valider prend toute la largeur s'il est seul en bas */
+.cart-modal .button-validate-cart {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  /* margin-top: 0; Retiré, le gap du parent gère l'espacement */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: 'Times New Roman', serif;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 3px 3px 0px 0px #1e7e34;
+  text-align: center;
+}
+
+.cart-modal .button-validate-cart:hover:not(:disabled) {
+    background-color: #218838;
+    transform: translateY(-1px);
+    box-shadow: 4px 4px 0px 0px #1a6f2c;
+}
+.cart-modal .button-validate-cart:active:not(:disabled) {
+    background-color: #1e7e34;
+    transform: translateY(0px);
+    box-shadow: 2px 2px 0px 0px #1a6f2c;
+}
+.cart-modal .button-validate-cart:disabled {
+    background-color: #6c757d;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+/* Ajustements responsives pour le footer du panier si nécessaire */
+@media (max-width: 480px) {
+    .cart-modal-footer {
+        padding: 10px 15px;
+    }
+    .cart-modal-footer .cart-subtotal-line,
+    .cart-modal-footer .cart-discount-line,
+    .cart-modal-footer .cart-total-final-line {
+        font-size: 0.95em;
+    }
+    .cart-modal-footer .cart-total-final-line strong {
+        font-size: 1.05em;
+    }
+    .cart-summary-actions {
+        /* Sur mobile, peut-être mettre le bouton vider sur une ligne séparée ou le rendre plus petit */
+        justify-content: center; /* Ou flex-end si l'espace le permet */
+    }
+     .cart-modal .button-validate-cart {
+        font-size: 15px;
+        padding: 10px;
+    }
+}
+
+/* ... reste des styles de menu.css ... */

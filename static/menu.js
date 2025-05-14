@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const cartDetailedView = document.getElementById('cart-detailed-view');
     const cartList = cartDetailedView.querySelector('.cart-list');
-    const cartTotalElem = cartDetailedView.querySelector('#cart-total');
+    // Les éléments de total du panier sont récupérés dans updateCartDisplay directement par ID
     const closeCartBtn = document.getElementById('close-cart-detailed-view');
     const validateCartBtnInModal = cartDetailedView.querySelector('#validate-cart-btn');
-    const emptyCartBtn = document.getElementById('empty-cart-btn'); // Récupération du bouton
+    const emptyCartBtn = document.getElementById('empty-cart-btn');
 
     const cartFab = document.getElementById('cart-fab');
     const cartFabBadge = document.getElementById('cart-fab-badge');
@@ -30,11 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (storedCart) {
             try {
                 const cartItems = JSON.parse(storedCart);
+                // Réinitialiser les quantités affichées sur la page du menu
                 dishItems.forEach(item => {
                     const qtyDisplay = item.querySelector('.qty-value');
                     if (qtyDisplay) qtyDisplay.textContent = '0';
                 });
+                // Mettre à jour les quantités basées sur le localStorage
                 cartItems.forEach(storedItem => {
+                    // Échapper les guillemets dans le nom du plat pour la sélection d'attribut
                     const escapedName = storedItem.name.replace(/"/g, '\\"').replace(/'/g, "\\'");
                     const menuItem = document.querySelector(`.dish-item[data-dish-name="${escapedName}"]`);
                     if (menuItem) {
@@ -43,11 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             } catch (error) {
-                console.error("Erreur localStorage (panier):", error);
-                localStorage.removeItem(CART_STORAGE_KEY);
+                console.error("Erreur lors du chargement du panier depuis localStorage:", error);
+                localStorage.removeItem(CART_STORAGE_KEY); // Supprimer le panier corrompu
             }
         }
-        updateCartDisplay();
+        updateCartDisplay(); // Mettre à jour l'affichage du panier modal
     }
 
     function saveCartToStorage(cartItems) {
@@ -76,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let qty = parseInt(qtyDisplay.textContent);
                 qty++;
                 qtyDisplay.textContent = qty;
-                localStorage.removeItem(MENU_VALIDATED_KEY);
+                localStorage.removeItem(MENU_VALIDATED_KEY); // Invalider le menu si modifié
                 updateCartDisplay();
             });
             minusBtn.addEventListener('click', function() {
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (qty > 0) {
                     qty--;
                     qtyDisplay.textContent = qty;
-                    localStorage.removeItem(MENU_VALIDATED_KEY);
+                    localStorage.removeItem(MENU_VALIDATED_KEY); // Invalider le menu si modifié
                     updateCartDisplay();
                 }
             });
@@ -92,10 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function updateCartDisplay() {
-        if (!cartList || !cartTotalElem || !cartFabBadge) return;
+        if (!cartList || !cartFabBadge) return;
 
         cartList.innerHTML = '';
-        let totalNumericValue = 0;
+        let subtotalNumericValue = 0;
         let totalItemsInCart = 0;
         const currentCartItemsForStorage = [];
         let hasItems = false;
@@ -122,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 if (isNaN(price)) price = 0; 
-                if (priceTypeIsNumeric) totalNumericValue += price * qty;
+                if (priceTypeIsNumeric) subtotalNumericValue += price * qty;
 
                 currentCartItemsForStorage.push({ name: dishName, quantity: qty, price: price, priceDisplay: priceStr });
 
@@ -148,14 +151,44 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        cartTotalElem.textContent = totalNumericValue.toFixed(2).replace('.', ',') + '€';
+        // Calcul et affichage de la réduction
+        const discountRate = 0.10;
+        const discountShortName = "Réduction Save & Serve";
+        const discountFullName = "Bénéficiez de votre réduction Save & Serve";
+        const discountPercentageText = "(-10%)";
+
+        let discountAmount = 0;
+        let finalTotal = subtotalNumericValue;
+
+        const cartSubtotalValueElem = document.getElementById('cart-subtotal-value');
+        const cartDiscountLineElem = document.querySelector('.cart-discount-line'); // L'élément P parent de la ligne de réduction
+        const cartDiscountNameElem = document.getElementById('cart-discount-name');
+        const cartDiscountAmountValueElem = document.getElementById('cart-discount-amount-value');
+        const cartTotalFinalValueElem = document.getElementById('cart-total-final-value');
+
+        if (subtotalNumericValue > 0) {
+            discountAmount = subtotalNumericValue * discountRate;
+            finalTotal = subtotalNumericValue - discountAmount;
+            if (cartDiscountLineElem) cartDiscountLineElem.style.display = 'block'; // Ou 'flex' si vous utilisez flexbox pour l'alignement interne
+            if (cartDiscountNameElem) {
+                cartDiscountNameElem.textContent = `${discountShortName} ${discountPercentageText}`;
+                cartDiscountNameElem.setAttribute('title', discountFullName);
+            }
+            if (cartDiscountAmountValueElem) cartDiscountAmountValueElem.textContent = `-${discountAmount.toFixed(2).replace('.', ',')}€`;
+        } else {
+            if (cartDiscountLineElem) cartDiscountLineElem.style.display = 'none';
+        }
+
+        if (cartSubtotalValueElem) cartSubtotalValueElem.textContent = subtotalNumericValue.toFixed(2).replace('.', ',') + '€';
+        if (cartTotalFinalValueElem) cartTotalFinalValueElem.textContent = finalTotal.toFixed(2).replace('.', ',') + '€';
+        
         saveCartToStorage(currentCartItemsForStorage);
 
         cartFabBadge.textContent = totalItemsInCart;
         cartFabBadge.classList.toggle('visible', totalItemsInCart > 0);
         
         if (validateCartBtnInModal) validateCartBtnInModal.disabled = !hasItems;
-        if (emptyCartBtn) emptyCartBtn.disabled = !hasItems;
+        if (emptyCartBtn) emptyCartBtn.disabled = !hasItems; // Activer/désactiver le bouton Vider
     }
 
     function updateMenuQuantity(dishName, delta) {
@@ -183,7 +216,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fonction pour vider le panier
     function emptyCurrentCart() {
         if (confirm("Êtes-vous sûr de vouloir vider l'intégralité de votre panier ?")) {
             dishItems.forEach(item => {
@@ -192,11 +224,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     qtyDisplay.textContent = '0';
                 }
             });
-            localStorage.removeItem(MENU_VALIDATED_KEY); // Invalider également la validation du menu
+            localStorage.removeItem(MENU_VALIDATED_KEY);
             updateCartDisplay(); // Ceci mettra à jour l'affichage et le localStorage (qui sera vide)
         }
     }
-    // Attacher l'événement au bouton "Vider le panier"
+    
     if (emptyCartBtn) {
         emptyCartBtn.addEventListener('click', emptyCurrentCart);
     }
@@ -208,7 +240,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (cartItems.length > 0) {
                 localStorage.setItem(MENU_VALIDATED_KEY, 'true'); 
                 alert('Menu validé ! Vous pouvez fermer cet onglet et retourner à la page de réservation.\nVotre sélection sera visible à l\'étape "Menu" et dans le récapitulatif.');
-                toggleCartDetailedView();
+                toggleCartDetailedView(); // Fermer le panier modal
+                 // Optionnel: fermer l'onglet si c'est pertinent pour l'UX
+                 // window.close(); 
             } else {
                 alert('Votre panier est vide. Veuillez sélectionner des plats avant de valider.');
             }
@@ -223,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let categoryToShow = '';
             if (activeLink) {
                 categoryToShow = activeLink.getAttribute('data-category');
-            } else if (menuLinks[0]) {
+            } else if (menuLinks[0]) { // Si aucun n'est actif, activer le premier
                 menuLinks[0].classList.add('active'); 
                 categoryToShow = menuLinks[0].getAttribute('data-category');
             }
@@ -233,6 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Initialisations
     initializeMenuDisplay();
     loadCartFromStorage(); 
 

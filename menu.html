@@ -78,6 +78,7 @@
           </li>
           <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Assiette de Fruits de Mer" data-dish-price="16,50€">
             <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Assiette de Fruits de Mer</span>
+            <p class="dish-description">3 Huîtres Fine de Claire N°3, 4 Bulots, 4 Crevettes Roses</p>
             <span class="dish-price">16,50€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -85,7 +86,6 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">3 Huîtres Fine de Claire N°3, 4 Bulots, 4 Crevettes Roses</p>
         </ul>
       </div>
 
@@ -540,6 +540,7 @@
         <ul class="dish-list">
           <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tajine Étoile d'Or" data-dish-price="24,50€">
             <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Tajine Étoile d'Or</span>
+            <p class="dish-description">Agneau, poulet, figues, abricots, pruneaux, dattes, graines de sésame</p>
             <span class="dish-price">24,50€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -547,9 +548,9 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Agneau, poulet, figues, abricots, pruneaux, dattes, graines de sésame</p>
           <li class="dish-item" data-dish-name="Tajine d'Agneau aux Figues Sèches, Raisins Secs" data-dish-price="21,50€">
             <span class="dish-name">Tajine d'Agneau aux Figues Sèches, Raisins Secs</span>
+            <p class="dish-description">Oignons, amandes, graines de sésame</p>
             <span class="dish-price">21,50€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -557,9 +558,9 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Oignons, amandes, graines de sésame</p>
           <li class="dish-item" data-dish-name="Tajine d'Agneau aux Pruneaux, Raisins Secs" data-dish-price="19,00€">
             <span class="dish-name">Tajine d'Agneau aux Pruneaux, Raisins Secs</span>
+            <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
             <span class="dish-price">19,00€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -567,9 +568,9 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
           <li class="dish-item" data-dish-name="Tajine de Poulet aux Pruneaux, Raisins Secs" data-dish-price="17,00€">
             <span class="dish-name">Tajine de Poulet aux Pruneaux, Raisins Secs</span>
+            <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
             <span class="dish-price">17,00€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -577,13 +578,13 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Oignons, amandes, graines de sésame, oeufs durs</p>
         </ul>
 
         <h3>LES SALÉS</h3>
         <ul class="dish-list">
           <li class="dish-item special" data-dish-name="SÉLECTION DU CHEF — Tajine aux Poissons" data-dish-price="24,50€">
             <span class="dish-name"><strong>SÉLECTION DU CHEF</strong> — Tajine aux Poissons</span>
+            <p class="dish-description">Poissons, pommes vapeur, carottes, citron confit, olives</p>
             <span class="dish-price">24,50€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -591,9 +592,9 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Poissons, pommes vapeur, carottes, citron confit, olives</p>
           <li class="dish-item" data-dish-name="Tajine d'Agneau aux Légumes" data-dish-price="18,00€">
             <span class="dish-name">Tajine d'Agneau aux Légumes</span>
+            <p class="dish-description">Oignons, olives, citron confit, légumes</p>
             <span class="dish-price">18,00€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -601,9 +602,9 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Oignons, olives, citron confit, légumes</p>
           <li class="dish-item" data-dish-name="Tajine de Poulet aux Légumes" data-dish-price="16,00€">
             <span class="dish-name">Tajine de Poulet aux Légumes</span>
+            <p class="dish-description">Oignons, olives, citron confit, légumes</p>
             <span class="dish-price">16,00€</span>
             <div class="quantity-controls">
               <button class="qty-minus">–</button>
@@ -611,7 +612,6 @@
               <button class="qty-plus">+</button>
             </div>
           </li>
-          <p class="dish-description">Oignons, olives, citron confit, légumes</p>
         </ul>
       </div>
 
@@ -710,9 +710,16 @@
     <h2>Panier</h2>
     <ul class="cart-list">
       </ul>
-    <div class="cart-modal-footer"> <div class="cart-summary-actions">
-            <p class="cart-total">Total: <span id="cart-total">0,00€</span></p>
-            <button id="empty-cart-btn" class="button-empty-cart" title="Vider tout le panier">
+    <div class="cart-modal-footer">
+        <div class="cart-summary-details">
+            <p class="cart-subtotal-line">Sous-total: <span id="cart-subtotal-value">0,00€</span></p>
+            <p class="cart-discount-line" style="display: none; font-size: 0.9em; color: green;">
+                <span id="cart-discount-name" title="Bénéficiez de votre réduction Save & Serve"></span> : <span id="cart-discount-amount-value">-0,00€</span>
+            </p>
+            <p class="cart-total-final-line"><strong>Total: <span id="cart-total-final-value">0,00€</span></strong></p>
+        </div>
+        <div class="cart-summary-actions">
+            <button id="empty-cart-btn" class="button-empty-cart" title="Vider tout le panier" disabled>
                 <i class="fas fa-trash-alt"></i> Vider
             </button>
         </div>

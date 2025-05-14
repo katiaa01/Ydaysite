@@ -120,9 +120,12 @@
                 
                 <div class="meal-type-selector">
                     <button class="meal-type-btn" data-meal="lunch">Déjeuner</button>
-                    <button class="meal-type-btn active" data-meal="dinner">Dîner</button> </div>
+                    <button class="meal-type-btn active" data-meal="dinner">Dîner</button> 
+                </div>
 
-                <h3 class="meal-type" id="current-meal-type">Dîner</h3> <div class="time-grid" id="lunch-times" style="display: none;"> <button class="time-slot" data-time="12:00">12:00</button>
+                <h3 class="meal-type" id="current-meal-type">Dîner</h3> 
+                <div class="time-grid" id="lunch-times" style="display: none;"> 
+                    <button class="time-slot" data-time="12:00">12:00</button>
                     <button class="time-slot" data-time="12:15">12:15</button>
                     <button class="time-slot" data-time="12:30">12:30</button>
                     <button class="time-slot" data-time="12:45">12:45</button>
@@ -134,7 +137,8 @@
                     <button class="time-slot" data-time="14:15">14:15</button>
                 </div>
 
-                <div class="time-grid" id="dinner-times" style="display: grid;"> <button class="time-slot" data-time="19:00">19:00</button>
+                <div class="time-grid" id="dinner-times" style="display: grid;"> 
+                    <button class="time-slot" data-time="19:00">19:00</button>
                     <button class="time-slot" data-time="19:15">19:15</button>
                     <button class="time-slot" data-time="19:30">19:30</button>
                     <button class="time-slot" data-time="19:45">19:45</button>
@@ -162,7 +166,7 @@
                 
                 <div id="selected-menu-display">
                     <p class="step-description">Vous n'avez pas encore finalisé de menu.</p>
-                </div>
+                    </div>
 
                 <div class="menu-link-container" style="margin: 20px auto 15px; text-align: center;">
                     <a href="menu.html" target="_blank" rel="noopener noreferrer" id="view-menu-link" class="next-btn" style="text-decoration: none; display: inline-block; padding: 15px 30px;">
@@ -200,7 +204,11 @@
                             <div id="summary-menu-content">
                                 <p>Aucun menu sélectionné.</p>
                             </div>
-                            <p><strong>Total Menu :</strong> <span id="summary-menu-total">0,00€</span></p>
+                            <p class="summary-menu-subtotal-line">Sous-total: <span id="summary-menu-subtotal-value">0,00€</span></p>
+                            <p class="summary-menu-discount-line" style="display: none; font-size: 0.9em; color: green;">
+                                <span id="summary-menu-discount-name" title="Bénéficiez de votre réduction Save & Serve"></span> : <span id="summary-menu-discount-amount-value">-0,00€</span>
+                            </p>
+                            <p><strong>Total Menu : <span id="summary-menu-total-final-value">0,00€</span></strong></p>
                         </div>
                     </div>
                 </div>
