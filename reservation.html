@@ -203,13 +203,13 @@
             const zoomInButton = document.getElementById('zoom-in-btn');
             const zoomOutButton = document.getElementById('zoom-out-btn');
             
-            // Variable pour stocker le dernier FoV connu et valide, initialisée après le chargement du modèle.
-            let lastKnownFov = 30; // Valeur par défaut raisonnable
+            
+            let lastKnownFov = 30; 
 
             modelViewer.addEventListener('load', () => {
-                // Essayer de lire le FoV initial du modèle une fois chargé
+                
                 try {
-                    const initialFoVString = modelViewer.fieldOfView; // ex: "30deg"
+                    const initialFoVString = modelViewer.fieldOfView; 
                     const parsedInitialFoV = parseFloat(initialFoVString);
                     if (!isNaN(parsedInitialFoV) && parsedInitialFoV > 0) {
                         lastKnownFov = parsedInitialFoV;
@@ -217,28 +217,28 @@
                 } catch(e) {
                     console.warn("Impossible de lire le FoV initial, utilisation de la valeur par défaut : ", lastKnownFov, e);
                 }
-                // Décommentez pour vérifier :
-                // console.log(`FoV initial (lastKnownFov) après chargement: ${lastKnownFov}deg`);
+                
+                
 
-                const fovStep = 2; // Degrés de changement du FoV par clic. Petit pour un effet progressif.
+                const fovStep = 2; 
 
-                // Lire les attributs min/max FoV et les convertir en nombres.
-                // Utiliser des valeurs par défaut sûres si les attributs ne sont pas définis ou mal formatés.
+                
+                
                 const minFovAttr = modelViewer.getAttribute('min-field-of-view');
                 const maxFovAttr = modelViewer.getAttribute('max-field-of-view');
 
                 const minFov = minFovAttr ? parseFloat(minFovAttr) : 1; 
                 const maxFov = maxFovAttr ? parseFloat(maxFovAttr) : 100;
                 
-                // Décommentez pour vérifier :
-                // console.log(`Limites FoV utilisées: min=${minFov}deg, max=${maxFov}deg`);
+                
+                
 
-                if (zoomInButton) { // Bouton + (Zoom AVANT = diminuer le FoV)
+                if (zoomInButton) { 
                     zoomInButton.addEventListener('click', () => {
                         let currentFov = parseFloat(modelViewer.fieldOfView);
-                        // Si la lecture de currentFov échoue (NaN), utiliser lastKnownFov
+                        
                         if (isNaN(currentFov) || currentFov <= 0) {
-                            // console.warn(`Valeur FoV actuelle invalide (${modelViewer.fieldOfView}), utilisation de lastKnownFov: ${lastKnownFov}deg`);
+                            
                             currentFov = lastKnownFov;
                         }
                         
@@ -248,18 +248,18 @@
                         }
                         
                         modelViewer.fieldOfView = newFov + 'deg';
-                        lastKnownFov = newFov; // Mettre à jour la dernière valeur connue
-                        // Décommentez pour vérifier :
-                        // console.log(`Zoom AVANT: FoV Actuel=${currentFov.toFixed(1)}deg, Nouveau FoV=${newFov.toFixed(1)}deg`);
+                        lastKnownFov = newFov; 
+                        
+                        
                     });
                 }
 
-                if (zoomOutButton) { // Bouton - (Zoom ARRIÈRE = augmenter le FoV)
+                if (zoomOutButton) { 
                     zoomOutButton.addEventListener('click', () => {
                         let currentFov = parseFloat(modelViewer.fieldOfView);
-                        // Si la lecture de currentFov échoue (NaN), utiliser lastKnownFov
+                        
                         if (isNaN(currentFov) || currentFov <= 0) {
-                            // console.warn(`Valeur FoV actuelle invalide (${modelViewer.fieldOfView}), utilisation de lastKnownFov: ${lastKnownFov}deg`);
+                            
                             currentFov = lastKnownFov;
                         }
                         
@@ -269,9 +269,9 @@
                         }
                         
                         modelViewer.fieldOfView = newFov + 'deg';
-                        lastKnownFov = newFov; // Mettre à jour la dernière valeur connue
-                        // Décommentez pour vérifier :
-                        // console.log(`Zoom ARRIÈRE: FoV Actuel=${currentFov.toFixed(1)}deg, Nouveau FoV=${newFov.toFixed(1)}deg`);
+                        lastKnownFov = newFov; 
+                        
+                        
                     });
                 }
             });

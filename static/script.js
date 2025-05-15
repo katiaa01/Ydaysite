@@ -1,18 +1,17 @@
-// static/script.js
 document.addEventListener('DOMContentLoaded', function() {
     let reservationData = {
         guests: 1,
         date: null,
         time: null,
         meal: 'dinner', 
-        selectedMenu: [], // Sera rempli avec les items du panier
-        menuTotal: 0 // Stockera le total FINAL du menu après réduction
+        selectedMenu: [], 
+        menuTotal: 0 
     };
 
     const CART_STORAGE_KEY = 'restaurantEtoileDorCart';
     const MENU_VALIDATED_KEY = 'restaurantEtoileDorMenuValidated';
 
-    // Sélections DOM
+    
     const menuItemsNav = document.querySelectorAll('.reservation-menu .menu-item');
     const reservationSteps = document.querySelectorAll('.reservation-step');
     const nextButtons = document.querySelectorAll('.next-btn');
@@ -42,10 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuNote = document.getElementById('menu-note');
     const refreshMenuButton = document.getElementById('refresh-menu-selection');
 
-    // Éléments DOM pour le récapitulatif du menu
+    
     const summaryMenuDetailsSection = document.getElementById('summary-menu-details');
     const summaryMenuContent = document.getElementById('summary-menu-content');
-    // Les spans pour sous-total, réduction et total final du récapitulatif sont récupérés dans updateSummaryMenuDOM
+    
 
     const contactForm = document.getElementById('contact-details-form');
     const completeReservationBtn = document.getElementById('complete-reservation');
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmationEmailSpan = document.getElementById('confirmation-email');
     const confirmationNumberSpan = document.getElementById('confirmation-number');
 
-    // ====== 1. Navigation entre les étapes ======
+    
     function showStep(stepIdToShow, fromReload = false) {
         if (!stepIdToShow || typeof stepIdToShow !== 'string' || stepIdToShow.trim() === '') {
             console.error(`showStep appelée avec un stepIdToShow invalide: "${stepIdToShow}". Affichage de 'guests'.`);
@@ -92,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loadAndDisplayMenuFromStorage(); 
         }
         if (stepIdToShow === 'summary') {
-            updateFullSummaryDisplay(); // Ceci met à jour les infos générales, le menu est mis à jour par loadAndDisplay...
+            updateFullSummaryDisplay(); 
         }
         
         updateNavigationMenu(stepIdToShow);
@@ -149,11 +148,11 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (currentStepId === 'time' && !reservationData.time) {
                 alert('Veuillez sélectionner un horaire.'); canProceed = false;
             } else if (currentStepId === 'menu' && reservationData.selectedMenu.length === 0 && localStorage.getItem(MENU_VALIDATED_KEY) === 'true') {
-                // Si le menu a été "validé" mais est vide (par ex. vidé après validation), on peut alerter.
-                // Ou permettre de passer si on veut un récap sans menu. Pour l'instant, on laisse passer.
+                
+                
             } else if (currentStepId === 'menu' && localStorage.getItem(MENU_VALIDATED_KEY) !== 'true') {
-                 // Si on veut forcer la validation du menu avant de passer au récap.
-                 // Pour l'instant, le bouton "Passer au récapitulatif" outrepasse cela.
+                 
+                 
             }
 
             if (canProceed) {
@@ -169,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ====== 2. Gestion des Couverts ======
+    
     function updateGuestsDisplay() {
         if (guestsCountDisplay) guestsCountDisplay.textContent = reservationData.guests;
         if (summaryGuests) summaryGuests.textContent = reservationData.guests > 0 ? `${reservationData.guests} ${reservationData.guests > 1 ? 'personnes' : 'personne'}` : '-';
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         increaseBtn.addEventListener('click', () => { reservationData.guests++; updateGuestsDisplay(); });
     }
     
-    // ====== 3. Gestion de la Date (Calendrier) ======
+    
     let calendarDate = new Date();
     let calCurrentMonth = calendarDate.getMonth();
     let calCurrentYear = calendarDate.getFullYear();
@@ -199,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!calendarDaysContainer) return;
         calendarDaysContainer.innerHTML = '';
         let firstDayOfMonth = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
-        firstDayOfMonth = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; // Lundi = 0
+        firstDayOfMonth = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1; 
         const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
         const todayFull = new Date(); todayFull.setHours(0,0,0,0);
         
@@ -235,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nextMonthBtn.addEventListener('click', () => { calCurrentMonth++; if (calCurrentMonth > 11) { calCurrentMonth = 0; calCurrentYear++; } updateCalendar(); });
     }
 
-    // ====== 4. Gestion de l'Horaire ======
+    
     function initializeTimeStep() {
         const activeMealBtn = document.querySelector('.meal-type-btn.active');
         if (activeMealBtn) {
@@ -243,16 +242,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentMealTypeDisplay) currentMealTypeDisplay.textContent = activeMealBtn.textContent;
             if (lunchTimesGrid) lunchTimesGrid.style.display = reservationData.meal === 'lunch' ? 'grid' : 'none';
             if (dinnerTimesGrid) dinnerTimesGrid.style.display = reservationData.meal === 'dinner' ? 'grid' : 'none';
-        } else if (mealTypeButtons.length > 0) { // Si aucun n'est actif par défaut, activer le premier (ou 'dinner' comme avant)
+        } else if (mealTypeButtons.length > 0) { 
             const defaultMeal = Array.from(mealTypeButtons).find(btn => btn.getAttribute('data-meal') === 'dinner') || mealTypeButtons[0];
             if (defaultMeal) {
                 defaultMeal.classList.add('active'); 
-                initializeTimeStep(); // Relancer pour appliquer l'état
+                initializeTimeStep(); 
             }
         }
     }
     if (mealTypeButtons.length > 0) {
-        initializeTimeStep(); // Appeler une fois pour configurer l'état initial
+        initializeTimeStep(); 
         mealTypeButtons.forEach(button => {
             button.addEventListener('click', function() {
                 mealTypeButtons.forEach(btn => btn.classList.remove('active'));
@@ -262,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (currentMealTypeDisplay) currentMealTypeDisplay.textContent = this.textContent;
                 if (lunchTimesGrid) lunchTimesGrid.style.display = mealType === 'lunch' ? 'grid' : 'none';
                 if (dinnerTimesGrid) dinnerTimesGrid.style.display = mealType === 'dinner' ? 'grid' : 'none';
-                // Réinitialiser la sélection d'heure si le type de repas change
+                
                 document.querySelectorAll('.time-slot.active').forEach(slot => slot.classList.remove('active'));
                 reservationData.time = null;
                 if (summaryTime) summaryTime.textContent = '-';
@@ -273,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const allTimeSlots = document.querySelectorAll('.time-slot');
         allTimeSlots.forEach(slot => {
             slot.addEventListener('click', function() {
-                allTimeSlots.forEach(s => s.classList.remove('active')); // Désélectionner tous les autres
+                allTimeSlots.forEach(s => s.classList.remove('active')); 
                 this.classList.add('active');
                 reservationData.time = this.getAttribute('data-time');
                 if (summaryTime) summaryTime.textContent = reservationData.time;
@@ -281,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ====== 5. Gestion du Menu ======
+    
     function loadAndDisplayMenuFromStorage() {
         const menuValidated = localStorage.getItem(MENU_VALIDATED_KEY);
         const storedCart = localStorage.getItem(CART_STORAGE_KEY);
@@ -291,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (menuValidated === 'true' && storedCart) {
             try {
                 const cartItems = JSON.parse(storedCart);
-                reservationData.selectedMenu = cartItems; // Mettre à jour les données de réservation
+                reservationData.selectedMenu = cartItems; 
                 let calculatedMenuSubtotal = 0;
     
                 let listContentMenuStep = '';
@@ -307,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     calculatedMenuSubtotal += item.price * item.quantity;
                                     itemPriceText = `(${item.quantity} x ${item.priceDisplay}) = ${(item.price * item.quantity).toFixed(2).replace('.', ',')}€`;
                                 } else {
-                                     itemPriceText = `(${item.quantity} x ${item.priceDisplay}) - Erreur prix`; // Cas d'erreur
+                                     itemPriceText = `(${item.quantity} x ${item.priceDisplay}) - Erreur prix`; 
                                 }
                             }
                         }
@@ -338,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     discountP.className = 'menu-step-discount-line';
                     discountP.style.fontSize = '0.9em';
                     discountP.style.color = 'green';
-                    discountP.style.display = (calculatedMenuSubtotal > 0 && discountAmountMenuStep > 0) ? 'block' : 'none'; // Ou 'flex'
+                    discountP.style.display = (calculatedMenuSubtotal > 0 && discountAmountMenuStep > 0) ? 'block' : 'none'; 
                     discountP.innerHTML = `<span id="menu-step-discount-name" title="${discountFullName}">${discountShortName} ${discountPercentageText}</span> : <span id="menu-step-discount-amount-value">-${discountAmountMenuStep.toFixed(2).replace('.', ',')}€</span>`;
                     selectedMenuDisplayContainer.appendChild(discountP);
     
@@ -371,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (menuNote) menuNote.textContent = 'Note : La sélection de plats se fait sur la page du menu. Validez votre panier là-bas pour qu\'il apparaisse ici. Utilisez le bouton "Actualiser" après validation.';
         reservationData.selectedMenu = [];
         reservationData.menuTotal = 0;
-        updateSummaryMenuDOM([], 0); // Met à jour le récap avec un panier vide et sous-total de 0
+        updateSummaryMenuDOM([], 0); 
     }
 
     function updateSummaryMenuDOM(cartItems, menuSubtotalValue) {
@@ -385,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cartItems.forEach(item => {
                 const listItem = document.createElement('li');
                 let itemDetailsText = `(${item.quantity} x ${item.priceDisplay})`;
-                // Pour éviter (1 x Selon Arrivage) = NaN€
+                
                  if (item.priceDisplay && typeof item.priceDisplay === 'string') {
                     const lowerPriceDisplay = item.priceDisplay.toLowerCase();
                     if (!(lowerPriceDisplay === "selon arrivage" || lowerPriceDisplay === "la paire")) {
@@ -409,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let finalTotalSummary = menuSubtotalValue;
     
         const summaryMenuSubtotalValueElem = document.getElementById('summary-menu-subtotal-value');
-        const summaryMenuDiscountLineElem = document.querySelector('#summary-menu-details .summary-menu-discount-line'); // Cibler plus spécifiquement
+        const summaryMenuDiscountLineElem = document.querySelector('#summary-menu-details .summary-menu-discount-line'); 
         const summaryMenuDiscountNameElem = document.getElementById('summary-menu-discount-name');
         const summaryMenuDiscountAmountValueElem = document.getElementById('summary-menu-discount-amount-value');
         const summaryMenuTotalFinalValueElem = document.getElementById('summary-menu-total-final-value');
@@ -417,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (menuSubtotalValue > 0) {
             discountAmountSummary = menuSubtotalValue * discountRate;
             finalTotalSummary = menuSubtotalValue - discountAmountSummary;
-            if (summaryMenuDiscountLineElem) summaryMenuDiscountLineElem.style.display = 'block'; // Ou 'flex'
+            if (summaryMenuDiscountLineElem) summaryMenuDiscountLineElem.style.display = 'block'; 
             if (summaryMenuDiscountNameElem) {
                  summaryMenuDiscountNameElem.textContent = `${discountShortName} ${discountPercentageText}`;
                  summaryMenuDiscountNameElem.setAttribute('title', discountFullName);
@@ -433,33 +432,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (refreshMenuButton) {
         refreshMenuButton.addEventListener('click', function() {
-            // Forcer le rechargement de la page et aller à l'ancre de l'étape menu
-            window.location.hash = 'menu-step-anchor'; // Ajoute une ancre (ne fonctionnera pas directement pour showStep au rechargement sans logique supplémentaire)
+            
+            window.location.hash = 'menu-step-anchor'; 
             window.location.reload(); 
-            // La logique pour gérer #menu-step-anchor est dans handlePageReloadForMenuStep
+            
         });
     }
 
     function handlePageReloadForMenuStep() {
         if (window.location.hash === '#menu-step-anchor') {
-            showStep('menu', true); // 'true' indique que c'est après un rechargement
-            // Nettoyer l'ancre de l'URL pour éviter des rechargements répétés sur cette étape
-            if (history.pushState) { // Vérifier si pushState est supporté
+            showStep('menu', true); 
+            
+            if (history.pushState) { 
                 history.pushState("", document.title, window.location.pathname + window.location.search);
-            } else { // Fallback pour navigateurs plus anciens
+            } else { 
                 window.location.hash = ''; 
             }
         } else {
-            // Comportement normal au premier chargement de la page
-            if (document.getElementById('guests-step')) { // S'assurer que l'étape existe
-                 showStep('guests'); // Afficher la première étape par défaut
+            
+            if (document.getElementById('guests-step')) { 
+                 showStep('guests'); 
             } else {
                 console.error("L'étape initiale 'guests-step' est introuvable ! La page risque de ne pas s'afficher correctement.");
             }
         }
     }
     
-    // Réactualiser le menu si l'utilisateur revient sur l'onglet (au cas où il aurait validé le menu dans un autre onglet)
+    
     window.addEventListener('focus', function() {
         const currentVisibleStep = Array.from(reservationSteps).find(step => step.style.display === 'block' || step.style.display === '');
         if (currentVisibleStep) {
@@ -470,15 +469,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ====== 6. Récapitulatif et Confirmation ======
+    
     function updateFullSummaryDisplay() {
         if (summaryGuests) summaryGuests.textContent = reservationData.guests > 0 ? `${reservationData.guests} ${reservationData.guests > 1 ? 'personnes' : 'personne'}` : '-';
         if (summaryDate && reservationData.date) {
              const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
              summaryDate.textContent = reservationData.date.toLocaleDateString('fr-FR', options);
-        } else if (summaryDate) { summaryDate.textContent = "-"; } // Si pas de date
+        } else if (summaryDate) { summaryDate.textContent = "-"; } 
         if (summaryTime) summaryTime.textContent = reservationData.time || '-';
-        // La partie menu du récapitulatif est mise à jour via loadAndDisplayMenuFromStorage -> updateSummaryMenuDOM
+        
     }
 
     if (completeReservationBtn) {
@@ -500,22 +499,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const phone = phoneInput.value.trim(); 
             const privacy = privacyCheckbox.checked;
 
-            // Validations
+            
             if (!name || !email || !phone) { alert('Veuillez remplir tous les champs de coordonnées (Nom, Email, Téléphone).'); return; }
             if (!privacy) { alert('Veuillez accepter la politique de confidentialité pour continuer.'); return; }
-            // Validation simple de l'email
+            
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('L\'adresse email saisie n\'est pas valide.'); return; }
-            // Validation du numéro de téléphone français (assez permissive)
+            
             if (!/^((\+)33|0)[1-9](\d{2}){4}$/.test(phone.replace(/\s/g, ''))) { alert('Le numéro de téléphone saisi n\'est pas valide.'); return; }
             
-            // Vérifier les infos de réservation de base
+            
             if (reservationData.guests < 1 || !reservationData.date || !reservationData.time) {
                 alert('Des informations de réservation essentielles (couverts, date, ou heure) sont manquantes. Veuillez vérifier les étapes précédentes.');
-                showStep('guests'); // Ramener à la première étape si des infos manquent
+                showStep('guests'); 
                 return;
             }
 
-            // Ici, vous enverriez normalement les données au serveur.
+            
             console.log("Données de réservation à envoyer:", {
                 ...reservationData,
                 contact: { name, email, phone, specialRequests: document.getElementById('special-requests').value }
@@ -524,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const confirmationNumber = generateConfirmationNumber();
             if (confirmationEmailSpan) confirmationEmailSpan.textContent = email;
             if (confirmationNumberSpan) confirmationNumberSpan.textContent = confirmationNumber;
-            if (confirmationModal) confirmationModal.style.display = 'flex'; // Afficher la modale
+            if (confirmationModal) confirmationModal.style.display = 'flex'; 
         });
     }
 
@@ -537,44 +536,44 @@ document.addEventListener('DOMContentLoaded', function() {
     if (okBtn) {
         okBtn.addEventListener('click', () => {
             if (confirmationModal) confirmationModal.style.display = 'none';
-            // Réinitialiser le formulaire et les données de réservation
+            
             if(contactForm) contactForm.reset();
             reservationData = { guests: 1, date: null, time: null, meal: 'dinner', selectedMenu: [], menuTotal: 0 };
             
-            updateGuestsDisplay(); // Mettre à jour l'affichage des couverts
+            updateGuestsDisplay(); 
             
-            // Réinitialiser le calendrier
+            
             document.querySelectorAll('#calendar-days .day.selected').forEach(d => d.classList.remove('selected'));
             if(selectedDateDisplaySpan) selectedDateDisplaySpan.textContent = "Aucune";
-            // Pas besoin de réinitialiser calCurrentMonth/Year ici, initCalendar s'en charge si on le rappelle
             
-            // Réinitialiser l'horaire
+            
+            
             document.querySelectorAll('.time-slot.active').forEach(s => s.classList.remove('active'));
-            initializeTimeStep(); // Pour remettre Déjeuner/Dîner à son état par défaut et effacer l'heure sélectionnée
+            initializeTimeStep(); 
             
-            // Nettoyer le localStorage lié au menu
+            
             localStorage.removeItem(CART_STORAGE_KEY); 
             localStorage.removeItem(MENU_VALIDATED_KEY);
-            resetMenuDisplayInReservation("Vous n'avez pas encore validé de menu."); // Réinitialiser l'affichage du menu
+            resetMenuDisplayInReservation("Vous n'avez pas encore validé de menu."); 
             
-            showStep('guests'); // Retourner à la première étape
+            showStep('guests'); 
         });
     }
 
-    // Fermer la modale si on clique en dehors
+    
     window.addEventListener('click', (event) => { 
         if (event.target === confirmationModal) { 
             if (confirmationModal) confirmationModal.style.display = 'none'; 
         } 
     });
 
-    // --- Initialisation au chargement de la page ---
+    
     if (reservationSteps.length > 0 && menuItemsNav.length > 0 && confirmationModal) {
         updateGuestsDisplay();
         initCalendar();
         attachTimeSlotListeners();
         initializeTimeStep(); 
-        handlePageReloadForMenuStep(); // Gère l'affichage de la bonne étape au rechargement (y compris avec ancre)
+        handlePageReloadForMenuStep(); 
     } else {
         console.error("Impossible d'initialiser le script de réservation : des éléments DOM structurels sont manquants.");
     }

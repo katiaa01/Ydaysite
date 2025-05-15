@@ -1,7 +1,6 @@
-/* static/main.css */
 @import 'base.css';
 @import 'layout.css';
 @import 'components.css';
-@import 'forms.css'; /* Styles des formulaires et boutons */
+@import 'forms.css'; 
 @import 'menu.css';
-@import 'responsive.css'; /* Responsive en dernier pour pouvoir surcharger */
+@import 'responsive.css';
